@@ -1,0 +1,50 @@
+{
+	"root": true,
+	"ignorePatterns": ["**/*"],
+	"plugins": ["@nrwl/nx"],
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"rules": {
+				"@nrwl/nx/enforce-module-boundaries": [
+					"error",
+					{
+						"enforceBuildableLibDependency": true,
+						"allow": [],
+						"depConstraints": [
+							{
+								"sourceTag": "*",
+								"onlyDependOnLibsWithTags": ["*"]
+							}
+						]
+					}
+				],
+				"no-empty-function": "warn",
+				"no-console": [1],
+				"prefer-const": "warn",
+				"import/no-unresolved": 2,
+				"react/function-component-definition": [
+					2,
+					{
+						"namedComponents": "arrow-function"
+					}
+				],
+				"@typescript-eslint/no-non-null-assertion": "off",
+				"indent": ["error", "tab"],
+				"linebreak-style": ["error", "windows"],
+				"quotes": ["error", "double"],
+				"semi": ["error", "never"]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx"],
+			"extends": ["plugin:@nrwl/nx/typescript"],
+			"rules": {}
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"extends": ["plugin:@nrwl/nx/javascript"],
+			"rules": {}
+		}
+	]
+}
