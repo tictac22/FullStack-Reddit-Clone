@@ -6,7 +6,7 @@ import { UserProfile } from "./userProfile"
 
 export const Header: React.FC = () => {
 	return (
-		<div className="bg-white flex items-center h-20 px-3 justify-between">
+		<header className="bg-white flex items-center h-20 px-3 justify-between">
 			<Logo />
 			<SearchBar />
 			<div className="flex items-center">
@@ -14,6 +14,6 @@ export const Header: React.FC = () => {
 				<Button text="Sign Up" textColor="white" bg="bg-cyan-500" hover="hover:bg-cyan-600" />
 				<UserProfile />
 			</div>
-		</div>
+		</header>
 	)
 }

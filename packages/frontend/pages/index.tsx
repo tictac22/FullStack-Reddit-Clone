@@ -1,10 +1,9 @@
-import { Header } from "../components/header"
+import { FormPost } from "../components/postform"
 
 const Home = () => {
 	return (
 		<div>
-			<Header />
-			hello
+			<FormPost />
 		</div>
 	)
 }

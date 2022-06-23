@@ -24,11 +24,12 @@ export const SearchBar: React.FC = () => {
 		<div className="sm:ml-3 max-w-3xl w-[800px]">
 			<Combobox value={selected} onChange={setSelected}>
 				<div className="relative ">
-					<div className="relative w-full cursor-default rounded-lg  text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+					<div className="relative w-full cursor-default rounded-lg  text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
 						<Combobox.Input
 							className="w-full border-solid border-2 rounded-lg border-slate-400 py-2 px-10 text-sm leading-5 text-custom-200 bg-custom-100 focus:ring-0 focus:outline-sky-400"
 							displayValue={(person) => person.name}
 							onChange={(event) => setQuery(event.target.value)}
+							placeholder={"Search Reddit"}
 						/>
 						<Combobox.Button className="absolute inset-y-0 left-2 flex items-center">
 							<BsSearch className="h-5 w-5 text-[#70819b]" aria-hidden="true" />
