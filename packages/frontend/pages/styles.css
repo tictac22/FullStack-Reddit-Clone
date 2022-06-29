@@ -2,7 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.btn-primary {
+		@apply lg:block whitespace-nowrap cursor-pointer hover:ease-out duration-200 hover:bg-custom-100 bg-white px-10 py-1 text-cyan-500 border-solid border-2 rounded-xl  border-cyan-500;
+	}
+	.btn-secondary {
+		@apply lg:block whitespace-nowrap cursor-pointer hover:ease-out duration-200 hover:bg-cyan-600 bg-cyan-500 px-10 py-1 text-white border-solid border-2 rounded-xl  border-cyan-500 hover:border-cyan-600;
+	}
+}
 * {
 	margin-block-end: 0px;
 	margin-block-start: 0px;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+#__next {
+	height: 100%;
+	width: 100%;
 }

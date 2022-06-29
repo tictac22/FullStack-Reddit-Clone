@@ -1,4 +1,4 @@
-import { Communities } from "../components/communities"
+import { Communities } from "../components/aside"
 import { FormPost } from "../components/postform"
 
 const Home = () => {

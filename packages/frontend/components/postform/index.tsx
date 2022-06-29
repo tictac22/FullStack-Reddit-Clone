@@ -10,7 +10,7 @@ export const FormPost: React.FC = () => {
 				strokeWidth="0"
 				viewBox="0 0 512 512"
 				focusable="false"
-				className="h-8 w-8 inline-block  leading-4 text-4xl text-[#CBD5E0] "
+				className="h-8 w-8 inline-block  leading-4 text-4xl text-[#CBD5E0] cursor-pointer "
 				height="1em"
 				width="1em"
 				xmlns="http://www.w3.org/2000/svg"
