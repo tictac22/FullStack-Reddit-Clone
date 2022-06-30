@@ -1,31 +1,39 @@
 {
-  "extends": [
-    "plugin:@nrwl/nx/react-typescript",
-    "../../.eslintrc.json",
-    "next",
-    "next/core-web-vitals"
-  ],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@next/next/no-html-link-for-pages": [
-          "error",
-          "packages/frontend/pages"
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ],
-  "env": {
-    "jest": true
-  }
+	"extends": ["../../.eslintrc.json", "plugin:@nrwl/nx/react-typescript", "next", "next/core-web-vitals"],
+	"ignorePatterns": ["!**/*"],
+	"settings": {
+		"import/resolver": {
+			"typescript": {},
+			"alias": [
+				["@/components", "./components"],
+				["lib", "./lib"]
+			],
+			"node": {
+				"extensions": [".js", ".jsx", ".ts", ".tsx"]
+			}
+		}
+	},
+	"parserOptions": {
+		"project": "packages/frontend/tsconfig.json"
+	},
+
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"rules": {
+				"@next/next/no-html-link-for-pages": ["error", "packages/frontend/pages"]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx"],
+			"rules": {}
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"rules": {}
+		}
+	],
+	"env": {
+		"jest": true
+	}
 }

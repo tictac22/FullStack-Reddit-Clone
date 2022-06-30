@@ -1,6 +1,8 @@
 import Image from "next/image"
 import React from "react"
+
 import communityPic from "../../public/communityExample.png"
+
 export const Community: React.FC = () => {
 	return (
 		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0] cursor-pointer last:border-b-0">

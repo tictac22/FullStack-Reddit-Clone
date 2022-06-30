@@ -27,7 +27,7 @@ export const SearchBar: React.FC = () => {
 					<div className="relative w-full cursor-default rounded-lg  text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
 						<Combobox.Input
 							className="w-full border-solid border-2 rounded-lg border-slate-400 py-2 px-10 text-sm leading-5 text-custom-200 bg-custom-100 focus:ring-0 focus:outline-sky-400"
-							displayValue={(person) => person.name}
+							displayValue={(person: { name: string }) => person.name}
 							onChange={(event) => setQuery(event.target.value)}
 							placeholder={"Search Reddit"}
 						/>

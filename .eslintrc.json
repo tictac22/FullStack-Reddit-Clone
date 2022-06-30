@@ -1,7 +1,7 @@
 {
 	"root": true,
 	"ignorePatterns": ["**/*"],
-	"plugins": ["@nrwl/nx"],
+	"plugins": ["@nrwl/nx", "@typescript-eslint", "import"],
 	"overrides": [
 		{
 			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -43,7 +43,7 @@
 		},
 		{
 			"files": ["*.js", "*.jsx"],
-			"extends": ["plugin:@nrwl/nx/javascript"],
+			"extends": ["plugin:@nrwl/nx/typescript"],
 			"rules": {}
 		}
 	]

@@ -1,10 +1,10 @@
-import { Communities } from "../components/aside"
+import { Aside } from "../components/aside"
 import { FormPost } from "../components/postform"
 
 const Home = () => {
 	return (
 		<div className="flex">
-			<Communities />
+			<Aside />
 			<div className="order-first flex-grow mr-7">
 				<FormPost />
 			</div>

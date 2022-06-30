@@ -1,7 +1,8 @@
 import Image from "next/image"
-import homeBanner from "../../public/home-banner.png"
 
+import homeBanner from "../../public/home-banner.png"
 import reddit from "../../public/reddit-home.png"
+
 export const HomeInfo: React.FC = () => {
 	return (
 		<div className="mt-4 bg-white rounded-t">

@@ -1,6 +1,8 @@
 import React from "react"
+
 import { BsLink45Deg } from "react-icons/bs"
 import { ImImage } from "react-icons/im"
+
 export const FormPost: React.FC = () => {
 	return (
 		<div className="bg-white flex items-center border-solid border border-[#CBD5E0] rounded p-2">
