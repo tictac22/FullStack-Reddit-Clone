@@ -3,14 +3,7 @@
 	"ignorePatterns": ["!**/*"],
 	"settings": {
 		"import/resolver": {
-			"typescript": {},
-			"alias": [
-				["@/components", "./components"],
-				["lib", "./lib"]
-			],
-			"node": {
-				"extensions": [".js", ".jsx", ".ts", ".tsx"]
-			}
+			"typescript": {}
 		}
 	},
 	"parserOptions": {

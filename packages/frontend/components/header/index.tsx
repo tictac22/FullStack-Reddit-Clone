@@ -1,4 +1,5 @@
 import React from "react"
+
 import { Logo } from "./logo"
 import { SearchBar } from "./searchbar"
 import { UserProfile } from "./userProfile"
@@ -9,8 +10,8 @@ export const Header: React.FC = () => {
 			<Logo />
 			<SearchBar />
 			<div className="flex items-center">
-				<button className="btn-primary">Log In</button>
-				<button className="btn-secondary ml-4">Sign Up</button>
+				<button className="hidden lg:block  btn-primary">Log In</button>
+				<button className="hidden lg:block btn-secondary ml-4">Sign Up</button>
 				<UserProfile />
 			</div>
 		</header>

@@ -1,18 +1,17 @@
-import { Menu, Switch, Transition } from "@headlessui/react"
 import React, { Fragment, useState } from "react"
 import { BsBoxArrowRight, BsPersonCircle } from "react-icons/bs"
 import { HiOutlineChevronDown } from "react-icons/hi"
 
+import { Menu, Switch, Transition } from "@headlessui/react"
+
 export const UserProfile: React.FC = () => {
 	return (
-		<div className="text-right">
-			<Menu as="div" className="sm:ml-10 relative inline-block text-left">
-				<div>
-					<Menu.Button className=" p-2 flex items-center cursor-pointer border-2 border-solid border-white hover:border-custom-100">
-						<BsPersonCircle className="h-6 w-6 text-[#E2E8F0]" />
-						<HiOutlineChevronDown className="ml-2 -mr-1 h-5 w-5  text-[#E2E8F0] " aria-hidden="true" />
-					</Menu.Button>
-				</div>
+		<div className="text-right lg:ml-10 ">
+			<Menu as="div" className="relative inline-block text-left">
+				<Menu.Button className=" p-2 flex items-center cursor-pointer border-2 border-solid border-white hover:border-custom-100">
+					<BsPersonCircle className="h-6 w-6 text-[#E2E8F0]" />
+					<HiOutlineChevronDown className="ml-2 -mr-1 h-5 w-5  text-[#E2E8F0] " aria-hidden="true" />
+				</Menu.Button>
 				<Transition
 					as={Fragment}
 					enter="transition ease-out duration-100"

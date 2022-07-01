@@ -2,6 +2,7 @@ import { AppProps } from "next/app"
 import Head from "next/head"
 
 import { Header } from "@/components/header"
+
 import "./styles.css"
 
 const CustomApp = ({ Component, pageProps }: AppProps) => {

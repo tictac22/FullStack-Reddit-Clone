@@ -1,10 +1,11 @@
 import Image from "next/image"
+
 import React from "react"
+
+import communityPic from "@/public/community.png"
 
 import { Community } from "./community"
 import { HomeInfo } from "./homeInfo"
-
-import communityPic from "@/public/community.png"
 
 export const Aside: React.FC = () => {
 	return (

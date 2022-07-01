@@ -1,6 +1,8 @@
-import { Combobox, Transition } from "@headlessui/react"
 import React, { Fragment, useState } from "react"
 import { BsSearch } from "react-icons/bs"
+
+import { Combobox, Transition } from "@headlessui/react"
+
 const people = [
 	{ id: 1, name: "Wade Cooper" },
 	{ id: 2, name: "Arlene Mccoy" },
@@ -21,9 +23,9 @@ export const SearchBar: React.FC = () => {
 			  )
 
 	return (
-		<div className="sm:ml-3 max-w-3xl w-[800px]">
+		<div className="max-w-3xl flex-auto mx-3">
 			<Combobox value={selected} onChange={setSelected}>
-				<div className="relative ">
+				<div className="relative">
 					<div className="relative w-full cursor-default rounded-lg  text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
 						<Combobox.Input
 							className="w-full border-solid border-2 rounded-lg border-slate-400 py-2 px-10 text-sm leading-5 text-custom-200 bg-custom-100 focus:ring-0 focus:outline-sky-400"
