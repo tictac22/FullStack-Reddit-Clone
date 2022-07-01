@@ -1,7 +1,7 @@
 import Image from "next/image"
 import React from "react"
 
-import communityPic from "../../public/communityExample.png"
+import communityPic from "@/public/communityExample.png"
 
 export const Community: React.FC = () => {
 	return (

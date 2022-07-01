@@ -22,7 +22,7 @@
 				"no-empty-function": "warn",
 				"no-console": [1],
 				"prefer-const": "warn",
-				"import/no-unresolved": 2,
+				"import/no-unresolved": "off",
 				"react/function-component-definition": [
 					2,
 					{

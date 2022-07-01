@@ -1,5 +1,5 @@
-import { Aside } from "../components/aside"
-import { FormPost } from "../components/postform"
+import { Aside } from "@/components/aside"
+import { FormPost } from "@/components/postform"
 
 const Home = () => {
 	return (

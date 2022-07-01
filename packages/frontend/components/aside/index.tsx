@@ -4,7 +4,7 @@ import React from "react"
 import { Community } from "./community"
 import { HomeInfo } from "./homeInfo"
 
-import communityPic from "../../public/community.png"
+import communityPic from "@/public/community.png"
 
 export const Aside: React.FC = () => {
 	return (
