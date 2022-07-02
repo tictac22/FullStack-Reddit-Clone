@@ -25,7 +25,7 @@ export const UserProfile: React.FC = () => {
 						<div className="px-1 py-1 ">
 							<Menu.Item>
 								{({ active }) => (
-									<button
+									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
 										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -33,12 +33,12 @@ export const UserProfile: React.FC = () => {
 										<div className="flex items-center justify-between flex-1">
 											<p>Profile</p>
 										</div>
-									</button>
+									</div>
 								)}
 							</Menu.Item>
 							<Menu.Item>
 								{({ active }) => (
-									<button
+									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
 										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -47,13 +47,13 @@ export const UserProfile: React.FC = () => {
 											<p>Dark Mode:</p>
 											<Toggle />
 										</div>
-									</button>
+									</div>
 								)}
 							</Menu.Item>
 
 							<Menu.Item>
 								{({ active }) => (
-									<button
+									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
 										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -62,7 +62,7 @@ export const UserProfile: React.FC = () => {
 											<BsBoxArrowRight />
 											<p className="ml-3">Sign up or Log in</p>
 										</div>
-									</button>
+									</div>
 								)}
 							</Menu.Item>
 						</div>

@@ -17,6 +17,3 @@ export const Header: React.FC = () => {
 		</header>
 	)
 }
-
-/*<Button text="Log In" textColor="cyan-500" bg="bg-white" hover="hover:bg-custom-100" />
-<Button text="Sign Up" textColor="white" bg="bg-cyan-500" hover="hover:bg-cyan-600" />*/
