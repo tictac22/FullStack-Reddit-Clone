@@ -24,3 +24,53 @@ body {
 	height: 100%;
 	width: 100%;
 }
+
+.bold-icon {
+	border: none !important;
+}
+.bold-icon img {
+	filter: invert(50%) sepia(22%) saturate(0%) hue-rotate(299deg) brightness(103%) contrast(100%);
+}
+
+.bold-icon:hover {
+	box-shadow: none !important;
+	background-color: #f6f7f9;
+}
+.rdw-option-active {
+	box-shadow: none !important;
+}
+.rdw-option-active img {
+	filter: invert(7%) sepia(5%) saturate(373%) hue-rotate(201deg) brightness(94%) contrast(91%);
+}
+.rdw-option-wrapper {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.rdw-option-wrapper svg {
+	fill: #a0a0a0;
+}
+.rdw-option-active svg {
+	fill: #222222;
+}
+.rdw-link-decorator-wrapper {
+	color: #0079d2;
+	text-decoration: underline;
+}
+.rdw-link-modal {
+	height: 234px !important;
+}
+.error {
+	border: 1px solid red !important;
+}
+.rdw-image-imagewrapper {
+	width: 100px !important;
+	height: 100px !important;
+}
+.rdw-image-imagewrapper img {
+	height: 100% !important;
+}
+
+.rdw-editor-main {
+	padding: 5px 10px !important;
+}

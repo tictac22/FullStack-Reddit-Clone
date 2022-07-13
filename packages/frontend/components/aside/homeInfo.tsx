@@ -1,12 +1,15 @@
 import dynamic from "next/dynamic"
 import Image from "next/image"
+import Link from "next/link"
 
 import React, { useState } from "react"
 
 import homeBanner from "@/public/home-banner.png"
 import reddit from "@/public/reddit-home.png"
 
-const DynamicCommunityPopup = dynamic(() => import("@/components/communityPopup").then((mod) => mod.CommunityPopup))
+const DynamicCommunityPopup = dynamic(() =>
+	import("@/components/createCommunityPopup").then((mod) => mod.CommunityPopup)
+)
 
 export const HomeInfo: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -28,7 +31,9 @@ export const HomeInfo: React.FC = () => {
 				<p className="mt-2">
 					Your personal Reddit frontpage. Come here to check in with your favorite communities.
 				</p>
-				<button className="btn-primary w-full mt-1">Create Post</button>
+				<Link href={"/submit"}>
+					<button className="btn-primary w-full mt-1">Create Post</button>
+				</Link>
 				<button onClick={handleModal} className="btn-secondary w-full mt-2">
 					Create Community
 				</button>

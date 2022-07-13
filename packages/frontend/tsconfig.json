@@ -9,7 +9,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": true,
 		"resolveJsonModule": true,
-		"isolatedModules": true,
 		"incremental": true,
 		"types": ["jest", "node"],
 		"baseUrl": ".",
