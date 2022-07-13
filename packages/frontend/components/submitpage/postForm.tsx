@@ -4,7 +4,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { BsBlockquoteLeft, BsCodeSlash } from "react-icons/bs"
 
 import { SelectComminity } from "@/components/submitpage/selectCommunity"
-import { EditorState, convertToRaw } from "draft-js"
+import { EditorState } from "draft-js"
 
 import bold from "@/public/texteditor/bold.svg"
 import gallery from "@/public/texteditor/gallery.svg"
@@ -66,10 +66,9 @@ export const PostForm: React.FC = () => {
 			? true
 			: false
 	const sendPost = () => {
-		console.log(allowed)
 		if (!allowed) return
-		const editor = convertToRaw(editorState.getCurrentContent())
-		console.log(JSON.stringify(editor))
+		//const editor = convertToRaw(editorState.getCurrentContent())
+		//console.log(JSON.stringify(editor))
 	}
 	return (
 		<div className="flex-auto">

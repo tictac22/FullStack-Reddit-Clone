@@ -15,7 +15,8 @@
 		"paths": {
 			"@/components/*": ["components/*"],
 			"@/public/*": ["public/*"]
-		}
+		},
+		"isolatedModules": true
 	},
 	"jsconfigPaths": true,
 	"include": [

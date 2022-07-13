@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { Fragment, useState } from "react"
 import { BsSearch } from "react-icons/bs"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md"
@@ -18,7 +20,7 @@ const people = [
 ]
 
 interface Props {
-	community: { name: string; img: boolean }
+	community: { name: string; img: boolean | string }
 
 	setCommunity: ({ name: string, img: boolean }) => void
 }
@@ -44,7 +46,13 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 								</div>
 							) : (
 								<div className="absolute top-1/2 -translate-y-2/4 rounded-full left-2 w-[22px] h-[22px]">
-									<img className="w-full rounded-full" src={community.img} alt={community.name} />
+									<Image
+										width={22}
+										height={22}
+										className="w-full rounded-full"
+										src={"/" + community.img}
+										alt={community.name}
+									/>
 								</div>
 							)}
 							<Combobox.Input
@@ -106,7 +114,9 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 													>
 														{person.img !== false ? (
 															<div className="w-[22px] rounded-full h-[22px] mr-3">
-																<img
+																<Image
+																	width={22}
+																	height={22}
 																	className="w-full rounded-full"
 																	src={person.img}
 																	alt={person.name}
