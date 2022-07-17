@@ -57,6 +57,7 @@
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.6.5",
+		"@hookform/resolvers": "^2.9.5",
 		"core-js": "^3.6.5",
 		"draft-js": "^0.11.7",
 		"draft-js-export-html": "^1.4.1",
@@ -64,10 +65,13 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-draft-wysiwyg": "^1.14.7",
+		"react-google-recaptcha": "^2.1.0",
+		"react-hook-form": "^7.33.1",
 		"react-icons": "^4.4.0",
 		"regenerator-runtime": "0.13.7",
 		"sharp": "^0.30.7",
-		"tslib": "^2.3.0"
+		"tslib": "^2.3.0",
+		"yup": "^0.32.11"
 	},
 	"resolutions": {
 		"@types/eslint": "8.4.3"
