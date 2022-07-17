@@ -20,10 +20,8 @@ const CustomApp = ({ Component, pageProps, ...appProps }: AppProps) => {
 				<title>Welcome to frontend!</title>
 			</Head>
 			<Header />
-			<main className="bg-[#dbe0e6] py-4 flex-auto">
-				<div className="max-w-screen-lg m-auto px-3">
-					<Component {...pageProps} {...appProps} />
-				</div>
+			<main className="bg-[#dbe0e6] flex-auto">
+				<Component {...pageProps} {...appProps} />
 			</main>
 		</div>
 	)

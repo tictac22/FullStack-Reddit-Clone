@@ -6,16 +6,22 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 
 import { Combobox, Transition } from "@headlessui/react"
 
+import defaultSvg from "@/public/default.svg"
+
 import { CommunityOptions } from "./types"
 
 const people = [
 	{
+		name: "u/user",
+		img: "/default.svg"
+	},
+	{
 		name: "r/reddit",
-		img: "communityexamples/reddit.png"
+		img: "/communityexamples/reddit.png"
 	},
 	{
 		name: "r/something",
-		img: "communityexamples/reddit2.png"
+		img: "/communityexamples/reddit2.png"
 	}
 ]
 
@@ -50,7 +56,7 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 										width={22}
 										height={22}
 										className="w-full rounded-full"
-										src={"/" + community.img}
+										src={community.img}
 										alt={community.name}
 									/>
 								</div>
@@ -99,34 +105,53 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 										<Combobox.Option
 											key={person.name}
 											className={({ active }) =>
-												`relative cursor-default select-none py-2 pl-2 pr-4 ${
-													active ? "bg-teal-600 text-white" : "text-gray-900"
+												`relative cursor-pointer select-none py-2 pl-2 pr-4 ${
+													active && !person.name.startsWith("u")
+														? "bg-teal-600 text-white"
+														: "text-gray-900"
 												}`
 											}
 											value={person}
 										>
 											{({ selected, active }) => (
 												<>
-													<span
-														className={`block truncate flex ${
-															selected ? "font-medium" : "font-normal"
-														}`}
-													>
-														{person.img !== false ? (
-															<div className="w-[22px] rounded-full h-[22px] mr-3">
+													{person.name.startsWith("u") ? (
+														<div>
+															<div>Your profile</div>
+															<div className="flex mb-2">
 																<Image
+																	src={defaultSvg.src}
+																	alt="default"
 																	width={22}
 																	height={22}
-																	className="w-full rounded-full"
-																	src={person.img}
-																	alt={person.name}
+																	className=" fill-slate-300"
 																/>
+																<p className="font-bold ml-2">{person.name}</p>
 															</div>
-														) : (
-															<div className="w-[22px] h-[22px] border border-dashed border-[#878A8C]"></div>
-														)}
-														{person.name}
-													</span>
+															<hr />
+														</div>
+													) : (
+														<span
+															className={`block truncate flex ${
+																selected ? "font-medium" : "font-normal"
+															}`}
+														>
+															{person.img !== false ? (
+																<div className="w-[22px] rounded-full h-[22px] mr-3">
+																	<Image
+																		width={22}
+																		height={22}
+																		className="w-full rounded-full"
+																		src={person.img}
+																		alt={person.name}
+																	/>
+																</div>
+															) : (
+																<div className="w-[22px] h-[22px] border border-dashed border-[#878A8C]"></div>
+															)}
+															{person.name}
+														</span>
+													)}
 													{selected ? (
 														<span
 															className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
