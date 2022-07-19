@@ -9,8 +9,7 @@
 			"options": {
 				"outputPath": "dist/packages/backend",
 				"main": "packages/backend/src/main.ts",
-				"tsConfig": "packages/backend/tsconfig.app.json",
-				"assets": ["packages/backend/src/assets"]
+				"tsConfig": "packages/backend/tsconfig.app.json"
 			},
 			"configurations": {
 				"production": {
