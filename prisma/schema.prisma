@@ -1,16 +1,58 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-	id  Int @id @default(autoincrement())
-	name String
-	password String
-	email String 
+  id         Int         @id @default(autoincrement())
+  username   String 	 @db.VarChar(255)      @unique
+  password   String
+  email      String      @unique
+  createdAt  DateTime    @default(now())
+
+  comments   Comment[]
+  posts      Post[]
+  subReddits SubReddit[]
+  token Token?
+}
+
+model Token {
+	id         Int         @id @default(autoincrement())
+	token      String      @default("")
+	user       User @relation(fields: [userId], references: [id])
+	userId Int @unique
+}
+model SubReddit {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255) @unique
+  createdAt DateTime @default(now())
+  ownerId   Int
+  owner     User     @relation(fields: [ownerId], references: [id])
+  posts     Post[]
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  text        Json
+  createdAt   DateTime  @default(now())
+  userId      Int
+  subRedditId Int
+  subReddit   SubReddit @relation(fields: [subRedditId], references: [id])
+  username    User      @relation(fields: [userId], references: [id])
+  comments    Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  userId    Int
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  username  User     @relation(fields: [userId], references: [id])
 }

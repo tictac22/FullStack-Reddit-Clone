@@ -1,16 +1,25 @@
-import { Logger, ValidationPipe } from "@nestjs/common"
+import { BadRequestException, Logger, ValidationPipe } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
+import * as cookieParser from "cookie-parser"
 
 import { AppModule } from "./app.module"
 
-const port = process.env.PORT || 3333
+const port = process.env.BACKEND_PORT || 3333
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
+	app.use(cookieParser())
 	app.useGlobalPipes(
 		new ValidationPipe({
 			whitelist: true,
-			transform: true
+			transform: true,
+			exceptionFactory: (errors) => {
+				const errorsMessages = {}
+				errors.forEach((error) => {
+					errorsMessages[error.property] = error.constraints[Object.keys(error.constraints)[0]]
+				})
+				return new BadRequestException(errorsMessages)
+			}
 		})
 	)
 	await app.listen(port)
