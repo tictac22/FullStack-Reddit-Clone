@@ -1,14 +1,13 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from './../prisma/prisma.module';
 import { TokenModule } from './../token/token.module';
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { JwtStrategy } from "./jwt.strategy";
+import { GoogleStrategy, JwtStrategy, TwitterStrategy } from "./strategies";
 
 
 @Module({
-	imports:[PrismaModule, TokenModule,JwtStrategy],
+	imports:[TokenModule],
 	controllers: [AuthController],
-	providers:[AuthService]
+	providers:[AuthService,JwtStrategy,GoogleStrategy,TwitterStrategy]
 })
 export class AuthModule {}

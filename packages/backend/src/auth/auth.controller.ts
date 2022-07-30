@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto";
-import { JwtAuthGuard } from './jwt-auth.guard';
 
+import { AuthGuard } from "@nestjs/passport";
 import { Request, Response } from "express";
 
 @Controller("auth")
@@ -24,13 +24,32 @@ export class AuthController {
 		response.cookie("refreshToken", userData.refreshToken)
 		return userData
 	}
-	
-	@UseGuards(JwtAuthGuard)
-	@Get("prisma")
-	prisma(@Req() req) {
-		const {id} = req.user
-		return this.authService.prisma(Number(id))
+
+
+	@Get("google")
+	@UseGuards(AuthGuard('google'))
+	async googleAuth() {
+		return 
 	}
+  
+	@Get('google/callback')
+	@UseGuards(AuthGuard('google'))
+	googleAuthRedirect(@Req() req) {
+	  return this.authService.socialLogin(req)
+	}
+	
+	@Get("twitter")
+	@UseGuards(AuthGuard('twitter'))
+	async twitterAuth() {
+		return 
+	}
+  
+	@Get('twitter/callback')
+	@UseGuards(AuthGuard('twitter'))
+	twitterAuthRedirect(@Req() req) {
+		return this.authService.socialLogin(req)
+	}
+	
 	@Get("refresh")
 	async refresh(@Req() request:Request, @Res({passthrough:true}) response:Response) {
 		const {refreshToken} = request.cookies

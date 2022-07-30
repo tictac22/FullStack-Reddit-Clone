@@ -59,19 +59,7 @@ export class AuthService {
 			accessToken,
 		}
 	}
-	async prisma(id:number) {
-		const users = await this.prismaService.user.findMany({
-			where : {
-				id
-			},
-			include: {
-				token: true,
-				posts:true,
-				comments:true
-			}
-		})
-		return users
-	}
+	
 	async refresh(refreshToken:string) {
 		if(!refreshToken) throw new BadRequestException("refresh token is required")
 
@@ -86,5 +74,36 @@ export class AuthService {
 		await this.tokenService.saveTokens({userId:token.id,refreshToken:tokens.refreshToken})
 		return {...tokens}
 	}
+
+	async socialLogin(req) {
+		if (!req.user) {
+		  return 'No user from google'
+		}
+		const { email,name } = req.user;
+		const user = await this.prismaService.user.findUnique({
+			where: {
+				email
+			}
+		})
+		let statedUser;
+		if(!user) {
+			statedUser = await this.prismaService.user.create({
+				data: {
+					email,
+					username: name,
+					password:"",
+	
+				}
+			})
+		} else {
+			statedUser = user
+		}
+		const tokens = await this.tokenService.generateTokens({id: statedUser.id})
+		await this.tokenService.saveTokens({userId:statedUser.id,refreshToken:tokens.refreshToken})
+		return {
+			...tokens,
+			user:statedUser
+		}
+	  }
 }
 
