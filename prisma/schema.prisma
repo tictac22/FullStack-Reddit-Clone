@@ -1,58 +1,70 @@
 generator client {
-  provider = "prisma-client-js"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  username   String 	 @db.VarChar(255)      @unique
-  password   String
-  email      String      @unique
-  createdAt  DateTime    @default(now())
+	id        Int      @id @default(autoincrement())
+	username  String   @unique @db.VarChar(255)
+	password  String
+	email     String   @unique
+	createdAt DateTime @default(now())
 
-  comments   Comment[]
-  posts      Post[]
-  subReddits SubReddit[]
-  token Token?
+	comments   Comment[]
+	posts      Post[]
+	subReddits SubReddit[]
+	token      Token?
+	Vote       Vote[]
 }
 
 model Token {
-	id         Int         @id @default(autoincrement())
-	token      String      @default("")
-	user       User @relation(fields: [userId], references: [id])
-	userId Int @unique
+	id     Int    @id @default(autoincrement())
+	token  String @default("")
+	user   User   @relation(fields: [userId], references: [id])
+	userId Int    @unique
 }
+
 model SubReddit {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255) @unique
-  createdAt DateTime @default(now())
-  ownerId   Int
-  owner     User     @relation(fields: [ownerId], references: [id])
-  posts     Post[]
+	id        Int      @id @default(autoincrement())
+	name      String   @unique @db.VarChar(255)
+	createdAt DateTime @default(now())
+	ownerId   Int
+	owner     User     @relation(fields: [ownerId], references: [id])
+	posts     Post[]
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  text        Json
-  createdAt   DateTime  @default(now())
-  userId      Int
-  subRedditId Int
-  subReddit   SubReddit @relation(fields: [subRedditId], references: [id])
-  username    User      @relation(fields: [userId], references: [id])
-  comments    Comment[]
+	id          Int       @id @default(autoincrement())
+	title       String    @db.VarChar(255)
+	text        Json
+	createdAt   DateTime  @default(now())
+	userId      Int
+	subRedditId Int
+	subReddit   SubReddit @relation(fields: [subRedditId], references: [id])
+	user        User      @relation(fields: [userId], references: [id])
+	comments    Comment[]
+	Vote        Vote[]
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
-  text      String   @db.VarChar(255)
-  createdAt DateTime @default(now())
-  userId    Int
-  postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
-  username  User     @relation(fields: [userId], references: [id])
+	id        Int      @id @default(autoincrement())
+	text      String   @db.VarChar(255)
+	createdAt DateTime @default(now())
+	userId    Int
+	postId    Int
+	post      Post     @relation(fields: [postId], references: [id])
+	user      User     @relation(fields: [userId], references: [id])
+}
+
+model Vote {
+	id     Int  @id @default(autoincrement())
+	userId Int
+	postId Int
+	value  Boolean
+	user   User @relation(fields: [userId], references: [id])
+	post   Post @relation(fields: [postId], references: [id])
 }
