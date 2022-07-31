@@ -4,6 +4,7 @@ import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto";
 
 import { AuthGuard } from "@nestjs/passport";
 import { Request, Response } from "express";
+import { JwtRtGuard } from "./guards";
 
 @Controller("auth")
 export class AuthController {
@@ -34,8 +35,10 @@ export class AuthController {
   
 	@Get('google/callback')
 	@UseGuards(AuthGuard('google'))
-	googleAuthRedirect(@Req() req) {
-	  return this.authService.socialLogin(req)
+	async googleAuthRedirect(@Req() req,@Res({passthrough:true}) response:Response) {
+	  const data = await this.authService.socialLogin(req)
+	  response.cookie("refreshToken", data.refreshToken)
+	  return data
 	}
 	
 	@Get("twitter")
@@ -46,15 +49,18 @@ export class AuthController {
   
 	@Get('twitter/callback')
 	@UseGuards(AuthGuard('twitter'))
-	twitterAuthRedirect(@Req() req) {
-		return this.authService.socialLogin(req)
+	async twitterAuthRedirect(@Req() req,@Res({passthrough:true}) response:Response) {
+		const data = await this.authService.socialLogin(req)
+	  	response.cookie("refreshToken", data.refreshToken)
 	}
 	
+	@UseGuards(JwtRtGuard)
 	@Get("refresh")
-	async refresh(@Req() request:Request, @Res({passthrough:true}) response:Response) {
-		const {refreshToken} = request.cookies
-		const tokens =  await this.authService.refresh(refreshToken)
+	async refresh(@Req() req:Request, @Res({passthrough:true}) response:Response) {
+		const tokens =  await this.authService.refresh(req)
 		response.cookie("refreshToken", tokens.refreshToken)
 		return tokens
 	}
+
+	
 }

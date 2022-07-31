@@ -60,25 +60,15 @@ export class AuthService {
 		}
 	}
 	
-	async refresh(refreshToken:string) {
-		if(!refreshToken) throw new BadRequestException("refresh token is required")
-
-		const token = this.tokenService.validateRefreshToken(refreshToken)
-		const tokenFromDb = await this.prismaService.token.findFirst({
-			where: {
-				token : refreshToken
-			}
-		})
-		if(!token || !tokenFromDb) throw new BadRequestException("refresh token is invalid")
-		const tokens = await this.tokenService.generateTokens({id: token.id})
-		await this.tokenService.saveTokens({userId:token.id,refreshToken:tokens.refreshToken})
+	async refresh(req) {
+		const {user} = req
+		const tokens = await this.tokenService.generateTokens({id: user.id})
+		await this.tokenService.saveTokens({userId:user.id.id,refreshToken:tokens.refreshToken})
 		return {...tokens}
 	}
 
 	async socialLogin(req) {
-		if (!req.user) {
-		  return 'No user from google'
-		}
+		if (!req.user) throw new BadRequestException("user is required")
 		const { email,name } = req.user;
 		const user = await this.prismaService.user.findUnique({
 			where: {
