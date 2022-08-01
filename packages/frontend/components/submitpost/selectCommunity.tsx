@@ -29,8 +29,9 @@ interface Props {
 	community: { name: string; img: boolean | string }
 
 	setCommunity: ({ name: string, img: boolean }) => void
+	disabled: boolean
 }
-export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) => {
+export const SelectComminity: React.FC<Props> = ({ community, setCommunity, disabled }) => {
 	const [query, setQuery] = useState("")
 	const filteredPeople =
 		query === ""
@@ -40,7 +41,7 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 			  )
 	return (
 		<div className="mb-3 flex relative z-10">
-			<Combobox value={community} onChange={setCommunity}>
+			<Combobox value={community} onChange={setCommunity} disabled={disabled}>
 				{({ open }) => (
 					<div className="relative mt-1">
 						<div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -84,9 +85,11 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity }) =>
 										setCommunity({ name: CommunityOptions.Choose, img: false })
 								}}
 							/>
-							<Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-								<MdOutlineKeyboardArrowDown />
-							</Combobox.Button>
+							{!disabled && (
+								<Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+									<MdOutlineKeyboardArrowDown />
+								</Combobox.Button>
+							)}
 						</div>
 						<Transition
 							as={Fragment}

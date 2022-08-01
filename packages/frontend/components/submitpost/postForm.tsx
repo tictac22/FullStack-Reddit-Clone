@@ -3,7 +3,7 @@ import { Editor } from "react-draft-wysiwyg"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { BsBlockquoteLeft, BsCodeSlash } from "react-icons/bs"
 
-import { SelectComminity } from "@/components/submitpage/selectCommunity"
+import { SelectComminity } from "@/components/submitpost/selectCommunity"
 import { EditorState } from "draft-js"
 
 import bold from "@/public/texteditor/bold.svg"
@@ -38,12 +38,21 @@ const editorLabels = {
 		</div>
 	)
 }
-
-export const PostForm: React.FC = () => {
+type Props = {
+	data?: {
+		name: string
+		img: string
+	}
+}
+export const PostForm: React.FC<Props> = ({ data }) => {
 	const [title, setTitle] = useState("")
-	const [community, setCommunity] = useState({ name: CommunityOptions.Choose, img: false })
+	const [community, setCommunity] = useState<{ name: CommunityOptions | string; img: boolean | string }>(
+		data || {
+			name: CommunityOptions.Choose,
+			img: false
+		}
+	)
 	const [editorState, setEditorState] = useState(EditorState.createEmpty())
-
 	const onEditorStateChange = (editorState) => {
 		setEditorState(editorState)
 		//JSON.stringify(convertToRaw(editorState.getCurrentContent()))
@@ -70,10 +79,15 @@ export const PostForm: React.FC = () => {
 		//const editor = convertToRaw(editorState.getCurrentContent())
 		//console.log(JSON.stringify(editor))
 	}
+
 	return (
 		<div className="flex-auto">
 			<h1 className=" text-lg mb-4 pb-1 pl-2 border-b border-solid border-b-[#EDEFF1]">Create Post</h1>
-			<SelectComminity community={community} setCommunity={setCommunity} />
+			<SelectComminity
+				disabled={typeof community.img === "string" ? true : false}
+				community={community}
+				setCommunity={setCommunity}
+			/>
 			<input
 				className="w-full p-2 mb-2 focus:outline-none border-2 border-solid border-white focus:border-sky-400    rounded-lg"
 				placeholder="Title"
