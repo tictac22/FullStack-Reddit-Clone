@@ -1,10 +1,22 @@
+import Link from "next/link"
+
 import React, { Fragment, useState } from "react"
 import { BsBoxArrowRight, BsPersonCircle } from "react-icons/bs"
+import { FiLogOut } from "react-icons/fi"
 import { HiOutlineChevronDown } from "react-icons/hi"
 
 import { Menu, Switch, Transition } from "@headlessui/react"
+import { useAuth } from "context/AuthContext"
 
 export const UserProfile: React.FC = () => {
+	const { isAuthenticated, logIn } = useAuth()
+	const logout = () => {
+		function eraseCookie(name) {
+			document.cookie = name + "=; Max-Age=0"
+		}
+		eraseCookie("refreshToken")
+		logIn()
+	}
 	return (
 		<div className="text-right lg:ml-10 ">
 			<Menu as="div" className="relative inline-block text-left">
@@ -58,10 +70,19 @@ export const UserProfile: React.FC = () => {
 											active ? "bg-slate-400 text-white" : "text-gray-900"
 										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 									>
-										<div className="flex items-center flex-1">
-											<BsBoxArrowRight />
-											<p className="ml-3">Sign up or Log in</p>
-										</div>
+										{isAuthenticated ? (
+											<div className="flex items-center flex-1" onClick={logout}>
+												<FiLogOut />
+												<p className="ml-3">Logout</p>
+											</div>
+										) : (
+											<Link href={"/account/login"}>
+												<div className="flex items-center flex-1">
+													<BsBoxArrowRight />
+													<p className="ml-3">Sign up or Log in</p>
+												</div>
+											</Link>
+										)}
 									</div>
 								)}
 							</Menu.Item>

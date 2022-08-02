@@ -26,6 +26,11 @@ export class TokenService {
 				userId,
 			}
 		})
+		const user = await this.prismaService.user.findFirst({
+			where: {
+				id: userId,
+			}
+		})
 		if(tokenData) {
 			const token = await this.prismaService.token.update({
 				where: {
@@ -33,17 +38,24 @@ export class TokenService {
 				},
 				data: {
 					token:refreshToken,
+				},
+				select: {
+					token:true,
 				}
 			})
-			return token
+			return {refreshToken:token.token,user}
 		}
+
 		const token = await this.prismaService.token.create({
 			data: {
 				token:refreshToken,
 				userId,
+			},
+			select: {
+				token:true,
 			}
 		})
-		return token
+		return {refreshToken:token.token,user}
 	}
 	validateRefreshToken(refreshToken:string) {
 		try {

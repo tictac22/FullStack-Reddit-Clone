@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { Controller, useFormContext } from "react-hook-form"
 
 import { HookRegistrationFormValues, IFormInput } from "./types"
@@ -8,6 +9,31 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 		control,
 		formState: { errors }
 	} = useFormContext<HookRegistrationFormValues>()
+	const ref = useRef<HTMLInputElement>()
+
+	useEffect(() => {
+		const input = ref.current.firstChild as HTMLElement
+		input.addEventListener("change", (event: InputEvent) => {
+			const target = event.target as HTMLInputElement
+			const inputSibling = input.nextElementSibling as HTMLElement
+			if (target) {
+				inputSibling.style.bottom = "36px"
+			} else {
+				inputSibling.style.bottom = "16px"
+			}
+		})
+		input.addEventListener("blur", (event: InputEvent) => {
+			const target = event.target as HTMLInputElement
+			const inputSibling = input.nextElementSibling as HTMLElement
+			if (!target) {
+				inputSibling.style.bottom = "16px"
+			}
+		})
+		input.addEventListener("focus", (event: InputEvent) => {
+			const inputSibling = input.nextElementSibling as HTMLElement
+			inputSibling.style.bottom = "36px"
+		})
+	}, [])
 	return (
 		<Controller
 			name={name}
@@ -15,7 +41,7 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 			defaultValue=""
 			render={({ field }) => (
 				<>
-					<div className="relative group transition-all my-3">
+					<div className="relative group transition-all my-3" ref={ref}>
 						<input
 							{...field}
 							{...register(name)}
@@ -46,3 +72,8 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 		></Controller>
 	)
 }
+/*
+
+
+
+*/

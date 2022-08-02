@@ -13,6 +13,11 @@ export class AuthSignUpDto {
 	@IsNotEmpty()
 	@IsString()
 	username: string;
+
+	@IsNotEmpty()
+	@IsString()
+	captcha: string;
+
 }
 
 export class AuthSignInDto {

@@ -11,10 +11,20 @@ export class AuthService {
 	constructor(private prismaService:PrismaService, private tokenService:TokenService) {}
 
 	async signup(dto:AuthSignUpDto) {
+
+		const captchaVerifed = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${dto.captcha}`,{
+			method: "POST",
+		})
+		const captchaVerifedJson = await captchaVerifed.json()
+		if(!captchaVerifedJson.success) throw new BadRequestException("captcha is incorrect")
+		
 		const hashedPassword = await bcrypt.hash(dto.password, 10)
 		try {
 			const user = await this.prismaService.user.create({
-				data: {...dto, password: hashedPassword},
+				data: {
+					username: dto.username,
+					email: dto.email,
+					password: hashedPassword},
 			})
 			const tokens = await this.tokenService.generateTokens({id: user.id})
 			await this.tokenService.saveTokens({userId:user.id,refreshToken:tokens.refreshToken})
@@ -23,13 +33,12 @@ export class AuthService {
 		} catch (e) {
 			if(e instanceof Prisma.PrismaClientKnownRequestError) {
 				if(e.code === "P2002") {
-
 					const field = e.meta.target[0]
 					throw new BadRequestException({
 						status: HttpStatus.BAD_REQUEST,
 						errors: {
 							[field]: {
-								message:  ` ${field} is Already exists`
+								message:  ` ${field} is already exists`
 							}
 						} 
 					})
@@ -63,8 +72,8 @@ export class AuthService {
 	async refresh(req) {
 		const {user} = req
 		const tokens = await this.tokenService.generateTokens({id: user.id})
-		await this.tokenService.saveTokens({userId:user.id.id,refreshToken:tokens.refreshToken})
-		return {...tokens}
+		const userData = await this.tokenService.saveTokens({userId:user.id,refreshToken:tokens.refreshToken})
+		return {...userData,accessToken:tokens.accessToken}
 	}
 
 	async socialLogin(req) {

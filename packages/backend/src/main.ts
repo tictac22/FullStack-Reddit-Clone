@@ -9,6 +9,10 @@ const port = process.env.BACKEND_PORT || 3333
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
+	app.enableCors({
+		credentials: true,
+		origin: "http://localhost:3000"
+	})
 	app.use(
 		session({
 			secret: "my-secret",

@@ -1,7 +1,7 @@
 import * as yup from "yup"
 
 export const schemaRegistration = yup.object().shape({
-	email: yup.string().email().required(),
+	email: yup.string().required().email(),
 	password: yup
 		.string()
 		.required()
@@ -11,10 +11,10 @@ export const schemaRegistration = yup.object().shape({
 		.matches(RegExp("(.*\\d.*)"), "1 number"),
 	passwordConfirm: yup
 		.string()
-		.oneOf([yup.ref("password"), null], "Passwords must match")
-		.required("confirm your passowrd"),
-	name: yup.string().required().min(3, "Minimum of 3 characters"),
-	token: yup.string().required().min(1)
+		.required("confirm your passowrd")
+		.oneOf([yup.ref("password"), null], "Passwords must match"),
+	username: yup.string().required().min(3, "Minimum of 3 characters"),
+	captcha: yup.string().required().min(1)
 })
 
 export const schemaLogin = yup.object().shape({

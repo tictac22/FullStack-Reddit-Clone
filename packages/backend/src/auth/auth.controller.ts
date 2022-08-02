@@ -13,16 +13,16 @@ export class AuthController {
 
 	
 	@Post("signup")
-	async signup(@Body() body:AuthSignUpDto, @Res({passthrough:true}) response:Response) {
+	async signup(@Body() body:AuthSignUpDto, @Res({passthrough:true}) res:Response) {
 		const userData = await this.authService.signup(body)
-		response.cookie("refreshToken", userData.refreshToken)
+		res.cookie("refreshToken", userData.refreshToken)
 		return userData
 	}
 	
 	@Post("signin")
-	async signin(@Body() body:AuthSignInDto, @Res({passthrough:true}) response:Response) {
+	async signin(@Body() body:AuthSignInDto, @Res({passthrough:true}) res:Response) {
 		const userData = await this.authService.signin(body)
-		response.cookie("refreshToken", userData.refreshToken)
+		res.cookie("refreshToken", userData.refreshToken)
 		return userData
 	}
 
@@ -35,10 +35,10 @@ export class AuthController {
   
 	@Get('google/callback')
 	@UseGuards(AuthGuard('google'))
-	async googleAuthRedirect(@Req() req,@Res({passthrough:true}) response:Response) {
+	async googleAuthRedirect(@Req() req,@Res({passthrough:true}) res:Response) {
 	  const data = await this.authService.socialLogin(req)
-	  response.cookie("refreshToken", data.refreshToken)
-	  return data
+	  res.cookie("refreshToken", data.refreshToken)
+	  return res.redirect("http://localhost:3000/account/success")
 	}
 	
 	@Get("twitter")
@@ -49,17 +49,18 @@ export class AuthController {
   
 	@Get('twitter/callback')
 	@UseGuards(AuthGuard('twitter'))
-	async twitterAuthRedirect(@Req() req,@Res({passthrough:true}) response:Response) {
+	async twitterAuthRedirect(@Req() req,@Res({passthrough:true}) res:Response) {
 		const data = await this.authService.socialLogin(req)
-	  	response.cookie("refreshToken", data.refreshToken)
+		res.cookie("refreshToken", data.refreshToken)
+		return res.redirect("http://localhost:3000/account/success")
 	}
 	
 	@UseGuards(JwtRtGuard)
 	@Get("refresh")
-	async refresh(@Req() req:Request, @Res({passthrough:true}) response:Response) {
-		const tokens =  await this.authService.refresh(req)
-		response.cookie("refreshToken", tokens.refreshToken)
-		return tokens
+	async refresh(@Req() req:Request, @Res({passthrough:true}) res:Response) {
+		const userData =  await this.authService.refresh(req)
+		res.cookie("refreshToken", userData.refreshToken)
+		return {...userData}
 	}
 
 	

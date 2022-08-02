@@ -18,25 +18,3 @@ const Register: NextPage = () => {
 	)
 }
 export default Register
-//.rc-anchor-light.rc-anchor-normal
-/*
-	<Script
-				strategy="afterInteractive"
-				id="my-script"
-				dangerouslySetInnerHTML={{
-					__html: `
-					const inputs = document.querySelectorAll("input")
-					inputs.forEach((input) => {
-						input.addEventListener("input", (event) => {
-							if (event.target.value) {
-								input.nextElementSibling.classList.add("bottom-9")
-							} else {
-								input.nextElementSibling.classList.remove("bottom-9")
-							}
-						})
-					})
-					`
-				}}
-			/>
-
-*/

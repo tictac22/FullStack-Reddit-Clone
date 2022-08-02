@@ -2,8 +2,8 @@ export type HookRegistrationFormValues = {
 	email: string
 	password: string
 	passwordConfirm: string
-	name: string
-	token: string
+	username: string
+	captcha: string
 }
 export type HookLoginFormValues = {
 	email: string
@@ -17,7 +17,7 @@ export const enum EPasswordErrorTexts {
 }
 
 export interface IFormInput {
-	name: "email" | "password" | "passwordConfirm" | "name" | "token"
+	name: "email" | "password" | "passwordConfirm" | "username"
 	type: string
 	setIsPasswordTyped?: React.Dispatch<React.SetStateAction<boolean>>
 }

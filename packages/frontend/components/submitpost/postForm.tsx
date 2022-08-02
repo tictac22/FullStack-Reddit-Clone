@@ -4,7 +4,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { BsBlockquoteLeft, BsCodeSlash } from "react-icons/bs"
 
 import { SelectComminity } from "@/components/submitpost/selectCommunity"
-import { EditorState } from "draft-js"
+import { EditorState, convertToRaw } from "draft-js"
 
 import bold from "@/public/texteditor/bold.svg"
 import gallery from "@/public/texteditor/gallery.svg"
@@ -46,6 +46,7 @@ type Props = {
 }
 export const PostForm: React.FC<Props> = ({ data }) => {
 	const [title, setTitle] = useState("")
+	const [images, setImages] = useState<{ file: File; localSrc: string }[]>([])
 	const [community, setCommunity] = useState<{ name: CommunityOptions | string; img: boolean | string }>(
 		data || {
 			name: CommunityOptions.Choose,
@@ -62,7 +63,7 @@ export const PostForm: React.FC<Props> = ({ data }) => {
 			file: file,
 			localSrc: URL.createObjectURL(file)
 		}
-
+		setImages((images) => [...images, imageObject])
 		return new Promise((resolve, reject) => {
 			resolve({ data: { link: imageObject.localSrc } })
 		})
@@ -74,10 +75,23 @@ export const PostForm: React.FC<Props> = ({ data }) => {
 		editorState.getCurrentContent().hasText()
 			? true
 			: false
-	const sendPost = () => {
+	const sendPost = async () => {
 		if (!allowed) return
-		//const editor = convertToRaw(editorState.getCurrentContent())
-		//console.log(JSON.stringify(editor))
+
+		//console.log(title, images, community, JSON.stringify(convertToRaw(editorState.getCurrentContent())))
+		const formData = new FormData()
+		formData.append("title", title)
+		images.forEach((item) => formData.append("files", item.file))
+		formData.append("community", JSON.stringify(community))
+		formData.append("editor", JSON.stringify(convertToRaw(editorState.getCurrentContent())))
+		try {
+			await fetch("http://localhost:5000/post/create", {
+				method: "POST",
+				body: formData
+			})
+		} catch (error) {
+			//console.log(error)
+		}
 	}
 
 	return (
