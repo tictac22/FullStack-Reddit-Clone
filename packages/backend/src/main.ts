@@ -39,4 +39,3 @@ async function bootstrap() {
 }
 
 bootstrap()
-// -D @types/express-session

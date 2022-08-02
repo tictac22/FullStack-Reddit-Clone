@@ -75,6 +75,7 @@
 		"@nestjs/jwt": "^9.0.0",
 		"@nestjs/passport": "^9.0.0",
 		"@nestjs/platform-express": "^8.0.0",
+		"@nestjs/serve-static": "^3.0.0",
 		"@prisma/client": "^4.0.0",
 		"axios": "^0.27.2",
 		"bcryptjs": "^2.4.3",
@@ -101,6 +102,7 @@
 		"rxjs": "^7.0.0",
 		"sharp": "^0.30.7",
 		"tslib": "^2.3.0",
+		"uuid": "^8.3.2",
 		"yup": "^0.32.11"
 	},
 	"resolutions": {

@@ -11,8 +11,9 @@ import { useAuth } from "context/AuthContext"
 export const UserProfile: React.FC = () => {
 	const { isAuthenticated, logIn } = useAuth()
 	const logout = () => {
-		function eraseCookie(name) {
+		const eraseCookie = (name) => {
 			document.cookie = name + "=; Max-Age=0"
+			window.sessionStorage.removeItem("token")
 		}
 		eraseCookie("refreshToken")
 		logIn()
@@ -40,7 +41,7 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
 									>
 										<div className="flex items-center justify-between flex-1">
 											<p>Profile</p>
@@ -53,7 +54,7 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
 									>
 										<div className="flex items-center justify-between flex-1">
 											<p>Dark Mode:</p>
@@ -68,7 +69,7 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
 									>
 										{isAuthenticated ? (
 											<div className="flex items-center flex-1" onClick={logout}>
