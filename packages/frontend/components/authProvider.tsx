@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { $api } from "@/utils/axios"
 
@@ -6,6 +6,12 @@ type User = {
 	id: number
 	username: string
 	email: string
+	SubscribedSubReddits: {
+		subRedditId: number
+	}[]
+	subRedditsOwner: {
+		ownerId: number
+	}[]
 }
 interface State {
 	user: User
@@ -13,9 +19,7 @@ interface State {
 	logIn: () => Promise<void>
 }
 
-const AuthState = React.createContext<State | null>(null)
-
-export const useAuth = () => useContext(AuthState)
+export const AuthState = React.createContext<State | null>(null)
 
 export const AuthContext = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null)
@@ -36,7 +40,6 @@ export const AuthContext = ({ children }) => {
 	useEffect(() => {
 		logIn()
 	}, [])
-
 	const authValue = {
 		user,
 		isAuthenticated,

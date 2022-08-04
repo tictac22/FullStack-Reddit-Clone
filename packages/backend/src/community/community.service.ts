@@ -1,6 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CommunityServiceDto } from './dto/community.dto';
 
 
 
@@ -8,23 +7,51 @@ import { CommunityServiceDto } from './dto/community.dto';
 export class CommunityService {
 
 	constructor(private prismaService:PrismaService){}
-	async createCommunity(community:CommunityServiceDto) {
-		const communityData = await this.prismaService.subReddit.create({
-			data: {
-				title: community.title,
-				owner: {
-						connect: {
-							id:community.id
-						}
+
+	async getCommunity(title:string) {
+		try {
+			
+			const community = await this.prismaService.subReddit.findFirstOrThrow({
+				where: {
+					title: {
+						equals:title,
+						mode:"insensitive"
+					}
 				},
-			}
-		})
-		return communityData
+				include: {
+					owner: true,
+					subscribedUsers: true,
+					posts: true,
+				}
+			})
+			return community
+		} catch (e) {
+			throw new BadRequestException("Community not found")
+			
+		}
 	}
-	async updateImage(id:number,imagePath:string) {
+	async createCommunity(title:string,userId:number) {
+		try {
+			const communityData = await this.prismaService.subReddit.create({
+				data: {
+					title: title,
+					owner: {
+							connect: {
+								id:userId
+							}
+					},
+				}
+			})
+			const subscription = await this.subscribe(communityData.id,userId)
+			return {communityData,subscription}
+		} catch (error) {
+			throw new BadRequestException("Community already exists")
+		}
+	}
+	async updateImage(subRedditId:number,imagePath:string) {
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id
+				id:subRedditId
 			},
 			data: {
 				image: imagePath
@@ -32,40 +59,44 @@ export class CommunityService {
 		})
 		return community
 	}
-	async toogleSubscription(id:number,userId:number,subscriped:boolean) {
-		const increment = {
-			increment:1
-		}
-		const decrement = {
-			decrement:1
-		}
+	async subscribe(subRedditId:number,userId:number) {
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id
+				id:subRedditId
 			},
 			data: {
-				subscribers: subscriped ? decrement : increment
-
+				subscribers: {
+					increment:1
+				},
 			}
 		})
-		if(subscriped) {
-			//
-		}
-		const subscribedSubReddits = await this.prismaService.subscribedSubReddits.create({
+		const subscribedUsers = await this.prismaService.subscribedSubReddits.create({
 			data: {
-				user: {
-					connect: {
-						id:userId
-					}
+				subRedditId: subRedditId,
+				userId
+			}
+		})
+		return {community,subscribedUsers}
+	}
+	async unsubscribe(subRedditId:number,userId:number) {
+		const community = await this.prismaService.subReddit.update({
+			where: {
+				id:subRedditId
+			},
+			data: {
+				subscribers: {
+					decrement:1
 				},
-				subReddit: {
-					connect: {
-						id
-					}
+			}
+		})
+		const subscribedUsers = await this.prismaService.subscribedSubReddits.deleteMany({
+			where: {
+				subRedditId,
+				AND: {
+					userId
 				}
 			}
 		})
-		console.log(subscribedSubReddits.subRedditId)
-		return {community,subscribedSubReddits}
+		return {community,subscribedUsers}
 	}
 }

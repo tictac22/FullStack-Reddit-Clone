@@ -12,11 +12,11 @@ export class AuthService {
 
 	async signup(dto:AuthSignUpDto) {
 
-		/*const captchaVerifed = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${dto.captcha}`,{
+		const captchaVerifed = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${dto.captcha}`,{
 			method: "POST",
 		})
 		const captchaVerifedJson = await captchaVerifed.json()
-		if(!captchaVerifedJson.success) throw new BadRequestException("captcha is incorrect")*/
+		if(!captchaVerifedJson.success) throw new BadRequestException("captcha is incorrect")
 		
 		const hashedPassword = await bcrypt.hash(dto.password, 10)
 		try {

@@ -43,7 +43,6 @@ model SubReddit {
 	subscribers Int @default(0)
 	subscribedUsers SubscribedSubReddits[]
 
-
 }
 model SubscribedSubReddits {
 	id        Int      @id @default(autoincrement())

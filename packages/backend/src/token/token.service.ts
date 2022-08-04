@@ -29,6 +29,14 @@ export class TokenService {
 		const user = await this.prismaService.user.findFirst({
 			where: {
 				id: userId,
+			},
+			include: {
+				comments:true,
+				posts:true,
+				subRedditsOwner:true,
+				Vote:true,
+				Likes:true,
+				SubscribedSubReddits:true,
 			}
 		})
 		if(tokenData) {
@@ -38,9 +46,6 @@ export class TokenService {
 				},
 				data: {
 					token:refreshToken,
-				},
-				select: {
-					token:true,
 				}
 			})
 			return {refreshToken:token.token,user}

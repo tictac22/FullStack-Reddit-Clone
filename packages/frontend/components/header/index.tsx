@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import React from "react"
 
-import { useAuth } from "context/AuthContext"
+import { useAuth } from "hooks/useAuth"
 
 import { Logo } from "./logo"
 import { SearchBar } from "./searchbar"
@@ -11,7 +11,7 @@ import { UserProfile } from "./userProfile"
 export const Header: React.FC = () => {
 	const { isAuthenticated } = useAuth()
 	return (
-		<header className="bg-white flex items-center h-20 px-3 justify-between relative z-50">
+		<header className="bg-white flex items-center px-3 justify-between relative z-50 h-[80px]">
 			<Logo />
 			<SearchBar />
 			<div className="flex items-center">

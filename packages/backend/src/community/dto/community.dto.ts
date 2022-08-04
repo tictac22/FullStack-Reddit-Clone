@@ -1,6 +1,6 @@
 
-import { IsNotEmpty, IsString, Length } from 'class-validator';
-
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 export class CommunityDto {
 	@IsNotEmpty()
 	@IsString()
@@ -13,6 +13,22 @@ export class CommunityDto {
 
 export class CommunityServiceDto extends CommunityDto {
 	@IsNotEmpty()
-	@Length(1)
+	@IsNumber()
 	id: number;
+}
+
+export class CommunityImageDto {
+	@IsNotEmpty()
+	@IsNumber()
+	@Type(() => Number)
+	subRedditId:number
+}
+
+export class CommunitySubscriptionDto {
+
+	@IsNotEmpty()
+	@IsNumber()
+	subRedditId:number
+
+	
 }

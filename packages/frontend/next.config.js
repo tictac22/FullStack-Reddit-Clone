@@ -13,7 +13,7 @@ const nextConfig = {
 		outputFileTracingRoot: path.join(__dirname, "../../")
 	},
 	images: {
-		domains: ["play-lh.googleusercontent.com"]
+		domains: ["play-lh.googleusercontent.com", "localhost"]
 	}
 }
 

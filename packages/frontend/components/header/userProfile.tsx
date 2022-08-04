@@ -5,18 +5,18 @@ import { BsBoxArrowRight, BsPersonCircle } from "react-icons/bs"
 import { FiLogOut } from "react-icons/fi"
 import { HiOutlineChevronDown } from "react-icons/hi"
 
+import { $api } from "@/utils/axios"
 import { Menu, Switch, Transition } from "@headlessui/react"
-import { useAuth } from "context/AuthContext"
+import { useAuth } from "hooks/useAuth"
 
 export const UserProfile: React.FC = () => {
 	const { isAuthenticated, logIn } = useAuth()
-	const logout = () => {
-		const eraseCookie = (name) => {
-			document.cookie = name + "=; Max-Age=0"
-			window.sessionStorage.removeItem("token")
-		}
-		eraseCookie("refreshToken")
-		logIn()
+	const logout = async () => {
+		//window.sessionStorage.removeItem("token")
+		await $api("auth/logout", {
+			method: "GET"
+		})
+		await logIn()
 	}
 	return (
 		<div className="text-right lg:ml-10 ">

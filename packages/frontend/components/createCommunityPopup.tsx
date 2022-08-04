@@ -1,6 +1,9 @@
+import { useRouter } from "next/router"
+
 import React, { Fragment, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 
+import { $api } from "@/utils/axios"
 import { Dialog, Transition } from "@headlessui/react"
 
 interface Props {
@@ -10,13 +13,24 @@ interface Props {
 export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 	const [inputValue, setInput] = useState("")
 	const [error, setError] = useState("")
-	const createCommunity = () => {
+	const router = useRouter()
+	const createCommunity = async () => {
 		if (inputValue.length === 0) {
 			setError("A community name is required")
 			return
 		}
-		//eslint-disable-next-line no-console
-		console.log(inputValue)
+		try {
+			await $api("community/create", {
+				method: "POST",
+				data: {
+					title: inputValue
+				}
+			})
+			router.push(`/r/${inputValue}`)
+		} catch (error) {
+			setError(`Community r/${inputValue} is already taken`)
+			setInput("")
+		}
 	}
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
@@ -79,7 +93,13 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 									<button onClick={handleModal} className="btn-primary px-4 py-1">
 										Cancel
 									</button>
-									<button onClick={createCommunity} className="btn-secondary ml-2 px-4 py-1">
+									<button
+										onClick={createCommunity}
+										className={`btn-secondary ml-2 px-4 py-1 ${
+											inputValue.length >= 21 && "cursor-not-allowed opacity-50"
+										}`}
+										disabled={inputValue.length >= 21}
+									>
 										Create Community
 									</button>
 								</div>

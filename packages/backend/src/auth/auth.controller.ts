@@ -38,7 +38,7 @@ export class AuthController {
 	async googleAuthRedirect(@Req() req,@Res({passthrough:true}) res:Response) {
 	  const data = await this.authService.socialLogin(req)
 	  res.cookie("refreshToken", data.refreshToken)
-	  return res.redirect("http://localhost:3000/account/success")
+	  return res.redirect(`${process.env.FRONTEND_BASE_URL}/account/success`)
 	}
 	
 	@Get("twitter")
@@ -52,7 +52,7 @@ export class AuthController {
 	async twitterAuthRedirect(@Req() req,@Res({passthrough:true}) res:Response) {
 		const data = await this.authService.socialLogin(req)
 		res.cookie("refreshToken", data.refreshToken)
-		return res.redirect("http://localhost:3000/account/success")
+		return res.redirect(`${process.env.FRONTEND_BASE_URL}/account/success`)
 	}
 	
 	@UseGuards(JwtRtGuard)
@@ -63,5 +63,11 @@ export class AuthController {
 		return {...userData}
 	}
 
-	
+	@Get("logout")
+	async logout(@Res({passthrough:true}) res:Response) {
+		res.clearCookie("refreshToken")
+		return {
+			message: "logout success"
+		}
+	}
 }
