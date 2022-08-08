@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Editor } from "react-draft-wysiwyg"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { BsBlockquoteLeft, BsCodeSlash } from "react-icons/bs"
@@ -7,6 +7,7 @@ import { SelectComminity } from "@/components/submitpost/selectCommunity"
 import { useAuth } from "@/hooks/useAuth"
 import { $api, API_URL } from "@/utils/axios"
 import { EditorState, convertToRaw } from "draft-js"
+import draftToHtml from "draftjs-to-html"
 
 import bold from "@/public/texteditor/bold.svg"
 import gallery from "@/public/texteditor/gallery.svg"
@@ -16,6 +17,8 @@ import ordered from "@/public/texteditor/ordered.svg"
 import strikeStrough from "@/public/texteditor/strikeStrough.svg"
 import underline from "@/public/texteditor/underline.svg"
 import unordered from "@/public/texteditor/unordered.svg"
+
+import { Loading } from "./isLoading"
 
 //eslint-disable-next-line
 const expression = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi)
@@ -44,7 +47,7 @@ export const PostForm: React.FC = () => {
 	const [title, setTitle] = useState("")
 	const [community, setCommunity] = useState<{ subReddit: { id: number; title: string } } | string>("")
 	const [editorState, setEditorState] = useState(EditorState.createEmpty())
-
+	const [isSending, setIsSending] = useState(false)
 	const onEditorStateChange = (editorState) => {
 		setEditorState(editorState)
 	}
@@ -62,34 +65,45 @@ export const PostForm: React.FC = () => {
 			resolve({ data: { link: `${API_URL}/posts/${data.filename}` } })
 		})
 	}
-
 	const allowed = title && community !== "" && editorState.getCurrentContent().hasText() ? true : false
 	const sendPost = async () => {
 		if (!allowed) return
+		setIsSending(true)
 		try {
 			await $api("/post/create", {
 				method: "POST",
 				data: {
 					title,
-					body: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+					body: JSON.stringify(draftToHtml(convertToRaw(editorState.getCurrentContent()))),
 					type: typeof community === "string" ? "USER" : "SUBREDDIT",
 					subRedditId: typeof community === "string" ? null : community.subReddit.id
 				}
 			})
-		} catch (error) {
-			//
+		} finally {
+			setIsSending(false)
 		}
 	}
-
+	const ref = useRef<HTMLTextAreaElement>()
+	useEffect(() => {
+		const tx = ref.current
+		tx.addEventListener("input", OnInput, false)
+		tx.setAttribute("style", "height:" + "39" + "px")
+		function OnInput() {
+			this.style.height = "auto"
+			this.style.height = this.scrollHeight + "px"
+		}
+	}, [])
 	return (
 		<div className="flex-auto">
 			<h1 className=" text-lg mb-4 pb-1 pl-2 border-b border-solid border-b-[#EDEFF1]">Create Post</h1>
 			<SelectComminity community={community} setCommunity={setCommunity} username={user?.username} />
-			<input
-				className="w-full p-2 mb-2 focus:outline-none border-2 border-solid border-white focus:border-sky-400    rounded-lg"
+			<textarea
+				className="w-full resize-none overflow-y-hidden leading-[2] px-3 pb-3  mb-2 focus:outline-none     rounded-lg"
 				placeholder="Title"
 				value={title}
+				maxLength={300}
 				onChange={(e) => setTitle(e.target.value)}
+				ref={ref}
 			/>
 			<Editor
 				localization={{ locale: "en", translations: editorLabels }}
@@ -169,8 +183,9 @@ export const PostForm: React.FC = () => {
 					allowed ? "text-white bg-cyan-400 cursor-pointer" : "text-[#bebebe] bg-[#848484] cursor-not-allowed"
 				} py-1 px-4 rounded-full  block`}
 				onClick={sendPost}
+				disabled={isSending}
 			>
-				Post
+				{isSending ? <Loading /> : "Post"}
 			</button>
 		</div>
 	)

@@ -54,7 +54,7 @@ model SubscribedSubReddits {
 model Post {
 	id          Int       @id @default(autoincrement())
 	title       String    @db.VarChar(255)
-	text        Json
+	text        String
 	createdAt   DateTime  @default(now())
 	userId      Int
 	subRedditId Int?

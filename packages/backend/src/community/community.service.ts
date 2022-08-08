@@ -21,8 +21,17 @@ export class CommunityService {
 				include: {
 					owner: true,
 					subscribedUsers: true,
-					posts: true,
-				}
+					posts: {
+						include: {
+							user:true,
+							_count: {
+								select: {
+									comments: true,
+								}
+							}
+						}
+					},
+				},
 			})
 			return community
 		} catch (e) {
@@ -42,7 +51,6 @@ export class CommunityService {
 			return await this.prismaService.subscribedSubReddits.findMany({
 				where: {
 					userId,
-					
 				},
 				include: {
 					subReddit: true,

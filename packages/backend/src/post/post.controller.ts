@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import "multer";
 import { PostService } from "./post.service";
 
@@ -41,5 +41,15 @@ export class PostController {
 	@Post("create")
 	createPost(@Body() body:PostDto,@Req() req:IRequest) {
 		return this.postService.createPost({...body,userId:req.user.id})
+	}
+
+	@Patch("toogle-vote")
+	togglePost(@Body() body:{postId:number, vote:boolean | null, voteId?:number},@Req() req:IRequest) {
+		if(typeof body.vote === "boolean") {
+			return this.postService.tooglePost(body.postId,req.user.id,body.vote,body.voteId)
+		}
+		else {
+			return this.postService.deleteToogleVote(body.postId,body.voteId)
+		}
 	}
 }

@@ -34,4 +34,48 @@ export class PostService {
 			})
 		}
 	}
+
+	async tooglePost(postId:number,userId:number,voteType:boolean,voteId = 0 ) {
+		const upVote = {
+			increment:1
+		}
+		const downVote = {
+			decrement:1
+		}
+		return  await this.prismaService.post.update({
+			where: {id:postId},
+			data: {
+				totalVotes: voteType ? upVote : downVote,
+				vote: {
+					upsert: {
+						where: {
+							id:voteId,
+						},
+						create: {
+							user: {connect:{id:userId}},
+							value:voteType,
+						},
+						update: {
+							value:voteType,
+						}
+					}
+				}
+			}
+		})
+	}
+	async deleteToogleVote(postId:number,voteId:number) {
+		return await this.prismaService.post.update({
+			where: {id:postId},
+			data: {
+				totalVotes: {
+					decrement: 1
+				},
+				vote: {
+					delete: {
+						id:voteId
+					}
+				}
+			}
+		})
+	}
 } 

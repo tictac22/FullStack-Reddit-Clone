@@ -1,4 +1,4 @@
-import { IsEnum, IsJSON, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 enum PostType {
 	USER = "USER",
@@ -11,7 +11,7 @@ export class PostDto {
 
 
 
-	@IsJSON()
+	@IsString()
 	@IsNotEmpty()
 	body:string
 

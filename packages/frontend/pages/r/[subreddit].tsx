@@ -5,9 +5,10 @@ import { useEffect, useState } from "react"
 import { BiCake } from "react-icons/bi"
 
 import { FormPost } from "@/components/FormPost"
+import { Post } from "@/components/post"
 import { SubRedditError } from "@/components/subRedditError"
-import { UploadImage } from "@/components/subreddit/uploadImage"
 import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
+import { UploadImage } from "@/components/uploadImage"
 import { useAuth } from "@/hooks/useAuth"
 import { useCommunity } from "@/hooks/useCommunity"
 import { API_URL } from "@/utils/axios"
@@ -66,6 +67,15 @@ const SubReddit = () => {
 				<div className="flex">
 					<div className="flex-auto lg:mr-6">
 						<FormPost />
+						<div className="mt-2">
+							{data?.posts.map((post) => (
+								<Post
+									key={post.id}
+									{...post}
+									vote={user?.Vote.filter((item) => item.postId === post.id)[0]}
+								/>
+							))}
+						</div>
 					</div>
 					<div>
 						<div className="w-80 bg-white rounded-t hidden lg:block">

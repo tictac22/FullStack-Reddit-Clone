@@ -1,18 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react"
 
 import { $api } from "@/utils/axios"
+import { User } from "@/utils/types"
 
-type User = {
-	id: number
-	username: string
-	email: string
-	SubscribedSubReddits: {
-		subRedditId: number
-	}[]
-	subRedditsOwner: {
-		ownerId: number
-	}[]
-}
 interface State {
 	user: User
 	logIn: () => Promise<void>
