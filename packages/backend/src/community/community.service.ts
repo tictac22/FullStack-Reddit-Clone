@@ -30,6 +30,25 @@ export class CommunityService {
 			
 		}
 	}
+	async getPopularCommunities() {
+		return await this.prismaService.subReddit.findMany({
+			orderBy: {
+				subscribers: "desc"
+			},
+			take:5
+		})
+	}
+	async getUserCommunity(userId:number) {
+			return await this.prismaService.subscribedSubReddits.findMany({
+				where: {
+					userId,
+					
+				},
+				include: {
+					subReddit: true,
+				}
+			})
+	}
 	async createCommunity(title:string,userId:number) {
 		try {
 			const communityData = await this.prismaService.subReddit.create({

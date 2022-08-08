@@ -9,3 +9,15 @@ export interface Community {
 	}
 	subscribers: number
 }
+
+export interface UsersCommunities {
+	id: number
+	userId: number
+	subRedditId: number
+	subReddit: {
+		id: number
+		image: string
+		title: string
+		subscribers: number
+	}
+}

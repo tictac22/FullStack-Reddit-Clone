@@ -1,171 +1,148 @@
 import Image from "next/image"
 
-import { Fragment, useState } from "react"
+import React, { Fragment, useState } from "react"
 import { BsSearch } from "react-icons/bs"
-import { MdOutlineKeyboardArrowDown } from "react-icons/md"
 
+import { useUserCommunities } from "@/hooks/useUserCommunities"
+import { getFullImagePath } from "@/utils/functions"
 import { Combobox, Transition } from "@headlessui/react"
 
-import defaultSvg from "@/public/default.svg"
+import UserSvg from "@/public/userImage.svg"
 
-import { CommunityOptions } from "./types"
-
-const people = [
-	{
-		name: "u/user",
-		img: "/default.svg"
-	},
-	{
-		name: "r/reddit",
-		img: "/communityexamples/reddit.png"
-	},
-	{
-		name: "r/something",
-		img: "/communityexamples/reddit2.png"
-	}
-]
+import { ComboxOption } from "./selectOption"
 
 interface Props {
-	community: { name: string; img: boolean | string }
+	username: string
+	community:
+		| string
+		| {
+				subReddit: {
+					id: number
+					title: string
+				}
+		  }
 
-	setCommunity: ({ name: string, img: boolean }) => void
-	disabled: boolean
+	setCommunity: React.Dispatch<
+		React.SetStateAction<
+			| string
+			| {
+					subReddit: {
+						id: number
+						title: string
+					}
+			  }
+		>
+	>
 }
-export const SelectComminity: React.FC<Props> = ({ community, setCommunity, disabled }) => {
+export const SelectComminity: React.FC<Props> = ({ community, setCommunity, username }) => {
 	const [query, setQuery] = useState("")
-	const filteredPeople =
+	const { data } = useUserCommunities()
+	const filteredCommunity =
 		query === ""
-			? people
-			: people.filter((person) =>
-					person.name.toLowerCase().replace(/\s+/g, "").includes(query.toLowerCase().replace(/\s+/g, ""))
+			? data
+			: data?.filter((item) =>
+					item.subReddit.title
+						.toLowerCase()
+						.replace(/\s+/g, "")
+						.includes(query.toLowerCase().replace(/\s+/g, ""))
 			  )
 	return (
-		<div className="mb-3 flex relative z-10">
-			<Combobox value={community} onChange={setCommunity} disabled={disabled}>
+		<div className="">
+			<Combobox value={community} onChange={setCommunity}>
 				{({ open }) => (
-					<div className="relative mt-1">
-						<div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-							{community?.name === CommunityOptions.Choose ? (
-								<div className=" absolute top-1/2 -translate-y-2/4 left-2 rounded-full w-[22px] h-[22px] border border-dashed border-[#878A8C]"></div>
-							) : community.name === CommunityOptions.Select ? (
-								<div className="absolute top-1/2 -translate-y-2/4 left-2 ">
-									<BsSearch className="w-[22px] h-[22px] text-[#878A8C]" />
-								</div>
-							) : (
-								<div className="absolute top-1/2 -translate-y-2/4 rounded-full left-2 w-[22px] h-[22px]">
-									<Image
-										width={22}
-										height={22}
-										className="w-full rounded-full"
-										src={community.img}
-										alt={community.name}
-									/>
-								</div>
-							)}
-							<Combobox.Input
-								className="w-full border-none py-2 pl-9 pr-10 text-sm leading-5 text-gray-900 focus:outline-none focus:ring-0"
-								displayValue={(person) => person.name}
-								onChange={(event) => {
-									setQuery(event.target.value)
-								}}
-								onFocus={(e) => {
-									if (e.relatedTarget?.id?.includes("headlessui-combobox-button")) {
-										return
-									}
-									!open && e.target.nextSibling.click()
-									!open && setCommunity({ name: CommunityOptions.Select, img: false })
-								}}
-								onBlur={(e) => {
-									if (e.relatedTarget?.id?.includes("headlessui-combobox-button")) {
-										return
-									}
-
-									open &&
-										community.name === CommunityOptions.Select &&
-										setCommunity({ name: CommunityOptions.Choose, img: false })
-								}}
-							/>
-							{!disabled && (
-								<Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-									<MdOutlineKeyboardArrowDown />
-								</Combobox.Button>
-							)}
+					<div className="relative z-30 mt-1 mb-2">
+						<div className="relative z-30 max-w-[300px] cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+							<div className="flex items-center ml-2">
+								{community === username ? (
+									<>
+										<Image
+											src={UserSvg}
+											className="w-[30px] h-[30px] bg-[#EDEFF1] rounded-full"
+											alt="user"
+											width={30}
+											height={30}
+										/>
+										<Combobox.Input
+											className="w-full border-none py-2 pl-3 pr-2 text-sm leading-5 text-gray-900 focus:outline-none focus:ring-0"
+											displayValue={(person) => `u/${person}`}
+											onChange={(event) => setQuery(event.target.value)}
+											onBlur={(event) => {
+												if (!event.target.value) setCommunity("")
+											}}
+										/>
+									</>
+								) : community?.subReddit ? (
+									<>
+										<Image
+											src={getFullImagePath(community?.subReddit.image, "communities")}
+											height={30}
+											width={30}
+											className="rounded-full object-cover"
+											alt={community?.subReddit.title}
+										/>
+										<Combobox.Input
+											className="w-full border-none py-2 pl-3 pr-2 text-sm leading-5 text-gray-900 focus:outline-none focus:ring-0"
+											displayValue={(person) => `r/${person.subReddit?.title}`}
+											onChange={(event) => setQuery(event.target.value)}
+											onBlur={(event) => {
+												if (!event.target.value) setCommunity("")
+											}}
+										/>
+									</>
+								) : (
+									<>
+										<div className="w-[22px] h-[22px] border-dashed border border-[#878A8C] rounded-full"></div>
+										<div className="py-2 pl-3 pr-2">Select a community</div>
+									</>
+								)}
+							</div>
+							<Combobox.Button className="absolute w-full inset-y-0 right-0  items-center pr-2 flex justify-end cursor-default">
+								<BsSearch className="h-5 w-5 text-gray-400 cursor-pointer" aria-hidden="true" />
+							</Combobox.Button>
 						</div>
 						<Transition
 							as={Fragment}
+							show={open}
 							leave="transition ease-in duration-100"
 							leaveFrom="opacity-100"
 							leaveTo="opacity-0"
 							afterLeave={() => setQuery("")}
 						>
-							<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-								{filteredPeople.length === 0 && query !== "" ? (
+							<Combobox.Options
+								static
+								className="absolute mt-1 max-h-60 max-w-[300px] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+							>
+								{filteredCommunity?.length === 0 && query !== "" ? (
 									<div className="relative cursor-default select-none py-2 px-4 text-gray-700">
 										Nothing found.
 									</div>
 								) : (
-									filteredPeople.map((person) => (
+									<div>
 										<Combobox.Option
-											key={person.name}
 											className={({ active }) =>
-												`relative cursor-pointer select-none py-2 pl-2 pr-4 ${
-													active && !person.name.startsWith("u")
-														? "bg-teal-600 text-white"
-														: "text-gray-900"
+												`relative cursor-default select-none py-2 pl-3 pr-4 p-3 border-b border-solid border-gray-400 ${
+													active ? "bg-teal-600 text-white" : "text-gray-900"
 												}`
 											}
-											value={person}
+											value={username}
 										>
-											{({ selected, active }) => (
-												<>
-													{person.name.startsWith("u") ? (
-														<div>
-															<div>Your profile</div>
-															<div className="flex mb-2">
-																<Image
-																	src={defaultSvg.src}
-																	alt="default"
-																	width={22}
-																	height={22}
-																	className=" fill-slate-300"
-																/>
-																<p className="font-bold ml-2">{person.name}</p>
-															</div>
-															<hr />
-														</div>
-													) : (
-														<span
-															className={`block truncate flex ${
-																selected ? "font-medium" : "font-normal"
-															}`}
-														>
-															{person.img !== false ? (
-																<div className="w-[22px] rounded-full h-[22px] mr-3">
-																	<Image
-																		width={22}
-																		height={22}
-																		className="w-full rounded-full"
-																		src={person.img}
-																		alt={person.name}
-																	/>
-																</div>
-															) : (
-																<div className="w-[22px] h-[22px] border border-dashed border-[#878A8C]"></div>
-															)}
-															{person.name}
-														</span>
-													)}
-													{selected ? (
-														<span
-															className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-																active ? "text-white" : "text-teal-600"
-															}`}
-														></span>
-													) : null}
-												</>
-											)}
+											<p className="tracking-wider">Your Profile</p>
+											<div className="mt-2 flex items-center">
+												<Image
+													src={UserSvg}
+													className="w-[33px] h-[33px] bg-[#EDEFF1] rounded"
+													alt="user"
+													width={33}
+													height={33}
+												/>
+												<div className="ml-2 font-bold">u/{username}</div>
+											</div>
 										</Combobox.Option>
-									))
+										<div className="p-3 tracking-wider">Your Communities</div>
+										{filteredCommunity?.map((community) => (
+											<ComboxOption key={community.id} community={community} />
+										))}
+									</div>
 								)}
 							</Combobox.Options>
 						</Transition>
@@ -175,4 +152,3 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity, disa
 		</div>
 	)
 }
-//<CheckIcon className="h-5 w-5" aria-hidden="true" />

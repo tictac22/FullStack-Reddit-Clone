@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post, Put, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/guards";
 import { CommunityService } from './community.service';
 import { CommunityDto, CommunityImageDto, CommunitySubscriptionDto } from './dto/community.dto';
@@ -19,9 +19,11 @@ export class CommunityController {
 
 	constructor(private communityService:CommunityService){}
 
-	@Get(":title")
-	getCommunity(@Param("title") title:string) {
-		return  this.communityService.getCommunity(title)
+	
+
+	@Get("user")
+	getUsersCommunities(@Req() req:IRequest) {
+		return this.communityService.getUserCommunity(req.user.id)
 	}
 
 	@Post("create")

@@ -1,29 +1,28 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BiCake } from "react-icons/bi"
 
 import { FormPost } from "@/components/FormPost"
 import { SubRedditError } from "@/components/subRedditError"
-import { SubscribeButton, UnSubscribeButton } from "@/components/subreddit/toggleSubscription"
 import { UploadImage } from "@/components/subreddit/uploadImage"
+import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
+import { useAuth } from "@/hooks/useAuth"
+import { useCommunity } from "@/hooks/useCommunity"
 import { API_URL } from "@/utils/axios"
 import { capitalizeFirstLetter, convertDate } from "@/utils/functions"
-import { useCommunity } from "hooks/useCommunity"
 
 import reddit from "@/public/communityexamples/reddit2.png"
-
-import { useAuth } from "../../hooks/useAuth"
 
 const SubReddit = () => {
 	const router = useRouter()
 	const { error, data } = useCommunity(router.query.subreddit as string)
-
 	const { user, isAuthenticated } = useAuth()
-	const [isSubscribed, setIsSubscribed] = useState(
-		user?.SubscribedSubReddits.some((item) => item.subRedditId === data?.id)
-	)
+	const [isSubscribed, setIsSubscribed] = useState(false)
+	useEffect(() => {
+		setIsSubscribed(!!user?.SubscribedSubReddits.some((item) => item.subRedditId === data?.id))
+	}, [data?.id, user?.SubscribedSubReddits])
 	if (error) return <SubRedditError />
 	return (
 		<>
@@ -37,7 +36,7 @@ const SubReddit = () => {
 									src={data?.image ? `${API_URL}/communities/${data?.image}` : reddit.src}
 									alt="image"
 									layout="fill"
-									className="rounded-full object-cover"
+									className="rounded-full object-cover "
 								/>
 							) : (
 								<div className="rounded-full w-full h-full bg-cyan-200 flex items-center justify-center">

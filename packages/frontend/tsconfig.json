@@ -15,7 +15,8 @@
 		"paths": {
 			"@/components/*": ["components/*"],
 			"@/public/*": ["public/*"],
-			"@/utils/*": ["utils/*"]
+			"@/utils/*": ["utils/*"],
+			"@/hooks/*": ["hooks/*"]
 		},
 		"isolatedModules": true
 	},

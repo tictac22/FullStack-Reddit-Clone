@@ -20,7 +20,8 @@
 					{
 						"namedComponents": "arrow-function"
 					}
-				]
+				],
+				"react/display-name": "off"
 			}
 		},
 		{

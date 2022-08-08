@@ -1,18 +1,55 @@
 import Image from "next/image"
+import Link from "next/link"
 
-import React from "react"
+import React, { useState } from "react"
 
-import communityPic from "@/public/communityExample.png"
+import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
+import { getFullImagePath } from "@/utils/functions"
 
-export const Community: React.FC = () => {
+interface Props {
+	title: string
+	image: string
+	isSubscribed: boolean
+	index: number
+	subRedditId: number
+	isAuthenticated: boolean
+}
+
+export const Community: React.FC<Props> = ({
+	title,
+	image,
+	isSubscribed: userSubscribed,
+	index,
+	subRedditId,
+	isAuthenticated
+}) => {
+	const [isSubscribed, setIsSubscribed] = useState(userSubscribed)
 	return (
-		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0] cursor-pointer last:border-b-0">
-			<p className="mr-5">1.</p>
-			<Image className="rounded-full" width={28} height={28} src={communityPic} alt="test" />
-			<div className="ml-2 flex-grow">r/gaming</div>
-			<button className="text-white bg-cyan-500 px-4 py-1 rounded-full transition-all hover:bg-cyan-600">
-				Join
-			</button>
+		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0]  last:border-b-0">
+			<p className="mr-5">{index}.</p>
+			{image ? (
+				<Image
+					className="rounded-full"
+					width={28}
+					height={28}
+					src={getFullImagePath(image, "communities")}
+					alt="test"
+				/>
+			) : (
+				<div className="rounded-full w-[28px] h-[28px] bg-cyan-400 flex items-center justify-center"> /r </div>
+			)}
+			<Link href={`/r/${title}`}>
+				<div className="ml-2 flex-grow cursor-pointer hover:underline">r/{title}</div>
+			</Link>
+			{isSubscribed ? (
+				<UnSubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
+			) : (
+				<SubscribeButton
+					subredditId={subRedditId}
+					setIsSubscribed={setIsSubscribed}
+					isAuthenticated={isAuthenticated}
+				/>
+			)}
 		</div>
 	)
 }

@@ -1,3 +1,5 @@
+import { API_URL } from "./axios"
+
 export const convertDate = (dateString: string) => {
 	const date = new Date(dateString)
 
@@ -16,4 +18,8 @@ export const convertDate = (dateString: string) => {
 export const capitalizeFirstLetter = (string: string) => {
 	if (!string) return ""
 	return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+export const getFullImagePath = (image: string, folder: string) => {
+	return `${API_URL}/${folder}/${image}`
 }

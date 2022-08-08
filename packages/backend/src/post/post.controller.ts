@@ -1,30 +1,45 @@
-import { Controller, Post, Req, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import "multer";
 import { PostService } from "./post.service";
 
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import multer = require("multer");
 
+
+import * as fs from "fs";
+import * as path from "path";
+import { v4 as uuidv4 } from 'uuid';
+
+import { JwtAuthGuard } from "../auth/guards";
+import { IRequest } from "../types";
+import { PostDto } from "./dto/post.dto";
+const folderPath = path.resolve(__dirname,"./uploads/posts")
 @Controller("post")
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class PostController {
 	
 	constructor(private postService:PostService){}
-
-
-	@Post("create")
-	@UseInterceptors(FilesInterceptor('files',10,{
+	
+	@Put("image")
+	@UseInterceptors(FileInterceptor('file',{
 		storage: multer.diskStorage({
 			filename: (req, file, cb) => {
-				cb(null, file.originalname);
+				const name = uuidv4() + "." + file.mimetype.split('/')[1];
+				cb(null, name);
 			},
 			destination: (req, file, cb) => {
-				cb(null, './uploads');
+				fs.mkdirSync(folderPath, { recursive: true })
+				cb(null,folderPath);
 			}
 		})
 	}))
-	async createPost (@Req()req,  @UploadedFiles() files: Express.Multer.File[]) {
-		console.log(req.body,files)
-		return await this.postService.createPost();
+	uploadImage (@UploadedFile() file: Express.Multer.File) {
+		return file
+	}
+
+
+	@Post("create")
+	createPost(@Body() body:PostDto,@Req() req:IRequest) {
+		return this.postService.createPost({...body,userId:req.user.id})
 	}
 }

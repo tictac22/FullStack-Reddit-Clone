@@ -2,7 +2,7 @@ import dynamic from "next/dynamic"
 import Image from "next/image"
 import Link from "next/link"
 
-import React, { useState } from "react"
+import React, { memo, useState } from "react"
 
 import homeBanner from "@/public/home-banner.png"
 import reddit from "@/public/reddit-home.png"
@@ -11,9 +11,8 @@ const DynamicCommunityPopup = dynamic(() =>
 	import("@/components/createCommunityPopup").then((mod) => mod.CommunityPopup)
 )
 
-export const HomeInfo: React.FC = () => {
+export const HomeInfo: React.FC = memo(() => {
 	const [isOpen, setIsOpen] = useState(false)
-
 	const handleModal = () => {
 		setIsOpen(!isOpen)
 	}
@@ -45,4 +44,4 @@ export const HomeInfo: React.FC = () => {
 			</div>
 		</div>
 	)
-}
+})
