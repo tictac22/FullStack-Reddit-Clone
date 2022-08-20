@@ -14,11 +14,11 @@ export const AuthState = React.createContext<State | null>(null)
 
 export const AuthContext = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null)
-	const [isAuthenticated, setIsAuthenticated] = useState(false)
+	const [isAuthenticated, setIsAuthenticated] = useState(null)
 	const logIn = useCallback(async () => {
 		try {
 			const response = await $api("auth/refresh")
-			sessionStorage.setItem("token", response.data.accessToken)
+			localStorage.setItem("token", response.data.accessToken)
 			setUser(response.data.user)
 			setIsAuthenticated(true)
 		} catch (error) {
@@ -30,6 +30,5 @@ export const AuthContext = ({ children }) => {
 	useEffect(() => {
 		logIn()
 	}, [logIn])
-
 	return <AuthState.Provider value={{ user, logIn, setUser, isAuthenticated }}>{children}</AuthState.Provider>
 }

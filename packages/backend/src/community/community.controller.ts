@@ -5,13 +5,12 @@ import { CommunityDto, CommunityImageDto, CommunitySubscriptionDto } from './dto
 
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IRequest } from "../types";
-import multer = require("multer");
 
-import { v4 as uuidv4 } from 'uuid';
 
-import * as fs from "fs";
-import * as path from "path";
-const folderPath = path.resolve(__dirname,"./uploads/communities")
+
+import { cloudinary } from "../utils/cloudinary";
+import { multerStorage } from "../utils/multer";
+
 
 @Controller("community")
 @UseGuards(JwtAuthGuard)
@@ -33,25 +32,13 @@ export class CommunityController {
 
 	@Put("image")
 	@UseInterceptors(FilesInterceptor('file',1,{
-		storage: multer.diskStorage({
-			filename: (req, file, cb) => {
-				fs.readdir(folderPath,(err,files) => {
-					const find = files.find(file => file.split(".")[0] === req.body.subRedditId)
-					if(find) fs.unlink(folderPath + "/" + find,() => {
-						//
-					})
-				})
-				const name = req.body.subRedditId +  "." + uuidv4() + "." + file.mimetype.split('/')[1];
-				cb(null, name);
-			},
-			destination: (req, file, cb) => {
-				fs.mkdirSync(folderPath, { recursive: true })
-				cb(null, folderPath);
-			}
-		})
+		storage:multerStorage
 	}))
-	updateCommunityImage(@UploadedFiles() files: Express.Multer.File, @Body() body:CommunityImageDto) {
-		return this.communityService.updateImage(body.subRedditId,files[0].filename)
+	async updateCommunityImage(@UploadedFiles() files: Express.Multer.File, @Body() body:CommunityImageDto) {
+		const {secure_url} = await cloudinary.upload(files[0].path,{
+			folder:"community"
+		})
+		return this.communityService.updateImage(body.subRedditId,secure_url)
 	}
 	
 	@Patch("subscribe")
@@ -63,4 +50,6 @@ export class CommunityController {
 	unsubscribe(@Req() req:IRequest, @Body() body:CommunitySubscriptionDto) {
 		return this.communityService.unsubscribe(body.subRedditId, req.user.id)
 	}
+
+	
 }

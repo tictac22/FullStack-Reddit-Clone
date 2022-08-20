@@ -7,7 +7,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import "../css/styles.css"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false
+		}
+	}
+})
 
 const noLayout = ["/account/register", "/account/login", "/account/success"]
 const CustomApp = ({ Component, pageProps, ...appProps }: AppProps) => {
@@ -23,7 +29,7 @@ const CustomApp = ({ Component, pageProps, ...appProps }: AppProps) => {
 			<AuthContext>
 				<QueryClientProvider client={queryClient}>
 					<Head>
-						<title>Welcome to frontend!</title>
+						<title>Reddit</title>
 					</Head>
 					<Header />
 					<main className="bg-[#dbe0e6] flex-auto">

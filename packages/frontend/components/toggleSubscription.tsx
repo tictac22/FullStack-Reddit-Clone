@@ -10,7 +10,8 @@ interface Props {
 }
 export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed }) => {
 	const { setUser } = useAuth()
-	const unsubscribe = async () => {
+	const unsubscribe = async (e) => {
+		e.preventDefault()
 		const { data } = await $api("community/unsubscribe", {
 			method: "PATCH",
 			data: {
@@ -29,8 +30,8 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 	}
 	return (
 		<button
-			className="btn-primary ml-4 self-start px-8 py-0 max-w-[96px] flex items-center justify-center"
-			onClick={unsubscribe}
+			className="btn-primary w-full self-start px-8 py-0 flex items-center justify-center"
+			onClick={(e) => unsubscribe(e)}
 		>
 			Joined
 		</button>
@@ -39,7 +40,8 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed, isAuthenticated }) => {
 	const router = useRouter()
 	const { setUser } = useAuth()
-	const subscribe = async () => {
+	const subscribe = async (e) => {
+		e.preventDefault()
 		if (!isAuthenticated) {
 			router.push("/account/login")
 			return
@@ -60,7 +62,7 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed,
 		setIsSubscribed(true)
 	}
 	return (
-		<button className="btn-secondary ml-4 self-start px-8 py-0" onClick={subscribe}>
+		<button className="btn-secondary w-full self-start px-8 py-0" onClick={(e) => subscribe(e)}>
 			Join
 		</button>
 	)

@@ -87,9 +87,21 @@ export class CommunityService {
 		return community
 	}
 	async subscribe(subRedditId:number,userId:number) {
+
+		const isSubscribed = await this.prismaService.subscribedSubReddits.findMany({
+			where: {
+				subRedditId,
+				AND: {
+					userId
+				}
+			}
+		})
+		if(isSubscribed.length > 0) {
+			return isSubscribed[0]
+		}
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id:subRedditId
+				id:subRedditId,
 			},
 			data: {
 				subscribers: {

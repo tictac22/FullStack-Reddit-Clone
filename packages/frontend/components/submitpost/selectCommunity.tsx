@@ -1,54 +1,39 @@
 import Image from "next/image"
 
-import React, { Fragment, useState } from "react"
+import React, { Fragment, memo, useState } from "react"
 import { BsSearch } from "react-icons/bs"
 
-import { useUserCommunities } from "@/hooks/useUserCommunities"
-import { getFullImagePath } from "@/utils/functions"
+import { useAuth } from "@/hooks/useAuth"
 import { Combobox, Transition } from "@headlessui/react"
 
 import UserSvg from "@/public/userImage.svg"
 
 import { ComboxOption } from "./selectOption"
+import { Community } from "./types"
 
 interface Props {
-	username: string
-	community:
-		| string
-		| {
-				subReddit: {
-					id: number
-					title: string
-				}
-		  }
-
-	setCommunity: React.Dispatch<
-		React.SetStateAction<
-			| string
-			| {
-					subReddit: {
-						id: number
-						title: string
-					}
-			  }
-		>
-	>
+	community: Community
+	setCommunity: React.Dispatch<React.SetStateAction<Community>>
+	disabled?: boolean
 }
-export const SelectComminity: React.FC<Props> = ({ community, setCommunity, username }) => {
+export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity, disabled }) => {
 	const [query, setQuery] = useState("")
-	const { data } = useUserCommunities()
-	const filteredCommunity =
-		query === ""
-			? data
-			: data?.filter((item) =>
+	const {
+		user: { SubscribedSubReddits = [], username }
+	} = useAuth()
+	const filteredCommunity = SubscribedSubReddits
+		? query === ""
+			? SubscribedSubReddits
+			: SubscribedSubReddits?.filter((item) =>
 					item.subReddit.title
 						.toLowerCase()
 						.replace(/\s+/g, "")
 						.includes(query.toLowerCase().replace(/\s+/g, ""))
 			  )
+		: []
 	return (
 		<div className="">
-			<Combobox value={community} onChange={setCommunity}>
+			<Combobox value={community} onChange={setCommunity} disabled={disabled}>
 				{({ open }) => (
 					<div className="relative z-30 mt-1 mb-2">
 						<div className="relative z-30 max-w-[300px] cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -74,7 +59,7 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity, user
 								) : community?.subReddit ? (
 									<>
 										<Image
-											src={getFullImagePath(community?.subReddit.image, "communities")}
+											src={community?.subReddit.image}
 											height={30}
 											width={30}
 											className="rounded-full object-cover"
@@ -88,6 +73,21 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity, user
 												if (!event.target.value) setCommunity("")
 											}}
 										/>
+									</>
+								) : disabled ? (
+									<>
+										{community.image ? (
+											<Image
+												src={community.image}
+												height={30}
+												width={30}
+												className="rounded-full object-cover"
+												alt={community.subRedditTitle}
+											/>
+										) : (
+											<div className="w-[22px] h-[22px] border-dashed border border-[#878A8C] rounded-full"></div>
+										)}
+										<div className="py-2 pl-3 pr-2">{community.subRedditTitle}</div>
 									</>
 								) : (
 									<>
@@ -140,7 +140,7 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity, user
 										</Combobox.Option>
 										<div className="p-3 tracking-wider">Your Communities</div>
 										{filteredCommunity?.map((community) => (
-											<ComboxOption key={community.id} community={community} />
+											<ComboxOption key={community.subRedditId} community={community} />
 										))}
 									</div>
 								)}
@@ -151,4 +151,4 @@ export const SelectComminity: React.FC<Props> = ({ community, setCommunity, user
 			</Combobox>
 		</div>
 	)
-}
+})

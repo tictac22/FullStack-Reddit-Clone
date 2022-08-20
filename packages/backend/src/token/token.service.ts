@@ -36,7 +36,16 @@ export class TokenService {
 				subRedditsOwner:true,
 				Vote:true,
 				Likes:true,
-				SubscribedSubReddits:true,
+				SubscribedSubReddits:{
+					include: {
+						subReddit:{
+							select: {
+								image:true,
+								title:true
+							}
+						},
+					}
+				},
 			}
 		})
 		if(tokenData) {

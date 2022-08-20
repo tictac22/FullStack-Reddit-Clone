@@ -4,17 +4,39 @@ interface Vote {
 	postId: number
 	value: true
 }
+export interface Comment {
+	id: number
+	text: string
+	createdAt: string
+	like: number
+	user: {
+		id: number
+		username: string
+	}
+}
+
+interface SubscribedSubReddits {
+	subRedditId: number
+	subReddit: {
+		image: string
+		title: string
+	}
+}
 export interface User {
 	id: number
 	username: string
 	email: string
-	SubscribedSubReddits: {
-		subRedditId: number
-	}[]
+	SubscribedSubReddits: SubscribedSubReddits[]
 	subRedditsOwner: {
 		ownerId: number
 	}[]
+	Likes: {
+		id: number
+		commentId: number
+		userId: number
+	}[]
 	Vote: Vote[]
+	createdAt: string
 }
 export interface Post {
 	createdAt: string
@@ -28,6 +50,8 @@ export interface Post {
 	_count: {
 		comments: number
 	}
+	subReddit: Community
+	comments: Comment[]
 }
 export interface Community {
 	id: number

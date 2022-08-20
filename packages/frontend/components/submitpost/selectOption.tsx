@@ -1,6 +1,5 @@
 import Image from "next/image"
 
-import { getFullImagePath } from "@/utils/functions"
 import { Combobox } from "@headlessui/react"
 
 export const ComboxOption = ({ community }) => {
@@ -18,7 +17,7 @@ export const ComboxOption = ({ community }) => {
 					<span className={`truncate flex items-center ${selected ? "font-medium" : "font-normal"}`}>
 						{community.subReddit.image && (
 							<Image
-								src={getFullImagePath(community.subReddit.image, "communities")}
+								src={community.subReddit.image}
 								height={30}
 								width={30}
 								alt={community.subReddit.title}

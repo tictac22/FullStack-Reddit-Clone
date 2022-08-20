@@ -53,6 +53,14 @@ export class AuthService {
 			where: {
 				email: dto.email
 			 },
+			 include: {
+				comments:true,
+				posts:true,
+				subRedditsOwner:true,
+				Vote:true,
+				Likes:true,
+				SubscribedSubReddits:true,
+			}
 		})
 		if(!user) throw new BadRequestException("email or password is incorrect")
 		

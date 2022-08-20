@@ -1,19 +1,15 @@
 import { Body, Controller, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
-import "multer";
 import { PostService } from "./post.service";
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import multer = require("multer");
-
-
-import * as fs from "fs";
-import * as path from "path";
-import { v4 as uuidv4 } from 'uuid';
 
 import { JwtAuthGuard } from "../auth/guards";
 import { IRequest } from "../types";
+import { cloudinary } from "../utils/cloudinary";
+import { multerStorage } from "../utils/multer";
 import { PostDto } from "./dto/post.dto";
-const folderPath = path.resolve(__dirname,"./uploads/posts")
+
+
 @Controller("post")
 @UseGuards(JwtAuthGuard)
 export class PostController {
@@ -22,21 +18,15 @@ export class PostController {
 	
 	@Put("image")
 	@UseInterceptors(FileInterceptor('file',{
-		storage: multer.diskStorage({
-			filename: (req, file, cb) => {
-				const name = uuidv4() + "." + file.mimetype.split('/')[1];
-				cb(null, name);
-			},
-			destination: (req, file, cb) => {
-				fs.mkdirSync(folderPath, { recursive: true })
-				cb(null,folderPath);
-			}
-		})
+		storage: multerStorage
 	}))
-	uploadImage (@UploadedFile() file: Express.Multer.File) {
-		return file
+	async uploadImage (@UploadedFile() file: Express.Multer.File) {
+		console.log(file)
+		const {secure_url} = await cloudinary.upload(file.path,{
+			folder:"post"
+		})
+		return secure_url
 	}
-
 
 	@Post("create")
 	createPost(@Body() body:PostDto,@Req() req:IRequest) {
@@ -52,4 +42,18 @@ export class PostController {
 			return this.postService.deleteToogleVote(body.postId,body.voteId)
 		}
 	}
+
+	@Post("comment")
+	comment(@Body() body: {postId:number,comment:string},@Req() req:IRequest) {
+		return this.postService.writeComment({...body,userId:req.user.id})
+	}
+	
+	@Patch("rate")
+	rate(@Body() body:{rateId?:number,commentId:number},@Req() req:IRequest) {
+		if(!body.rateId) {
+			return this.postService.rateComment({...body,userId:req.user.id})
+		} else {
+			return this.postService.deleteRateComment({...body,rateId:body.rateId,userId:req.user.id})
+		}
+	}	
 }

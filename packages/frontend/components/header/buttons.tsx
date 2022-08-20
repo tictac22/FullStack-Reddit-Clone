@@ -3,11 +3,11 @@ import Link from "next/link"
 import { useAuth } from "@/hooks/useAuth"
 
 export const Buttons = () => {
-	const { user } = useAuth()
+	const { isAuthenticated } = useAuth()
 
 	return (
 		<>
-			{!user?.isAuthenticated && (
+			{!isAuthenticated && (
 				<>
 					<Link href={"/account/login"}>
 						<button className="hidden lg:block  btn-primary">Log In</button>

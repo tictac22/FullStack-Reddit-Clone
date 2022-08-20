@@ -1,6 +1,6 @@
 import { $api } from "@/utils/axios"
 
-import { Community, UsersCommunities } from "./types"
+import { Community, Post } from "./types"
 
 export class QueryService {
 	static async getCommunity(title: string): Promise<Community> {
@@ -12,8 +12,8 @@ export class QueryService {
 		}
 		return response.data
 	}
-	static async getUserCommunity(): Promise<UsersCommunities[]> {
-		const response = await $api(`community/user`, {
+	static async getPopularCommunities(): Promise<Community[]> {
+		const response = await $api(`communityP/popular`, {
 			method: "GET"
 		})
 		if (!(response.status === 200)) {
@@ -21,8 +21,19 @@ export class QueryService {
 		}
 		return response.data
 	}
-	static async getPopularCommunities(): Promise<Community[]> {
-		const response = await $api(`communityP/popular`, {
+
+	static async getPost(postId: number): Promise<Post> {
+		const response = await $api(`postP?postId=${postId}`, {
+			method: "GET"
+		})
+		if (!(response.status === 200)) {
+			throw new Error("No Communities found")
+		}
+		return response.data
+	}
+
+	static async getAllPosts(): Promise<Post[]> {
+		const response = await $api(`postP/all`, {
 			method: "GET"
 		})
 		if (!(response.status === 200)) {

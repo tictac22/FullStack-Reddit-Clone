@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 import { useEffect, useState } from "react"
@@ -9,9 +10,8 @@ import { Post } from "@/components/post"
 import { SubRedditError } from "@/components/subRedditError"
 import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
 import { UploadImage } from "@/components/uploadImage"
+import { useCommunity } from "@/hooks/react-query"
 import { useAuth } from "@/hooks/useAuth"
-import { useCommunity } from "@/hooks/useCommunity"
-import { API_URL } from "@/utils/axios"
 import { capitalizeFirstLetter, convertDate } from "@/utils/functions"
 
 import reddit from "@/public/communityexamples/reddit2.png"
@@ -34,7 +34,7 @@ const SubReddit = () => {
 						<div className="border-4 border-solid border-white rounded-full relative w-[66px] h-[66px]">
 							{data?.image ? (
 								<Image
-									src={data?.image ? `${API_URL}/communities/${data?.image}` : reddit.src}
+									src={data?.image ? data?.image : reddit.src}
 									alt="image"
 									layout="fill"
 									className="rounded-full object-cover "
@@ -46,19 +46,25 @@ const SubReddit = () => {
 							)}
 						</div>
 						<div className="flex py-[10px] px-[16px] mt-3">
-							<div className="mr-2">
+							<div className="mr-2 flex-auto">
 								<p className="bold text-xl">{capitalizeFirstLetter(data?.title)}</p>
 								<p className="text-gray-400 text-[12px]">r/{data?.title}</p>
 							</div>
-							{isSubscribed ? (
-								<UnSubscribeButton subredditId={data?.id} setIsSubscribed={setIsSubscribed} />
-							) : (
-								<SubscribeButton
-									subredditId={data?.id}
-									setIsSubscribed={setIsSubscribed}
-									isAuthenticated={isAuthenticated}
-								/>
-							)}
+							<div>
+								{isSubscribed ? (
+									<div>
+										<UnSubscribeButton subredditId={data?.id} setIsSubscribed={setIsSubscribed} />
+									</div>
+								) : (
+									<div>
+										<SubscribeButton
+											subredditId={data?.id}
+											setIsSubscribed={setIsSubscribed}
+											isAuthenticated={isAuthenticated}
+										/>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -69,11 +75,15 @@ const SubReddit = () => {
 						<FormPost />
 						<div className="mt-2">
 							{data?.posts.map((post) => (
-								<Post
+								<Link
+									href={`${router.asPath}/comments/${post.id}`}
 									key={post.id}
-									{...post}
-									vote={user?.Vote.filter((item) => item.postId === post.id)[0]}
-								/>
+									className="cursor-pointer"
+								>
+									<a>
+										<Post {...post} />
+									</a>
+								</Link>
 							))}
 						</div>
 					</div>
@@ -91,7 +101,6 @@ const SubReddit = () => {
 									<BiCake className="w-4 h-4 mr-3" />
 									<p>Created {convertDate(data?.createdAt)}</p>
 								</div>
-								<button className="btn-secondary w-full my-3">Create Post</button>
 							</div>
 						</div>
 						{data?.owner.id === user?.id && (

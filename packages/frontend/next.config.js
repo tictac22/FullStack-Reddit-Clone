@@ -13,7 +13,15 @@ const nextConfig = {
 		outputFileTracingRoot: path.join(__dirname, "../../")
 	},
 	images: {
-		domains: ["play-lh.googleusercontent.com", "localhost"]
+		domains: ["play-lh.googleusercontent.com", "localhost", "res.cloudinary.com"]
+	},
+	async rewrites() {
+		return [
+			{
+				source: "/user/:id/comments/:commentId",
+				destination: "/r/:id/comments/:commentId"
+			}
+		]
 	}
 }
 

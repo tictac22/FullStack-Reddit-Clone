@@ -10,7 +10,7 @@ import { $api } from "@/utils/axios"
 import { Menu, Switch, Transition } from "@headlessui/react"
 
 export const UserProfile: React.FC = () => {
-	const { user, logIn } = useAuth()
+	const { isAuthenticated, logIn } = useAuth()
 	const logout = async () => {
 		//window.sessionStorage.removeItem("token")
 		await $api("auth/logout", {
@@ -71,7 +71,7 @@ export const UserProfile: React.FC = () => {
 											active ? "bg-slate-400 text-white" : "text-gray-900"
 										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
 									>
-										{user.isAuthenticated ? (
+										{isAuthenticated ? (
 											<div className="flex items-center flex-1" onClick={logout}>
 												<FiLogOut />
 												<p className="ml-3">Logout</p>
