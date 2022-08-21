@@ -3,11 +3,11 @@ import { useRouter } from "next/router"
 
 import { useEffect } from "react"
 
-import { useAuth } from "@/hooks/useAuth"
+import { useZustandStore } from "@/utils/zustand"
 
 export const WithAuth = (Component: NextPage) => {
 	const AuthenticatedComponent = () => {
-		const { isAuthenticated } = useAuth()
+		const isAuthenticated = useZustandStore((state) => state.isAuthenticated)
 		const router = useRouter()
 
 		useEffect(() => {

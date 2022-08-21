@@ -13,7 +13,7 @@ import { HomeInfo } from "./homeInfo"
 export const Aside: React.FC = () => {
 	const { data, isLoading } = usePopularCommunities()
 	return (
-		<aside className="  ">
+		<aside className="hidden lg:block">
 			<div className="h-[80px] relative flex items-end before:content before:w-full before:h-full before:absolute before:z-[3] before:bg-[#00000042] before:top-0 before:left-0 before:rounded-t">
 				<Image
 					className="rounded-t"

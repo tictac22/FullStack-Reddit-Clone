@@ -1,10 +1,9 @@
 import Link from "next/link"
 
-import { useAuth } from "@/hooks/useAuth"
+import { useZustandStore } from "@/utils/zustand"
 
 export const Buttons = () => {
-	const { isAuthenticated } = useAuth()
-
+	const isAuthenticated = useZustandStore((state) => state.isAuthenticated)
 	return (
 		<>
 			{!isAuthenticated && (

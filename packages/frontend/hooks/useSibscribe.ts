@@ -1,46 +1,48 @@
 import { useEffect, useState } from "react"
 
-import { User } from "@/utils/types"
+import { Like, SubscribedSubReddits, Vote } from "@/utils/types"
 
 export const useSibscribeSubReddit = (
-	user: User,
+	SubscribedSubReddits: SubscribedSubReddits[],
 	subRedditId: number
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
 	const [isSubscribed, setIsSubscribed] = useState(false)
 
 	useEffect(() => {
-		setIsSubscribed(!!user?.SubscribedSubReddits.some((item) => item.subRedditId === subRedditId))
-	}, [user, subRedditId])
+		setIsSubscribed(
+			!!(SubscribedSubReddits && SubscribedSubReddits?.some((item) => item.subRedditId === subRedditId))
+		)
+	}, [SubscribedSubReddits, subRedditId])
 
 	return [isSubscribed, setIsSubscribed]
 }
 
 export const useLikeComment = (
-	user: User,
+	Likes: Like[],
 	commentId: number
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>, { id: number }] => {
 	const [isSubscribed, setIsSubscribed] = useState(false)
 	const [likeData, setLikeData] = useState({ id: 0 })
 	useEffect(() => {
-		const like = user?.Likes.filter((item) => item.commentId === commentId)[0]
+		const like = Likes?.filter((item) => item.commentId === commentId)[0]
 		setIsSubscribed(!!like)
 		setLikeData(like)
-	}, [user, commentId])
+	}, [Likes, commentId])
 
 	return [isSubscribed, setIsSubscribed, likeData]
 }
 
 export const useVote = (
-	user: User,
+	Vote: Vote[],
 	postId: number
 ): [boolean | null, React.Dispatch<React.SetStateAction<boolean>>, { id: number }] => {
 	const [vote, setVote] = useState<boolean | null>(null)
 	const [voteData, setVoteData] = useState({ id: 0 })
 	useEffect(() => {
-		const vote = user?.Vote.filter((item) => item.postId === postId)[0]
+		const vote = Vote?.filter((item) => item.postId === postId)[0]
 		setVote(vote?.value ?? null)
 		setVoteData(vote)
-	}, [user, postId, voteData])
+	}, [Vote, postId, voteData])
 
 	return [vote, setVote, voteData]
 }

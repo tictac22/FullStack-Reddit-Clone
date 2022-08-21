@@ -4,17 +4,25 @@ import Link from "next/link"
 import { useRef, useState } from "react"
 import { AiFillLike } from "react-icons/ai"
 
-import { useAuth } from "@/hooks/useAuth"
 import { useLikeComment } from "@/hooks/useSibscribe"
 import { $api } from "@/utils/axios"
 import { timeAgo } from "@/utils/functions"
 import { Comment as CommentT } from "@/utils/types"
+import { useZustandStore } from "@/utils/zustand"
+import shallow from "zustand/shallow"
 
 import UserSvg from "@/public/userImage.svg"
 
 export const Comment: React.FC<CommentT> = ({ user, text, createdAt, like, id }) => {
-	const { user: userCtx, isAuthenticated, setUser } = useAuth()
-	const [isSubscribed, setIsSubscribed, likeData] = useLikeComment(userCtx, id)
+	const { Likes, isAuthenticated, setLike } = useZustandStore(
+		(state) => ({
+			Likes: state.user.Likes,
+			isAuthenticated: state.isAuthenticated,
+			setLike: state.setLike
+		}),
+		shallow
+	)
+	const [isSubscribed, setIsSubscribed, likeData] = useLikeComment(Likes, id)
 	const [isLiking, setIsLiking] = useState(false)
 
 	const handleSubscribe = async () => {
@@ -30,16 +38,11 @@ export const Comment: React.FC<CommentT> = ({ user, text, createdAt, like, id })
 			}
 		})
 		if (likeData?.id) {
-			const newLikes = userCtx.Likes.filter((like) => like.id !== likeData.id)
-			setUser((prev) => ({
-				...prev,
-				Likes: newLikes
-			}))
+			const newLikes = Likes.filter((like) => like.id !== likeData.id)
+			setLike(newLikes)
 		} else {
-			setUser((prev) => ({
-				...prev,
-				Likes: [...prev.Likes, ...(response.data.likes || [])]
-			}))
+			const newLikes = [...Likes, ...(response.data.likes || [])]
+			setLike(newLikes)
 		}
 
 		const content = Number(ref.current.innerHTML)

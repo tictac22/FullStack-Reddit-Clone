@@ -54,12 +54,45 @@ export class AuthService {
 				email: dto.email
 			 },
 			 include: {
-				comments:true,
-				posts:true,
-				subRedditsOwner:true,
-				Vote:true,
-				Likes:true,
-				SubscribedSubReddits:true,
+				comments:{
+					select: {
+						id: true,
+						postId: true,
+					}
+				},
+				posts:{
+					select: {
+						id: true,
+						userId: true,
+
+					}
+				},
+				subRedditsOwner:{
+					select: {
+						id: true,
+						
+					}
+				},
+				Vote:{
+					select: {
+						id: true,
+						postId: true,
+						value: true,
+					}
+				},
+				Likes: {
+					select: {
+						id: true,
+						commentId: true,
+						
+					}
+				},
+				SubscribedSubReddits:{
+					select: {
+						id: true,
+						subRedditId: true,
+					}
+				},
 			}
 		})
 		if(!user) throw new BadRequestException("email or password is incorrect")

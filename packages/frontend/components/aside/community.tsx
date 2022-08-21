@@ -4,8 +4,9 @@ import Link from "next/link"
 import React from "react"
 
 import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
-import { useAuth } from "@/hooks/useAuth"
 import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
+import { useZustandStore } from "@/utils/zustand"
+import shallow from "zustand/shallow"
 
 interface Props {
 	title: string
@@ -15,8 +16,14 @@ interface Props {
 }
 
 export const Community: React.FC<Props> = ({ title, image, index, subRedditId }) => {
-	const { user, isAuthenticated } = useAuth()
-	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(user, subRedditId)
+	const { SubscribedSubReddits, isAuthenticated } = useZustandStore(
+		(state) => ({
+			SubscribedSubReddits: state.user?.SubscribedSubReddits,
+			isAuthenticated: state.isAuthenticated
+		}),
+		shallow
+	)
+	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, subRedditId)
 	return (
 		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0]  last:border-b-0">
 			<p className="mr-5">{index}.</p>

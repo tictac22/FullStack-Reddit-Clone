@@ -11,17 +11,24 @@ import { Post } from "@/components/post"
 import { PostLoader } from "@/components/skeletons/post"
 import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
 import { usePost } from "@/hooks/react-query/"
-import { useAuth } from "@/hooks/useAuth"
 import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
 import { convertDate } from "@/utils/functions"
+import { useZustandStore } from "@/utils/zustand"
+import shallow from "zustand/shallow"
 
 import UserSvg from "@/public/userImage.svg"
 
 const PostPage = () => {
 	const router = useRouter()
 	const { data, isLoading } = usePost(Number(router.query.postId))
-	const { user, isAuthenticated } = useAuth()
-	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(user, data?.subRedditId)
+	const { SubscribedSubReddits, isAuthenticated } = useZustandStore(
+		(state) => ({
+			SubscribedSubReddits: state.user?.SubscribedSubReddits,
+			isAuthenticated: state.isAuthenticated
+		}),
+		shallow
+	)
+	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, data?.subRedditId)
 	return (
 		<div className="container">
 			<div className="flex">

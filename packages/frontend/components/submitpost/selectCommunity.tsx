@@ -3,7 +3,7 @@ import Image from "next/image"
 import React, { Fragment, memo, useState } from "react"
 import { BsSearch } from "react-icons/bs"
 
-import { useAuth } from "@/hooks/useAuth"
+import { useZustandStore } from "@/utils/zustand"
 import { Combobox, Transition } from "@headlessui/react"
 
 import UserSvg from "@/public/userImage.svg"
@@ -18,19 +18,18 @@ interface Props {
 }
 export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity, disabled }) => {
 	const [query, setQuery] = useState("")
-	const {
-		user: { SubscribedSubReddits = [], username }
-	} = useAuth()
-	const filteredCommunity = SubscribedSubReddits
-		? query === ""
-			? SubscribedSubReddits
-			: SubscribedSubReddits?.filter((item) =>
-					item.subReddit.title
-						.toLowerCase()
-						.replace(/\s+/g, "")
-						.includes(query.toLowerCase().replace(/\s+/g, ""))
-			  )
-		: []
+	const { SubscribedSubReddits = [], username } = useZustandStore((state) => state.user)
+	const filteredCommunity =
+		SubscribedSubReddits?.length > 0
+			? query === ""
+				? SubscribedSubReddits
+				: SubscribedSubReddits?.filter((item) =>
+						item.subReddit.title
+							.toLowerCase()
+							.replace(/\s+/g, "")
+							.includes(query.toLowerCase().replace(/\s+/g, ""))
+				  )
+			: []
 	return (
 		<div className="">
 			<Combobox value={community} onChange={setCommunity} disabled={disabled}>

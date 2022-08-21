@@ -32,13 +32,19 @@ export class QueryService {
 		return response.data
 	}
 
-	static async getAllPosts(): Promise<Post[]> {
-		const response = await $api(`postP/all`, {
+	static async getAllPosts(
+		isAuthenicated: boolean
+	): Promise<{ data: Post[]; postType: string } | { data: Community[]; postType: string }> {
+		const requestPath = isAuthenicated ? "post/all" : "postP/all/"
+		const response = await $api(requestPath, {
 			method: "GET"
 		})
 		if (!(response.status === 200)) {
 			throw new Error("No Communities found")
 		}
-		return response.data
+		return {
+			data: response.data,
+			postType: isAuthenicated ? "USER" : "ALL"
+		}
 	}
 }

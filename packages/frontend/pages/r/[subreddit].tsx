@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-import { useEffect, useState } from "react"
 import { BiCake } from "react-icons/bi"
 
 import { FormPost } from "@/components/FormPost"
@@ -11,19 +10,22 @@ import { SubRedditError } from "@/components/subRedditError"
 import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
 import { UploadImage } from "@/components/uploadImage"
 import { useCommunity } from "@/hooks/react-query"
-import { useAuth } from "@/hooks/useAuth"
+import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
 import { capitalizeFirstLetter, convertDate } from "@/utils/functions"
+import { useZustandStore } from "@/utils/zustand"
 
 import reddit from "@/public/communityexamples/reddit2.png"
 
 const SubReddit = () => {
 	const router = useRouter()
 	const { error, data } = useCommunity(router.query.subreddit as string)
-	const { user, isAuthenticated } = useAuth()
-	const [isSubscribed, setIsSubscribed] = useState(false)
-	useEffect(() => {
-		setIsSubscribed(!!user?.SubscribedSubReddits.some((item) => item.subRedditId === data?.id))
-	}, [data?.id, user?.SubscribedSubReddits])
+	const { SubscribedSubReddits, isAuthenticated, userId } = useZustandStore((state) => ({
+		SubscribedSubReddits: state.user?.SubscribedSubReddits,
+		isAuthenticated: state.isAuthenticated,
+		userId: state.user?.id
+	}))
+	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, data?.id)
+
 	if (error) return <SubRedditError />
 	return (
 		<>
@@ -103,7 +105,7 @@ const SubReddit = () => {
 								</div>
 							</div>
 						</div>
-						{data?.owner.id === user?.id && (
+						{data?.owner.id === userId && (
 							<div className="w-80 bg-white rounded-t hidden lg:block mt-3">
 								<div className="bg-cyan-600 rounded-t p-3">
 									<h1 className="text-white">Moderators</h1>

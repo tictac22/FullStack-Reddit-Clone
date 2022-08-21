@@ -3,21 +3,34 @@ import { useRouter } from "next/router"
 import React, { useRef, useState } from "react"
 import { TbArrowBigDown, TbArrowBigTop } from "react-icons/tb"
 
-import { useAuth } from "@/hooks/useAuth"
 import { useVote } from "@/hooks/useSibscribe"
 import { $api } from "@/utils/axios"
 import type { Post as PostT } from "@/utils/types"
+import { useZustandStore } from "@/utils/zustand"
+import shallow from "zustand/shallow"
 
 import { PostContent } from "./postContent"
 
 export const Post: React.FC<PostT> = (props) => {
-	const { user, setUser } = useAuth()
-	const [vote, setVote, voteData] = useVote(user, props.id)
+	const {
+		Vote,
+		setVote: setVoteState,
+		isAuthenticated
+	} = useZustandStore(
+		(state) => ({
+			Vote: state.user?.Vote,
+			setVote: state.setVote,
+			isAuthenticated: state.isAuthenticated
+		}),
+		shallow
+	)
+
+	const [vote, setVote, voteData] = useVote(Vote, props.id)
 	const [isVote, setIsVote] = useState(false)
 	const router = useRouter()
-
 	const toggleVote = (voteToogle: boolean) => async (e) => {
 		e.preventDefault()
+		if (!isAuthenticated) return router.replace("/account/login")
 		if (isVote) return
 		setIsVote(true)
 
@@ -38,10 +51,8 @@ export const Post: React.FC<PostT> = (props) => {
 			}
 		})
 
-		setUser((prev) => ({
-			...prev,
-			Vote: [...response.data.user.Vote]
-		}))
+		setVoteState(response.data.user.Vote)
+
 		setIsVote(false)
 	}
 	const countRef = useRef<HTMLDivElement>()

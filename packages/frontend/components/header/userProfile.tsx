@@ -5,18 +5,17 @@ import { BsBoxArrowRight, BsPersonCircle } from "react-icons/bs"
 import { FiLogOut } from "react-icons/fi"
 import { HiOutlineChevronDown } from "react-icons/hi"
 
-import { useAuth } from "@/hooks/useAuth"
 import { $api } from "@/utils/axios"
+import { useZustandStore } from "@/utils/zustand"
 import { Menu, Switch, Transition } from "@headlessui/react"
 
 export const UserProfile: React.FC = () => {
-	const { isAuthenticated, logIn } = useAuth()
+	const isAuthenticated = useZustandStore((state) => state.isAuthenticated)
 	const logout = async () => {
-		//window.sessionStorage.removeItem("token")
 		await $api("auth/logout", {
 			method: "GET"
 		})
-		await logIn()
+		location.reload()
 	}
 	return (
 		<div className="text-right lg:ml-10 ">

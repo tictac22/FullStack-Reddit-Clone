@@ -1,15 +1,17 @@
 import { useRouter } from "next/router"
 
-import { useAuth } from "@/hooks/useAuth"
 import { $api } from "@/utils/axios"
+import { useZustandStore } from "@/utils/zustand"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface Props {
 	subredditId: number
 	setIsSubscribed: React.Dispatch<React.SetStateAction<boolean>>
 	isAuthenticated?: boolean
 }
+
 export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed }) => {
-	const { setUser } = useAuth()
+	const { user, setUser } = useZustandStore((state) => ({ user: state.user, setUser: state.setUser }))
 	const unsubscribe = async (e) => {
 		e.preventDefault()
 		const { data } = await $api("community/unsubscribe", {
@@ -20,13 +22,12 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 		})
 		setIsSubscribed(false)
 
-		setUser((prev) => {
-			const newSubscribedArray = prev.SubscribedSubReddits.filter((sub) => sub.subRedditId !== data.community.id)
-			return {
-				...prev,
-				SubscribedSubReddits: newSubscribedArray
-			}
-		})
+		const newSubscribedArray = user.SubscribedSubReddits.filter((sub) => sub.subRedditId !== data.community.id)
+		const newUser = {
+			...user,
+			SubscribedSubReddits: newSubscribedArray
+		}
+		setUser(newUser)
 	}
 	return (
 		<button
@@ -38,8 +39,9 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 	)
 }
 export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed, isAuthenticated }) => {
+	const queryClient = useQueryClient()
 	const router = useRouter()
-	const { setUser } = useAuth()
+	const { user, setUser } = useZustandStore((state) => ({ setUser: state.setUser, user: state.user }))
 	const subscribe = async (e) => {
 		e.preventDefault()
 		if (!isAuthenticated) {
@@ -52,14 +54,14 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed,
 				subRedditId: subredditId
 			}
 		})
-		setUser((prev) => {
-			return {
-				...prev,
-				SubscribedSubReddits: [...prev.SubscribedSubReddits, response.data.subscribedUsers]
-			}
-		})
 
+		const newUser = {
+			...user,
+			SubscribedSubReddits: [...user.SubscribedSubReddits, response.data.subscribedUsers]
+		}
+		setUser(newUser)
 		setIsSubscribed(true)
+		queryClient.invalidateQueries(["allPosts"])
 	}
 	return (
 		<button className="btn-secondary w-full self-start px-8 py-0" onClick={(e) => subscribe(e)}>

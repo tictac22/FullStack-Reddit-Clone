@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PostService } from "./post.service";
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -16,12 +16,16 @@ export class PostController {
 	
 	constructor(private postService:PostService){}
 	
+	@Get("all")
+	getAllPosts(@Req() request:IRequest) {
+		return this.postService.getAllUserPosts(request.user.id)
+	}
+
 	@Put("image")
 	@UseInterceptors(FileInterceptor('file',{
 		storage: multerStorage
 	}))
 	async uploadImage (@UploadedFile() file: Express.Multer.File) {
-		console.log(file)
 		const {secure_url} = await cloudinary.upload(file.path,{
 			folder:"post"
 		})

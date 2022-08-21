@@ -72,6 +72,43 @@ export class PostService {
 			},
 		})
 	}
+	async getAllUserPosts(userId:number) {
+		return this.prismaService.subReddit.findMany({
+			where: {
+				subscribedUsers: {
+					some: {
+						userId
+					}
+				},
+				AND: {
+					posts: {
+						some: {}
+					}
+				}
+			},
+			
+			include: {
+				
+				posts: {
+					orderBy: {
+						createdAt: "desc"
+					},
+					include: {
+						user: {
+							select: {
+								username:true,
+							}
+						},
+						_count: {
+							select: {
+								comments:true,
+							}
+						}
+					}
+				},
+			}
+		})
+	}
 	async createPost({title,body,type,userId,subRedditId}:{title:string,body:string,type:PostType,userId:number,subRedditId?:number}) {
 		if(type === PostType.USER) {
 			return await this.prismaService.post.create({

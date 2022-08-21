@@ -1,4 +1,4 @@
-interface Vote {
+export interface Vote {
 	id: number
 	userId: number
 	postId: number
@@ -15,7 +15,12 @@ export interface Comment {
 	}
 }
 
-interface SubscribedSubReddits {
+export interface Like {
+	id: number
+	commentId: number
+	userId: number
+}
+export interface SubscribedSubReddits {
 	subRedditId: number
 	subReddit: {
 		image: string
@@ -30,11 +35,7 @@ export interface User {
 	subRedditsOwner: {
 		ownerId: number
 	}[]
-	Likes: {
-		id: number
-		commentId: number
-		userId: number
-	}[]
+	Likes: Like[]
 	Vote: Vote[]
 	createdAt: string
 }
