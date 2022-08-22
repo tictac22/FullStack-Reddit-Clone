@@ -8,7 +8,7 @@ import { BiCake } from "react-icons/bi"
 import { Rules } from "@/components/submitpost/rules"
 import { WithAuth } from "@/components/withAuth"
 import { useCommunity } from "@/hooks/react-query"
-import { convertDate, getFullImagePath } from "@/utils/functions"
+import { convertDate } from "@/utils/functions"
 
 const DynamicPostForm = dynamic(() => import("@/components/submitpost/postForm").then((mod) => mod.PostForm), {
 	ssr: false
@@ -36,7 +36,7 @@ const SubReddit = () => {
 								<div className="mt-2 flex items-center">
 									{data.image ? (
 										<Image
-											src={getFullImagePath(data.image, "communities")}
+											src={data.image}
 											alt="test"
 											height={54}
 											width={54}

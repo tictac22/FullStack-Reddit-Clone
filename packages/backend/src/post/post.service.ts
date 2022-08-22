@@ -42,13 +42,18 @@ export class PostService {
 			}
 		})
 	}
-	async getAllPosts() {
+	async getAllPosts(pageParam) {
+		if(!pageParam && pageParam !== 0) return []
+		const skip = pageParam * 20
+
 		return this.prismaService.post.findMany({
 			where: {
 				NOT: {
 					subRedditId: null
 				}
 			},
+			skip,
+			take:20,
 			orderBy: {
 				createdAt: "desc"
 			},
@@ -69,8 +74,9 @@ export class PostService {
 			}
 		})
 	}
-	async getAllUserPosts(userId: number) {
-
+	async getAllUserPosts(userId: number,pageParam:number) {
+		if(!pageParam && pageParam !== 0) return []
+		const skip = pageParam * 20
 		return this.prismaService.post.findMany({
 			where: {
 				NOT: {
@@ -84,6 +90,8 @@ export class PostService {
 					}
 				},
 			},
+			skip,
+			take:20,
 			include: {
 				_count: {
 					select: {
@@ -102,40 +110,7 @@ export class PostService {
 				createdAt: "desc"
 			}
 		})
-		return this.prismaService.subReddit.findMany({
-			where: {
-				subscribedUsers: {
-					some: {
-						userId
-					}
-				},
-				AND: {
-					posts: {
-						some: {}
-					}
-				}
-			},
-
-			include: {
-				posts: {
-					orderBy: {
-						createdAt: "desc"
-					},
-					include: {
-						user: {
-							select: {
-								username: true
-							}
-						},
-						_count: {
-							select: {
-								comments: true
-							}
-						}
-					}
-				}
-			}
-		})
+		
 	}
 	async createPost({
 		title,

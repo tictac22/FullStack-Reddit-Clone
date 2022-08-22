@@ -1,5 +1,5 @@
-import { PostService } from "./post.service"
 import { Controller, Get, Query } from "@nestjs/common"
+import { PostService } from "./post.service"
 
 @Controller("postP")
 export class PostPController {
@@ -11,7 +11,7 @@ export class PostPController {
 	}
 
 	@Get("all")
-	getAllPosts() {
-		return this.postService.getAllPosts()
+	getAllPosts( @Query("page") pageParam:number) {
+		return this.postService.getAllPosts(pageParam)
 	}
 }

@@ -1,15 +1,13 @@
-import Link from "next/link"
-
 import { FormPost } from "@/components/FormPost"
 import { Aside } from "@/components/aside"
-import { Post } from "@/components/post"
+import { InfiniteQueryWrapper } from "@/components/infiniteQueryWrapper"
 import { PostLoader } from "@/components/skeletons/post"
 import { UseGetAllPost } from "@/hooks/react-query"
 import { useZustandStore } from "@/utils/zustand"
 
 const Home = () => {
 	const isAuthenticated = useZustandStore((state) => state.isAuthenticated)
-	const { data, isLoading } = UseGetAllPost(isAuthenticated)
+	const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = UseGetAllPost(isAuthenticated)
 	return (
 		<div className="container">
 			<div className="flex">
@@ -19,18 +17,13 @@ const Home = () => {
 						<FormPost />
 						{isLoading ? (
 							[...Array(5)].map((item, index) => <PostLoader key={index} />)
-						) : data.length > 0 ? (
-							data.map((post) => (
-								<Link
-									href={`/r/${post.subReddit.title}/comments/${post.id}`}
-									key={post.id}
-									className="cursor-pointer"
-								>
-									<a>
-										<Post {...post} />
-									</a>
-								</Link>
-							))
+						) : data.pages.length > 0 ? (
+							<InfiniteQueryWrapper
+								data={data}
+								fetchNextPage={fetchNextPage}
+								isFetchingNextPage={isFetchingNextPage}
+								hasNextPage={hasNextPage}
+							/>
 						) : (
 							<div className="max-w-[640px] lg:w-[640px] w-full mt-5">
 								<p className="bg-white p-3 text-center rounded-md">

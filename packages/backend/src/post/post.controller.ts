@@ -1,11 +1,11 @@
+import { Body, Controller, Get, Patch, Post, Put, Query, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common"
+import { FileInterceptor } from "@nestjs/platform-express"
 import { JwtAuthGuard } from "../auth/guards"
 import { IRequest } from "../types"
 import { cloudinary } from "../utils/cloudinary"
 import { multerStorage } from "../utils/multer"
 import { PostDto } from "./dto/post.dto"
 import { PostService } from "./post.service"
-import { Body, Controller, Get, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common"
-import { FileInterceptor } from "@nestjs/platform-express"
 
 @Controller("post")
 @UseGuards(JwtAuthGuard)
@@ -13,8 +13,9 @@ export class PostController {
 	constructor(private postService: PostService) {}
 
 	@Get("all")
-	getAllPosts(@Req() request: IRequest) {
-		return this.postService.getAllUserPosts(request.user.id)
+	getAllPosts(@Req() request: IRequest, @Query("page") pageParam:number) {
+		
+		return this.postService.getAllUserPosts(request.user.id,pageParam)
 	}
 
 	@Put("image")

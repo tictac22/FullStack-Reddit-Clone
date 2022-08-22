@@ -1,19 +1,27 @@
 import { QueryService } from "@/utils/queryService"
-import { useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 
 export const UseGetAllPost = (isAuthenicated: boolean | null) => {
 	const convertAuthenticated = isAuthenicated === null ? false : true
 
-	const { data, error, isLoading } = useQuery(
+	const { data, error, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery(
 		["allPosts", isAuthenicated],
-		() => QueryService.getAllPosts(isAuthenicated),
+		async ({ pageParam = 0 }) => {
+			return QueryService.getAllPosts(isAuthenicated, pageParam)
+		},
 		{
-			enabled: convertAuthenticated
+			enabled: convertAuthenticated,
+			getNextPageParam: (lastPage) => {
+				return lastPage.isNextPage && lastPage.nextPage
+			}
 		}
 	)
 	return {
 		data,
 		error,
-		isLoading
+		isLoading,
+		isFetchingNextPage,
+		fetchNextPage,
+		hasNextPage
 	}
 }
