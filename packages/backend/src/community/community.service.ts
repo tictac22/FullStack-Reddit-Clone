@@ -1,21 +1,17 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-
-
+import { PrismaService } from "../prisma/prisma.service"
+import { BadRequestException, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class CommunityService {
+	constructor(private prismaService: PrismaService) {}
 
-	constructor(private prismaService:PrismaService){}
-
-	async getCommunity(title:string) {
+	async getCommunity(title: string) {
 		try {
-			
 			const community = await this.prismaService.subReddit.findFirstOrThrow({
 				where: {
 					title: {
-						equals:title,
-						mode:"insensitive"
+						equals: title,
+						mode: "insensitive"
 					}
 				},
 				include: {
@@ -23,20 +19,19 @@ export class CommunityService {
 					subscribedUsers: true,
 					posts: {
 						include: {
-							user:true,
+							user: true,
 							_count: {
 								select: {
-									comments: true,
+									comments: true
 								}
 							}
 						}
-					},
-				},
+					}
+				}
 			})
 			return community
 		} catch (e) {
 			throw new BadRequestException("Community not found")
-			
 		}
 	}
 	async getPopularCommunities() {
@@ -44,41 +39,41 @@ export class CommunityService {
 			orderBy: {
 				subscribers: "desc"
 			},
-			take:5
+			take: 5
 		})
 	}
-	async getUserCommunity(userId:number) {
-			return await this.prismaService.subscribedSubReddits.findMany({
-				where: {
-					userId,
-				},
-				include: {
-					subReddit: true,
-				}
-			})
+	async getUserCommunity(userId: number) {
+		return await this.prismaService.subscribedSubReddits.findMany({
+			where: {
+				userId
+			},
+			include: {
+				subReddit: true
+			}
+		})
 	}
-	async createCommunity(title:string,userId:number) {
+	async createCommunity(title: string, userId: number) {
 		try {
 			const communityData = await this.prismaService.subReddit.create({
 				data: {
 					title: title,
 					owner: {
-							connect: {
-								id:userId
-							}
-					},
+						connect: {
+							id: userId
+						}
+					}
 				}
 			})
-			const subscription = await this.subscribe(communityData.id,userId)
-			return {communityData,subscription}
+			const subscription = await this.subscribe(communityData.id, userId)
+			return { communityData, subscription }
 		} catch (error) {
 			throw new BadRequestException("Community already exists")
 		}
 	}
-	async updateImage(subRedditId:number,imagePath:string) {
+	async updateImage(subRedditId: number, imagePath: string) {
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id:subRedditId
+				id: subRedditId
 			},
 			data: {
 				image: imagePath
@@ -86,8 +81,7 @@ export class CommunityService {
 		})
 		return community
 	}
-	async subscribe(subRedditId:number,userId:number) {
-
+	async subscribe(subRedditId: number, userId: number) {
 		const isSubscribed = await this.prismaService.subscribedSubReddits.findMany({
 			where: {
 				subRedditId,
@@ -96,17 +90,17 @@ export class CommunityService {
 				}
 			}
 		})
-		if(isSubscribed.length > 0) {
+		if (isSubscribed.length > 0) {
 			return isSubscribed[0]
 		}
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id:subRedditId,
+				id: subRedditId
 			},
 			data: {
 				subscribers: {
-					increment:1
-				},
+					increment: 1
+				}
 			}
 		})
 		const subscribedUsers = await this.prismaService.subscribedSubReddits.create({
@@ -115,17 +109,17 @@ export class CommunityService {
 				userId
 			}
 		})
-		return {community,subscribedUsers}
+		return { community, subscribedUsers }
 	}
-	async unsubscribe(subRedditId:number,userId:number) {
+	async unsubscribe(subRedditId: number, userId: number) {
 		const community = await this.prismaService.subReddit.update({
 			where: {
-				id:subRedditId
+				id: subRedditId
 			},
 			data: {
 				subscribers: {
-					decrement:1
-				},
+					decrement: 1
+				}
 			}
 		})
 		const subscribedUsers = await this.prismaService.subscribedSubReddits.deleteMany({
@@ -136,6 +130,6 @@ export class CommunityService {
 				}
 			}
 		})
-		return {community,subscribedUsers}
+		return { community, subscribedUsers }
 	}
 }

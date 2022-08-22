@@ -18,16 +18,25 @@ export const useZustandStore = create<State>((set) => ({
 	user: null,
 	isAuthenticated: null,
 	logIn: async () => {
-		const response = await $api("auth/refresh")
-		localStorage.setItem("token", response.data.accessToken)
-		set(
-			produce((state) => {
-				state.user = response.data.user
-				state.isAuthenticated = true
+		try {
+			const response = await $api("auth/refresh")
+			localStorage.setItem("token", response.data.accessToken)
+			set(
+				produce((state) => {
+					state.user = response.data.user
+					state.isAuthenticated = true
 
-				return state
-			})
-		)
+					return state
+				})
+			)
+		} catch (error) {
+			set(
+				produce((state) => {
+					state.isAuthenticated = false
+					return state
+				})
+			)
+		}
 	},
 	setUser: (user: User | null) =>
 		set(

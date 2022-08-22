@@ -16,7 +16,7 @@ import UserSvg from "@/public/userImage.svg"
 export const Comment: React.FC<CommentT> = ({ user, text, createdAt, like, id }) => {
 	const { Likes, isAuthenticated, setLike } = useZustandStore(
 		(state) => ({
-			Likes: state.user.Likes,
+			Likes: state.user?.Likes,
 			isAuthenticated: state.isAuthenticated,
 			setLike: state.setLike
 		}),

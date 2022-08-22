@@ -1,83 +1,81 @@
-import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from './../prisma/prisma.service';
-
+import { PrismaService } from "./../prisma/prisma.service"
+import { Injectable } from "@nestjs/common"
+import { JwtService } from "@nestjs/jwt"
 
 @Injectable()
 export class TokenService {
-	constructor(private jwtService:JwtService,private prismaService:PrismaService) {}
-	async generateTokens(payload:any) { 
+	constructor(private jwtService: JwtService, private prismaService: PrismaService) {}
+	async generateTokens(payload: any) {
 		const refreshToken = await this.jwtService.signAsync(payload, {
-			secret:process.env.JWT_REFRESH,
-			expiresIn:"30d"
+			secret: process.env.JWT_REFRESH,
+			expiresIn: "30d"
 		})
 		const accessToken = await this.jwtService.signAsync(payload, {
-			secret:process.env.JWT_ACCESS,
-			expiresIn:"30d"
+			secret: process.env.JWT_ACCESS,
+			expiresIn: "30d"
 		})
 		return {
 			refreshToken,
 			accessToken
 		}
 	}
-	async saveTokens({userId,refreshToken}:{userId:number,refreshToken:string}) {
+	async saveTokens({ userId, refreshToken }: { userId: number; refreshToken: string }) {
 		const tokenData = await this.prismaService.token.findFirst({
 			where: {
-				userId,
+				userId
 			}
 		})
 		const user = await this.prismaService.user.findFirst({
 			where: {
-				id: userId,
+				id: userId
 			},
 			include: {
-				comments:true,
-				posts:true,
-				subRedditsOwner:true,
-				Vote:true,
-				Likes:true,
-				SubscribedSubReddits:{
+				comments: true,
+				posts: true,
+				subRedditsOwner: true,
+				Vote: true,
+				Likes: true,
+				SubscribedSubReddits: {
 					include: {
-						subReddit:{
+						subReddit: {
 							select: {
-								image:true,
-								title:true
+								image: true,
+								title: true
 							}
-						},
+						}
 					}
-				},
+				}
 			}
 		})
-		if(tokenData) {
+		if (tokenData) {
 			const token = await this.prismaService.token.update({
 				where: {
-					id: tokenData.id,
+					id: tokenData.id
 				},
 				data: {
-					token:refreshToken,
+					token: refreshToken
 				}
 			})
-			return {refreshToken:token.token,user}
+			return { refreshToken: token.token, user }
 		}
 
 		const token = await this.prismaService.token.create({
 			data: {
-				token:refreshToken,
-				userId,
+				token: refreshToken,
+				userId
 			},
 			select: {
-				token:true,
+				token: true
 			}
 		})
-		return {refreshToken:token.token,user}
+		return { refreshToken: token.token, user }
 	}
-	validateRefreshToken(refreshToken:string) {
+	validateRefreshToken(refreshToken: string) {
 		try {
 			const token = this.jwtService.verify(refreshToken, {
-				secret:process.env.JWT_REFRESH,
+				secret: process.env.JWT_REFRESH
 			})
 			return token
-			
 		} catch (error) {
 			return null
 		}

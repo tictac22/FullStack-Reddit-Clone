@@ -1,15 +1,9 @@
-import { Controller, Get, Query } from "@nestjs/common";
-import { CommunityService } from "./community.service";
-
-
-
-
+import { CommunityService } from "./community.service"
+import { Controller, Get, Query } from "@nestjs/common"
 
 @Controller("communityP")
 export class CommunityP {
-
-
-	constructor(private communityService:CommunityService){}
+	constructor(private communityService: CommunityService) {}
 
 	@Get()
 	getCommunity(@Query("title") title) {
@@ -19,5 +13,4 @@ export class CommunityP {
 	getPopularCommunities() {
 		return this.communityService.getPopularCommunities()
 	}
-
- }
+}

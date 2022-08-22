@@ -5,6 +5,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
 import { SelectComminity } from "@/components/submitpost/selectCommunity"
 import { $api } from "@/utils/axios"
+import { capitalizeFirstLetter } from "@/utils/functions"
 import { EditorState, convertToRaw } from "draft-js"
 
 import { EditorDraft } from "./editor"
@@ -41,7 +42,7 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 			const response = await $api("/post/create", {
 				method: "POST",
 				data: {
-					title,
+					title: capitalizeFirstLetter(title),
 					body: JSON.stringify(draftToHtml(convertToRaw(editorState.getCurrentContent()))),
 					type: typeof community === "string" ? "USER" : "SUBREDDIT",
 					subRedditId: typeof community === "string" ? null : community.subRedditId

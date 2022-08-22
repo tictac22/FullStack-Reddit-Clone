@@ -15,7 +15,7 @@ export const ComboxOption = ({ community }) => {
 			{({ selected, active }) => (
 				<>
 					<span className={`truncate flex items-center ${selected ? "font-medium" : "font-normal"}`}>
-						{community.subReddit.image && (
+						{community.subReddit.image ? (
 							<Image
 								src={community.subReddit.image}
 								height={30}
@@ -23,6 +23,8 @@ export const ComboxOption = ({ community }) => {
 								alt={community.subReddit.title}
 								className="rounded-full"
 							/>
+						) : (
+							<div className="w-[30px] h-[30px] rounded-full bg-cyan-400"></div>
 						)}
 						<div className="ml-3">
 							<p className="ml-1">r/{community.subReddit.title}</p>

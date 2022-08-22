@@ -1,3 +1,5 @@
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 import React, { useRef, useState } from "react"
@@ -100,7 +102,30 @@ export const Post: React.FC<PostT> = (props) => {
 					countComments={props._count.comments}
 					text={props.text}
 					routerPostid={router.query.postId as string}
-				/>
+				>
+					{router.route === "/" ? (
+						<span className="inline-flex items-center mr-2">
+							{props.subReddit.image ? (
+								<Image
+									src={props.subReddit.image}
+									alt={props.subReddit.title}
+									width={20}
+									height={20}
+									className="rounded-full"
+								/>
+							) : (
+								<div className="w-[20px] h-[20px] bg-cyan-400 rounded-full"></div>
+							)}
+							<Link href={`/r/${props.subReddit.title}`}>
+								<span className="text-black font-bold ml-1 hover:underline">
+									r/{props.subReddit.title}
+								</span>
+							</Link>
+						</span>
+					) : (
+						<></>
+					)}
+				</PostContent>
 			</div>
 		</div>
 	)

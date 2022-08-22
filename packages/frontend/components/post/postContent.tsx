@@ -13,17 +13,19 @@ interface Props {
 	username: string
 	countComments: number
 	routerPostid: string | undefined
+	children?: React.ReactNode
 }
 export const PostContent: React.FC<Props> = memo((props) => {
 	return (
 		<div className="bg-white flex-shrink-[36] px-2 w-full">
-			<p className="ml-2 mt-2 text-gray-400">
+			<div className="ml-2 mt-2 text-gray-400 flex item-center">
+				{props.children}
 				Posted by{" "}
 				<Link href={`/user/${props.username}`}>
 					<span className="hover:underline cursor-pointer mx-1">u/{props.username}</span>
 				</Link>
 				{timeAgo(props.createdAt)}
-			</p>
+			</div>
 			<h3 className="ml-2 font-bold">{props.title}</h3>
 			<div>{parse(JSON.parse(props.text))}</div>
 			<div className="p-3 border-t border-gray-400 mt-3">
