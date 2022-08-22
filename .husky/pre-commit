@@ -2,4 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx prettier --write . && git add .
-yarn run lint
+yarn run lint:front
+yarn run lint:back

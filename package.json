@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev:front": "nx run frontend:serve --port=3000",
 		"dev:back": "nx run backend:serve",
-		"lint": "nx run frontend:lint --fix --max-warnings=0",
+		"lint:front": "nx run frontend:lint --fix --max-warnings=0",
+		"lint:back": "nx run backend:lint --fix --max-warnings=0",
 		"prepare": "husky install"
 	},
 	"engines": {
