@@ -14,5 +14,10 @@
 			"files": ["*.js", "*.jsx"],
 			"rules": {}
 		}
-	]
+	],
+	"parserOptions": {
+		"ecmaFeatures": {
+			"legacyDecorators": true
+		}
+	}
 }
