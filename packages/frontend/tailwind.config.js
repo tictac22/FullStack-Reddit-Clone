@@ -2,7 +2,9 @@
 const { join } = require("path")
 
 module.exports = {
+	important: true,
 	content: [join(__dirname, "pages/**/*.tsx"), join(__dirname, "components/**/*.tsx")],
+
 	theme: {
 		extend: {
 			colors: {
@@ -12,6 +14,5 @@ module.exports = {
 				}
 			}
 		}
-	},
-	plugins: []
+	}
 }

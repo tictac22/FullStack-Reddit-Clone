@@ -12,6 +12,9 @@
 	.container {
 		@apply max-w-screen-lg m-auto px-3 py-4;
 	}
+	.textColorBlack {
+		@apply [&>p>span]:text-black !important;
+	}
 }
 * {
 	margin-block-end: 0px;

@@ -16,6 +16,7 @@ interface Props {
 	children?: React.ReactNode
 }
 export const PostContent: React.FC<Props> = memo((props) => {
+	const isImage = (JSON.parse(props.text) as string).includes("img") || !!props.routerPostid
 	return (
 		<div className="bg-white flex-shrink-[36] px-2 w-full">
 			<div className="ml-2 mt-2 text-gray-400 flex item-center">
@@ -27,7 +28,15 @@ export const PostContent: React.FC<Props> = memo((props) => {
 				{timeAgo(props.createdAt)}
 			</div>
 			<h3 className="ml-2 font-bold">{props.title}</h3>
-			<div>{parse(JSON.parse(props.text))}</div>
+			<div
+				className={` ${!isImage && "max-h-[250px] overflow-hidden"} textColorBlack `}
+				style={{
+					WebkitMaskImage: `${!isImage && "linear-gradient(180deg,#000 60%,transparent)"}`,
+					maskImage: `${!isImage && "linear-gradient(180deg,#000 60%,transparent)"}`
+				}}
+			>
+				{parse(JSON.parse(props.text))}
+			</div>
 			<div className="p-3 border-t border-gray-400 mt-3">
 				<div
 					className={`inline-flex items-center ${
