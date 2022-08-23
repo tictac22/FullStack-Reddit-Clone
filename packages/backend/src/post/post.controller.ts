@@ -13,9 +13,9 @@ export class PostController {
 	constructor(private postService: PostService) {}
 
 	@Get("all")
-	getAllPosts(@Req() request: IRequest, @Query("page") pageParam:number) {
+	getAllPosts(@Req() request: IRequest, @Query("cursor") cursor:number) {
 		
-		return this.postService.getAllUserPosts(request.user.id,pageParam)
+		return this.postService.getAllUserPosts(request.user.id,cursor)
 	}
 
 	@Put("image")

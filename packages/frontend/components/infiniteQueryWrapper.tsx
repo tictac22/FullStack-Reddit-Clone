@@ -12,7 +12,7 @@ interface Props {
 	data: {
 		pages: {
 			posts: PostT[]
-			nextPage: number
+			cursor: number | null
 		}[]
 	}
 	fetchNextPage: () => void
@@ -30,7 +30,7 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 	return (
 		<>
 			{data.pages.map((page) => (
-				<React.Fragment key={page.nextPage}>
+				<React.Fragment key={page.cursor}>
 					{page.posts.map((post) => (
 						<Link
 							href={`/r/${post.subReddit.title}/comments/${post.id}`}

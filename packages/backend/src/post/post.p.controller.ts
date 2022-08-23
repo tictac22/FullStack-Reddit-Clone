@@ -11,7 +11,7 @@ export class PostPController {
 	}
 
 	@Get("all")
-	getAllPosts( @Query("page") pageParam:number) {
-		return this.postService.getAllPosts(pageParam)
+	getAllPosts( @Query("cursor") cursor:number) {
+		return this.postService.getAllPosts(cursor)
 	}
 }

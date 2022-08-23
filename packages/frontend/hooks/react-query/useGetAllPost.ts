@@ -12,7 +12,7 @@ export const UseGetAllPost = (isAuthenicated: boolean | null) => {
 		{
 			enabled: convertAuthenticated,
 			getNextPageParam: (lastPage) => {
-				return lastPage.isNextPage && lastPage.nextPage
+				return lastPage.cursor && lastPage.cursor
 			}
 		}
 	)

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "../prisma/prisma.service"
+import { includeQueryPrisma } from "./prismaQuery"
 
 enum PostType {
 	USER = "USER",
@@ -42,74 +43,101 @@ export class PostService {
 			}
 		})
 	}
-	async getAllPosts(pageParam) {
-		if(!pageParam && pageParam !== 0) return []
-		const skip = pageParam * 20
+	async getAllPosts(cursor:number) {
 
-		return this.prismaService.post.findMany({
-			where: {
-				NOT: {
-					subRedditId: null
-				}
-			},
-			skip,
-			take:20,
-			orderBy: {
-				createdAt: "desc"
-			},
-			include: {
-				user: {
-					select: {
-						id: true,
-						username: true,
-						createdAt: true
+		let result = null
+		if(cursor) {
+			result = await this.prismaService.post.findMany({
+				where: {
+					NOT: {
+						subRedditId: null
 					}
 				},
-				subReddit: true,
-				_count: {
-					select: {
-						comments: true
+				cursor: {
+					id:cursor	
+				},
+				skip:1,
+				take:20,
+				orderBy: {
+					createdAt: "desc"
+				},
+				include:includeQueryPrisma
+			})
+		} else {
+			result = await this.prismaService.post.findMany({
+				where: {
+					NOT: {
+						subRedditId: null
 					}
-				}
-			}
-		})
+				},
+				take:20,
+				orderBy: {
+					createdAt: "desc"
+				},
+				include:includeQueryPrisma,
+			})
+		}
+		const myCursor = result.length === 20 ? result[result.length - 1].id : null
+
+		return {
+			posts:result,
+			cursor: myCursor,
+		}
 	}
-	async getAllUserPosts(userId: number,pageParam:number) {
-		if(!pageParam && pageParam !== 0) return []
-		const skip = pageParam * 20
-		return this.prismaService.post.findMany({
-			where: {
-				NOT: {
-					subRedditId: null
-				},
-				subReddit: {
-					subscribedUsers: {
-						some: {
-							userId
+	async getAllUserPosts(userId: number,cursor:number) {
+
+		let result = null
+		if(cursor) {
+			result = await this.prismaService.post.findMany({
+				where: {
+					NOT: {
+						subRedditId: null
+					},
+					subReddit: {
+						subscribedUsers: {
+							some: {
+								userId
+							}
 						}
-					}
+					},
 				},
-			},
-			skip,
-			take:20,
-			include: {
-				_count: {
-					select: {
-						comments: true
-					}
+				cursor: {
+					id:cursor	
 				},
-				subReddit: true,
-				user: {
-					select: {
-						id: true,
-						username: true,
-					}
+				skip:1,
+				take:20,
+				include: includeQueryPrisma,
+				orderBy: {
+					createdAt: "desc"
 				}
-			},
-			orderBy: {
-				createdAt: "desc"
-			}
-		})
+			})
+		} else {
+			result = await this.prismaService.post.findMany({
+				where: {
+					NOT: {
+						subRedditId: null
+					},
+					subReddit: {
+						subscribedUsers: {
+							some: {
+								userId
+							}
+						}
+					},
+				},
+				take:20,
+				include: includeQueryPrisma,
+				orderBy: {
+					createdAt: "desc"
+				}
+			})
+		}
+		const myCursor = result.length === 20 ? result[result.length - 1].id : null
+
+		return {
+			posts:result,
+			cursor: myCursor,
+		}
 		
 	}
 	async createPost({
