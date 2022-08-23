@@ -1,4 +1,5 @@
 import { Controller, Get, Query } from "@nestjs/common"
+
 import { PostService } from "./post.service"
 
 @Controller("postP")
@@ -11,7 +12,7 @@ export class PostPController {
 	}
 
 	@Get("all")
-	getAllPosts( @Query("cursor") cursor:number) {
+	getAllPosts(@Query("cursor") cursor: number) {
 		return this.postService.getAllPosts(cursor)
 	}
 }

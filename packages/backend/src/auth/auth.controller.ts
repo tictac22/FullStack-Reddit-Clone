@@ -1,9 +1,10 @@
-import { AuthService } from "./auth.service"
-import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
-import { JwtRtGuard } from "./guards"
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common"
 import { AuthGuard } from "@nestjs/passport"
 import { Request, Response } from "express"
+
+import { AuthService } from "./auth.service"
+import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
+import { JwtRtGuard } from "./guards"
 
 @Controller("auth")
 export class AuthController {

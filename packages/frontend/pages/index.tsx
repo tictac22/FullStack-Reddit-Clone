@@ -8,7 +8,6 @@ import { useZustandStore } from "@/utils/zustand"
 const Home = () => {
 	const isAuthenticated = useZustandStore((state) => state.isAuthenticated)
 	const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = UseGetAllPost(isAuthenticated)
-
 	return (
 		<div className="container">
 			<div className="flex">

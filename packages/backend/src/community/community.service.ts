@@ -1,5 +1,6 @@
-import { PrismaService } from "../prisma/prisma.service"
 import { BadRequestException, Injectable } from "@nestjs/common"
+
+import { PrismaService } from "../prisma/prisma.service"
 
 @Injectable()
 export class CommunityService {
@@ -42,8 +43,20 @@ export class CommunityService {
 			take: 5
 		})
 	}
+
+	async getCommunityByTitle(title: string) {
+		return this.prismaService.subReddit.findMany({
+			where: {
+				title: {
+					search: title,
+					mode: "insensitive"
+				}
+			}
+		})
+	}
+
 	async getUserCommunity(userId: number) {
-		return await this.prismaService.subscribedSubReddits.findMany({
+		return this.prismaService.subscribedSubReddits.findMany({
 			where: {
 				userId
 			},

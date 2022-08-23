@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { memo } from "react"
 import { MdOutlineComment } from "react-icons/md"
 
 import { timeAgo } from "@/utils/functions"
@@ -15,7 +14,7 @@ interface Props {
 	routerPostid: string | undefined
 	children?: React.ReactNode
 }
-export const PostContent: React.FC<Props> = memo((props) => {
+export const PostContent: React.FC<Props> = (props) => {
 	const isImage = (JSON.parse(props.text) as string).includes("img") || !!props.routerPostid
 	return (
 		<div className="bg-white flex-shrink-[36] px-2 w-full">
@@ -49,4 +48,4 @@ export const PostContent: React.FC<Props> = memo((props) => {
 			</div>
 		</div>
 	)
-})
+}

@@ -1,5 +1,6 @@
+import { Controller, Get, Post, Query } from "@nestjs/common"
+
 import { CommunityService } from "./community.service"
-import { Controller, Get, Query } from "@nestjs/common"
 
 @Controller("communityP")
 export class CommunityP {
@@ -12,5 +13,10 @@ export class CommunityP {
 	@Get("popular")
 	getPopularCommunities() {
 		return this.communityService.getPopularCommunities()
+	}
+
+	@Post("bytitle")
+	getCommunityByTitle() {
+		//
 	}
 }

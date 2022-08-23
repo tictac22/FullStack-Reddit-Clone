@@ -4,6 +4,7 @@ import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { Post as PostT } from "@/utils/types"
+import { useZustandStore } from "@/utils/zustand"
 
 import { Post } from "./post"
 import { PostLoader } from "./skeletons/post"
@@ -27,6 +28,8 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 		}
 		//eslint-disable-next-line
 	}, [inView])
+	const Vote = useZustandStore((state) => state.user.Vote)
+
 	return (
 		<>
 			{data.pages.map((page) => (
@@ -38,7 +41,7 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 							className="cursor-pointer"
 						>
 							<a>
-								<Post {...post} />
+								<Post {...post} vote={Vote.filter((item) => item.postId === post.id)[0]} />
 							</a>
 						</Link>
 					))}

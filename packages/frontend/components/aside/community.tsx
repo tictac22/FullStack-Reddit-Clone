@@ -16,13 +16,14 @@ interface Props {
 }
 
 export const Community: React.FC<Props> = ({ title, image, index, subRedditId }) => {
-	const { SubscribedSubReddits, isAuthenticated } = useZustandStore(
+	const { SubscribedSubReddits } = useZustandStore(
 		(state) => ({
 			SubscribedSubReddits: state.user?.SubscribedSubReddits,
 			isAuthenticated: state.isAuthenticated
 		}),
 		shallow
 	)
+
 	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, subRedditId)
 	return (
 		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0]  last:border-b-0">
@@ -43,11 +44,7 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 				</div>
 			) : (
 				<div className="max-w-[96px] ml-auto">
-					<SubscribeButton
-						subredditId={subRedditId}
-						setIsSubscribed={setIsSubscribed}
-						isAuthenticated={isAuthenticated}
-					/>
+					<SubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
 				</div>
 			)}
 		</div>

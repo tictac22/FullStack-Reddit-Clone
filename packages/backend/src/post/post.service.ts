@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common"
+
 import { PrismaService } from "../prisma/prisma.service"
 import { includeQueryPrisma } from "./prismaQuery"
 
@@ -43,10 +44,9 @@ export class PostService {
 			}
 		})
 	}
-	async getAllPosts(cursor:number) {
-
+	async getAllPosts(cursor: number) {
 		let result = null
-		if(cursor) {
+		if (cursor) {
 			result = await this.prismaService.post.findMany({
 				where: {
 					NOT: {
@@ -54,14 +54,14 @@ export class PostService {
 					}
 				},
 				cursor: {
-					id:cursor	
+					id: cursor
 				},
-				skip:1,
-				take:20,
+				skip: 1,
+				take: 20,
 				orderBy: {
 					createdAt: "desc"
 				},
-				include:includeQueryPrisma
+				include: includeQueryPrisma
 			})
 		} else {
 			result = await this.prismaService.post.findMany({
@@ -70,24 +70,23 @@ export class PostService {
 						subRedditId: null
 					}
 				},
-				take:20,
+				take: 20,
 				orderBy: {
 					createdAt: "desc"
 				},
-				include:includeQueryPrisma,
+				include: includeQueryPrisma
 			})
 		}
 		const myCursor = result.length === 20 ? result[result.length - 1].id : null
 
 		return {
-			posts:result,
-			cursor: myCursor,
+			posts: result,
+			cursor: myCursor
 		}
 	}
-	async getAllUserPosts(userId: number,cursor:number) {
-
+	async getAllUserPosts(userId: number, cursor: number) {
 		let result = null
-		if(cursor) {
+		if (cursor) {
 			result = await this.prismaService.post.findMany({
 				where: {
 					NOT: {
@@ -99,13 +98,13 @@ export class PostService {
 								userId
 							}
 						}
-					},
+					}
 				},
 				cursor: {
-					id:cursor	
+					id: cursor
 				},
-				skip:1,
-				take:20,
+				skip: 1,
+				take: 20,
 				include: includeQueryPrisma,
 				orderBy: {
 					createdAt: "desc"
@@ -123,9 +122,9 @@ export class PostService {
 								userId
 							}
 						}
-					},
+					}
 				},
-				take:20,
+				take: 20,
 				include: includeQueryPrisma,
 				orderBy: {
 					createdAt: "desc"
@@ -135,10 +134,9 @@ export class PostService {
 		const myCursor = result.length === 20 ? result[result.length - 1].id : null
 
 		return {
-			posts:result,
-			cursor: myCursor,
+			posts: result,
+			cursor: myCursor
 		}
-		
 	}
 	async createPost({
 		title,
@@ -180,10 +178,22 @@ export class PostService {
 		const downVote = {
 			decrement: 1
 		}
+		const isToggled = await this.prismaService.vote.findUnique({
+			where: {
+				id: voteId
+			}
+		})
 		return await this.prismaService.post.update({
 			where: { id: postId },
 			data: {
-				totalVotes: voteType ? upVote : downVote,
+				totalVotes:
+					isToggled && isToggled.value
+						? { decrement: 2 }
+						: isToggled && !isToggled.value
+						? { increment: 2 }
+						: voteType
+						? upVote
+						: downVote,
 				vote: {
 					upsert: {
 						where: {
@@ -216,12 +226,21 @@ export class PostService {
 		})
 	}
 	async deleteToogleVote(postId: number, voteId: number) {
+		const upVote = {
+			increment: 1
+		}
+		const downVote = {
+			decrement: 1
+		}
+		const result = await this.prismaService.vote.findUnique({
+			where: {
+				id: voteId
+			}
+		})
 		return await this.prismaService.post.update({
 			where: { id: postId },
 			data: {
-				totalVotes: {
-					decrement: 1
-				},
+				totalVotes: result.value ? downVote : upVote,
 				vote: {
 					delete: {
 						id: voteId

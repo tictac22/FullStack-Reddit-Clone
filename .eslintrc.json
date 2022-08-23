@@ -6,6 +6,8 @@
 		{
 			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
 			"rules": {
+				"@typescript-eslint/ban-types": "off",
+
 				"@nrwl/nx/enforce-module-boundaries": [
 					"error",
 					{
@@ -29,7 +31,6 @@
 				"linebreak-style": ["error", "windows"],
 				"quotes": ["error", "double"],
 				"semi": ["error", "never"],
-
 				"simple-import-sort/exports": "error"
 			}
 		},

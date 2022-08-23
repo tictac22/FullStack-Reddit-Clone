@@ -1,100 +1,76 @@
-import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/router"
 
-import React, { useRef, useState } from "react"
+import React, { memo, useMemo, useRef, useState } from "react"
 import { TbArrowBigDown, TbArrowBigTop } from "react-icons/tb"
 
-import { useVote } from "@/hooks/useSibscribe"
 import { $api } from "@/utils/axios"
+import { objectsEqual } from "@/utils/functions"
 import type { Post as PostT } from "@/utils/types"
 import { useZustandStore } from "@/utils/zustand"
 import shallow from "zustand/shallow"
 
 import { PostContent } from "./postContent"
+import { SubRedditInfo } from "./subRedditInfo"
 
-export const Post: React.FC<PostT> = (props) => {
-	const {
-		Vote,
-		setVote: setVoteState,
-		isAuthenticated
-	} = useZustandStore(
-		(state) => ({
-			Vote: state.user?.Vote,
-			setVote: state.setVote,
-			isAuthenticated: state.isAuthenticated
-		}),
-		shallow
-	)
-
-	const [vote, setVote, voteData] = useVote(Vote, props.id)
-	const [isVote, setIsVote] = useState(false)
-	const router = useRouter()
-	const toggleVote = (voteToogle: boolean) => async (e) => {
-		e.preventDefault()
-		if (!isAuthenticated) return router.replace("/account/login")
-		if (isVote) return
-		setIsVote(true)
-
-		const currentVote = vote === voteToogle ? null : voteToogle
-		setVote(currentVote)
-
-		countRef.current.innerHTML = `${
-			Number(countRef.current.innerHTML) +
-			(currentVote === null && vote ? -1 : currentVote === null && !vote ? 1 : voteToogle ? 1 : -1)
-		}`
-
-		const response = await $api("/post/toogle-vote", {
-			method: "PATCH",
-			data: {
-				postId: props.id,
-				vote: vote === voteToogle ? null : voteToogle,
-				voteId: voteData?.id || 0
-			}
-		})
-
-		setVoteState(response.data.user.Vote)
-
-		setIsVote(false)
+type IProps = PostT & {
+	vote?: {
+		value: boolean
+		id: number
 	}
-	const countRef = useRef<HTMLDivElement>()
-	return (
-		<div
-			className={` min-w-[633px] border border-solid border-[#ccc] ${
-				!router.query.postId && "hover:border-[#898989] my-2"
-			} ${router.query.postId && "border-b-0"}`}
-		>
-			<div className="flex ">
-				<div
-					className={`w-[40px] max-w-full ${
-						router.query.postId ? "bg-white" : "bg-[#f8f9fb]"
-					} flex  flex-col items-center`}
-				>
-					<TbArrowBigTop
-						className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] ${
-							vote ? "text-[#FF4500] fill-[#ff4500]" : ""
-						}`}
-						onClick={toggleVote(true)}
-					/>
-					<p
-						className={`${
-							vote
-								? "text-[#FF4500] fill-[#ff4500]"
-								: vote === false
-								? "text-[#7292ff] fill-[#7292ff]"
-								: ""
-						}`}
-						ref={countRef}
-					>
-						{props.totalVotes}
-					</p>
-					<TbArrowBigDown
-						className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] ${
-							vote === false ? "text-[#7292ff] fill-[#7292ff]" : ""
-						}`}
-						onClick={toggleVote(false)}
-					/>
-				</div>
+}
+
+export const Post: React.FC<IProps> = memo(
+	(props) => {
+		const { vote } = props
+		const { setVote: setVoteState, isAuthenticated } = useZustandStore(
+			(state) => ({
+				setVote: state.setVote,
+				isAuthenticated: state.isAuthenticated
+			}),
+			shallow
+		)
+
+		const [isVoting, setIsVoting] = useState(false)
+		const router = useRouter()
+		const toggleVote = (voteToogle: boolean) => async (e) => {
+			e.preventDefault()
+			if (!isAuthenticated) return router.replace("/account/login")
+			if (isVoting) return
+			setIsVoting(true)
+
+			const currentVote = vote?.value === voteToogle ? null : voteToogle
+			countRef.current.innerHTML = `${
+				Number(countRef.current.innerHTML) +
+				(voteToogle && !vote
+					? 1
+					: !voteToogle && !vote
+					? -1
+					: currentVote === null && vote.value
+					? -1
+					: currentVote === null && !vote.value
+					? 1
+					: !voteToogle && vote.value
+					? -2
+					: 2)
+			}`
+
+			const response = await $api("/post/toogle-vote", {
+				method: "PATCH",
+				data: {
+					postId: props.id,
+					vote: currentVote,
+					voteId: vote?.id || 0
+				}
+			})
+
+			setVoteState(response.data.user.Vote)
+
+			setIsVoting(false)
+		}
+		const countRef = useRef<HTMLDivElement>()
+
+		const MemoizedPostContent = useMemo(() => {
+			return (
 				<PostContent
 					title={props.title}
 					username={props.user.username}
@@ -104,29 +80,59 @@ export const Post: React.FC<PostT> = (props) => {
 					routerPostid={router.query.postId as string}
 				>
 					{router.route === "/" ? (
-						<span className="inline-flex items-center mr-2">
-							{props.subReddit.image ? (
-								<Image
-									src={props.subReddit.image}
-									alt={props.subReddit.title}
-									width={20}
-									height={20}
-									className="rounded-full"
-								/>
-							) : (
-								<div className="w-[20px] h-[20px] bg-cyan-400 rounded-full"></div>
-							)}
-							<Link href={`/r/${props.subReddit.title}`}>
-								<span className="text-black font-bold ml-1 hover:underline">
-									r/{props.subReddit.title}
-								</span>
-							</Link>
-						</span>
+						<SubRedditInfo title={props.subReddit.title} image={props.subReddit.image} />
 					) : (
 						<></>
 					)}
 				</PostContent>
+			)
+			//eslint-disable-next-line
+		}, [])
+		return (
+			<div
+				className={` min-w-[633px] border border-solid border-[#ccc] ${
+					!router.query.postId && "hover:border-[#898989] my-2"
+				} ${router.query.postId && "border-b-0"}`}
+			>
+				<div className="flex ">
+					<div
+						className={`w-[40px] max-w-full ${
+							router.query.postId ? "bg-white" : "bg-[#f8f9fb]"
+						} flex  flex-col items-center`}
+					>
+						<TbArrowBigTop
+							className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] ${
+								props.vote?.value ? "text-[#FF4500] fill-[#ff4500]" : ""
+							}`}
+							onClick={isVoting ? () => null : toggleVote(true)}
+						/>
+						<p
+							className={`${
+								props.vote?.value
+									? "text-[#FF4500] fill-[#ff4500]"
+									: props.vote?.value === false
+									? "text-[#7292ff] fill-[#7292ff]"
+									: ""
+							}`}
+							ref={countRef}
+						>
+							{props.totalVotes}
+						</p>
+						<TbArrowBigDown
+							className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] ${
+								props.vote?.value === false ? "text-[#7292ff] fill-[#7292ff]" : ""
+							}`}
+							onClick={isVoting ? () => null : toggleVote(false)}
+						/>
+					</div>
+					{MemoizedPostContent}
+				</div>
 			</div>
-		</div>
-	)
-}
+		)
+	},
+	(prevProps, nextProps) => {
+		if (prevProps.vote === nextProps.vote) return true
+		if (prevProps.vote && nextProps.vote && objectsEqual(prevProps.vote, nextProps.vote)) return true
+		return false
+	}
+)

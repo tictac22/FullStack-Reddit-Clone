@@ -1,9 +1,10 @@
-import { PrismaService } from "./../prisma/prisma.service"
-import { TokenService } from "./../token/token.service"
-import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
 import { BadRequestException, HttpStatus, Injectable } from "@nestjs/common"
 import { Prisma } from "@prisma/client"
 import * as bcrypt from "bcryptjs"
+
+import { PrismaService } from "./../prisma/prisma.service"
+import { TokenService } from "./../token/token.service"
+import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
 
 @Injectable()
 export class AuthService {

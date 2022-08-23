@@ -38,10 +38,14 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 		</button>
 	)
 }
-export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed, isAuthenticated }) => {
+export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed }) => {
 	const queryClient = useQueryClient()
 	const router = useRouter()
-	const { user, setUser } = useZustandStore((state) => ({ setUser: state.setUser, user: state.user }))
+	const { user, setUser, isAuthenticated } = useZustandStore((state) => ({
+		setUser: state.setUser,
+		user: state.user,
+		isAuthenticated: state.isAuthenticated
+	}))
 	const subscribe = async (e) => {
 		e.preventDefault()
 		if (!isAuthenticated) {

@@ -1,5 +1,3 @@
-import { API_URL } from "./axios"
-
 export const convertDate = (dateString: string) => {
 	const date = new Date(dateString)
 
@@ -18,10 +16,6 @@ export const convertDate = (dateString: string) => {
 export const capitalizeFirstLetter = (string: string) => {
 	if (!string) return ""
 	return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
-export const getFullImagePath = (image: string, folder: string) => {
-	return `${API_URL}/${folder}/${image}`
 }
 
 export const timeAgo = (input) => {
@@ -44,3 +38,10 @@ export const timeAgo = (input) => {
 		}
 	}
 }
+
+//eslint-disable-next-line
+export const objectsEqual = (o1: Object, o2: Object): boolean =>
+	typeof o1 === "object" && Object.keys(o1).length > 0
+		? Object.keys(o1).length === Object.keys(o2).length &&
+		  Object.keys(o1).every((p) => objectsEqual(o1[p as keyof typeof o1], o2[p as keyof typeof o2]))
+		: o1 === o2

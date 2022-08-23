@@ -1,5 +1,18 @@
-import { Body, Controller, Get, Patch, Post, Put, Query, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common"
+import {
+	Body,
+	Controller,
+	Get,
+	Patch,
+	Post,
+	Put,
+	Query,
+	Req,
+	UploadedFile,
+	UseGuards,
+	UseInterceptors
+} from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
+
 import { JwtAuthGuard } from "../auth/guards"
 import { IRequest } from "../types"
 import { cloudinary } from "../utils/cloudinary"
@@ -13,9 +26,8 @@ export class PostController {
 	constructor(private postService: PostService) {}
 
 	@Get("all")
-	getAllPosts(@Req() request: IRequest, @Query("cursor") cursor:number) {
-		
-		return this.postService.getAllUserPosts(request.user.id,cursor)
+	getAllPosts(@Req() request: IRequest, @Query("cursor") cursor: number) {
+		return this.postService.getAllUserPosts(request.user.id, cursor)
 	}
 
 	@Put("image")

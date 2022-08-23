@@ -22,17 +22,6 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 				inputSibling.style.bottom = "16px"
 			}
 		})
-		input.addEventListener("blur", (event: InputEvent) => {
-			const target = event.target as HTMLInputElement
-			const inputSibling = input.nextElementSibling as HTMLElement
-			if (!target) {
-				inputSibling.style.bottom = "16px"
-			}
-		})
-		input.addEventListener("focus", (event: InputEvent) => {
-			const inputSibling = input.nextElementSibling as HTMLElement
-			inputSibling.style.bottom = "36px"
-		})
 	}, [])
 	return (
 		<Controller
@@ -57,7 +46,7 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 						/>
 						<label
 							htmlFor={name}
-							className={`label absolute transition-all left-3 bottom-4 text-[10px] ${
+							className={`label absolute transition-all left-3 bottom-[16px] text-[10px] ${
 								errors[name] ? "text-red-500" : "text-[#a5a4a4]"
 							} uppercase tracking-wider group-hover:bottom-9 peer-focus:bottom-9`}
 						>
