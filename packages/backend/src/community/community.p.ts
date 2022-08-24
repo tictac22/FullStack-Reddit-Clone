@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query } from "@nestjs/common"
+import { Body, Controller, Get, Post, Query } from "@nestjs/common"
 
 import { CommunityService } from "./community.service"
 
@@ -16,7 +16,7 @@ export class CommunityP {
 	}
 
 	@Post("bytitle")
-	getCommunityByTitle() {
-		//
+	getCommunityByTitle(@Body() body: { title: string }) {
+		return this.communityService.getCommunityByTitle(body.title)
 	}
 }

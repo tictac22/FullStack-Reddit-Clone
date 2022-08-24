@@ -28,7 +28,7 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 		}
 		//eslint-disable-next-line
 	}, [inView])
-	const Vote = useZustandStore((state) => state.user.Vote)
+	const Vote = useZustandStore((state) => state.user?.Vote)
 
 	return (
 		<>
@@ -41,7 +41,7 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 							className="cursor-pointer"
 						>
 							<a>
-								<Post {...post} vote={Vote.filter((item) => item.postId === post.id)[0]} />
+								<Post {...post} vote={Vote?.filter((item) => item.postId === post.id)[0]} />
 							</a>
 						</Link>
 					))}
