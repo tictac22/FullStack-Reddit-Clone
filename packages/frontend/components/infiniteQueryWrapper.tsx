@@ -9,12 +9,13 @@ import { useZustandStore } from "@/utils/zustand"
 import { Post } from "./post"
 import { PostLoader } from "./skeletons/post"
 
+type Page = {
+	posts: PostT[]
+	cursor: number | null
+}
 interface Props {
 	data: {
-		pages: {
-			posts: PostT[]
-			cursor: number | null
-		}[]
+		pages: Page[]
 	}
 	fetchNextPage: () => void
 	isFetchingNextPage: boolean

@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 
 interface Props {
 	subredditId: number
-	setIsSubscribed: React.Dispatch<React.SetStateAction<boolean>>
+	setIsSubscribed?: React.Dispatch<React.SetStateAction<boolean>>
 	isAuthenticated?: boolean
 }
 
@@ -20,7 +20,7 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 				subRedditId: subredditId
 			}
 		})
-		setIsSubscribed(false)
+		setIsSubscribed && setIsSubscribed(false)
 
 		const newSubscribedArray = user.SubscribedSubReddits.filter((sub) => sub.subRedditId !== data.community.id)
 		const newUser = {
@@ -64,7 +64,7 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed 
 			SubscribedSubReddits: [...user.SubscribedSubReddits, response.data.subscribedUsers]
 		}
 		setUser(newUser)
-		setIsSubscribed(true)
+		setIsSubscribed && setIsSubscribed(true)
 		queryClient.invalidateQueries(["allPosts"])
 	}
 	return (

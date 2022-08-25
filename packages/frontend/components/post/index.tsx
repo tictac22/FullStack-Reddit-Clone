@@ -90,7 +90,7 @@ export const Post: React.FC<IProps> = memo(
 		}, [])
 		return (
 			<div
-				className={` min-w-[633px] border border-solid border-[#ccc] ${
+				className={` md:min-w-[633px] border border-solid border-[#ccc] ${
 					!router.query.postId && "hover:border-[#898989] my-2"
 				} ${router.query.postId && "border-b-0"}`}
 			>

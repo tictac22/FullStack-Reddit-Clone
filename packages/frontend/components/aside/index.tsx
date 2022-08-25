@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import React from "react"
 
@@ -41,7 +42,9 @@ export const Aside: React.FC = () => {
 				)}
 			</div>
 			<div className="bg-white flex items-center justify-center py-3 px-6 rounded-b">
-				<button className="btn-secondary w-full">View All</button>
+				<Link href={"/leaderboard"}>
+					<div className="btn-secondary w-full text-center">View All</div>
+				</Link>
 			</div>
 			<HomeInfo />
 		</aside>

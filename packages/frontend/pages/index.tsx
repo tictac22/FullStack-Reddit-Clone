@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { FormPost } from "@/components/FormPost"
 import { Aside } from "@/components/aside"
 import { InfiniteQueryWrapper } from "@/components/infiniteQueryWrapper"
@@ -17,7 +19,7 @@ const Home = () => {
 						<FormPost />
 						{isLoading ? (
 							[...Array(5)].map((item, index) => <PostLoader key={index} />)
-						) : data.pages.length > 0 ? (
+						) : data.pages[0].posts.length > 0 ? (
 							<InfiniteQueryWrapper
 								data={data}
 								fetchNextPage={fetchNextPage}
@@ -25,9 +27,14 @@ const Home = () => {
 								hasNextPage={hasNextPage}
 							/>
 						) : (
-							<div className="max-w-[640px] lg:w-[640px] w-full mt-5">
+							<div className="lg:max-w-[640px] lg:w-[640px] w-full mt-5">
 								<p className="bg-white p-3 text-center rounded-md">
-									Currently you don&apos;t subscribe on any subReddit go to ....
+									<Link href={"/leaderboard"}>
+										<a>
+											Currently you don&apos;t subscribe on any subReddit go to check all{" "}
+											<span className="text-cyan-400">communities</span>{" "}
+										</a>
+									</Link>
 								</p>
 							</div>
 						)}

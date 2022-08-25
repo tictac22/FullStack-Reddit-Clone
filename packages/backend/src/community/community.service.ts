@@ -6,44 +6,87 @@ import { PrismaService } from "../prisma/prisma.service"
 export class CommunityService {
 	constructor(private prismaService: PrismaService) {}
 
-	async getCommunity(title: string) {
+	async getCommunity(title: string, cursor: number) {
+		let result = null
+		const include = {
+			user: true,
+			_count: {
+				select: {
+					comments: true
+				}
+			}
+		}
 		try {
-			const community = await this.prismaService.subReddit.findFirstOrThrow({
-				where: {
-					title: {
-						equals: title,
-						mode: "insensitive"
-					}
-				},
-				include: {
-					owner: true,
-					subscribedUsers: true,
-					posts: {
-						include: {
-							user: true,
-							_count: {
-								select: {
-									comments: true
-								}
+			if (cursor) {
+				result = await this.prismaService.subReddit.findFirstOrThrow({
+					where: {
+						title: {
+							equals: title,
+							mode: "insensitive"
+						}
+					},
+					include: {
+						owner: true,
+						subscribedUsers: true,
+						posts: {
+							cursor: {
+								id: cursor
+							},
+							skip: 1,
+							take: 20,
+							include,
+							orderBy: {
+								createdAt: "desc"
 							}
 						}
 					}
-				}
-			})
-			return community
+				})
+			} else {
+				result = await this.prismaService.subReddit.findFirstOrThrow({
+					where: {
+						title: {
+							equals: title,
+							mode: "insensitive"
+						}
+					},
+					include: {
+						owner: true,
+						subscribedUsers: true,
+						posts: {
+							take: 20,
+							include,
+							orderBy: {
+								createdAt: "desc"
+							}
+						}
+					}
+				})
+			}
+			const myCursor = result.posts.length === 20 ? result.posts[result.posts.length - 1].id : null
+			return {
+				subReddit: result,
+				cursor: myCursor
+			}
 		} catch (e) {
 			throw new BadRequestException("Community not found")
 		}
 	}
 	async getPopularCommunities() {
-		return await this.prismaService.subReddit.findMany({
+		return this.prismaService.subReddit.findMany({
 			orderBy: {
 				subscribers: "desc"
 			},
 			take: 5
 		})
 	}
-
+	async getPopularCommunitiesAll() {
+		return this.prismaService.subReddit.findMany({
+			take: 50,
+			orderBy: {
+				subscribers: "desc"
+			}
+		})
+	}
 	async getCommunityByTitle(title: string) {
 		return this.prismaService.subReddit.findMany({
 			where: {

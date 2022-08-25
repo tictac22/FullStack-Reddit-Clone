@@ -7,9 +7,15 @@ export class CommunityP {
 	constructor(private communityService: CommunityService) {}
 
 	@Get()
-	getCommunity(@Query("title") title) {
-		return this.communityService.getCommunity(title)
+	getCommunity(@Query("title") title, @Query("cursor") cursor: number) {
+		return this.communityService.getCommunity(title, cursor)
 	}
+
+	@Get("popular-all")
+	getPopularCommunitiesAll() {
+		return this.communityService.getPopularCommunitiesAll()
+	}
+
 	@Get("popular")
 	getPopularCommunities() {
 		return this.communityService.getPopularCommunities()

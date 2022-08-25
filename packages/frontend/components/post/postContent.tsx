@@ -18,7 +18,7 @@ export const PostContent: React.FC<Props> = (props) => {
 	const isImage = (JSON.parse(props.text) as string).includes("img") || !!props.routerPostid
 	return (
 		<div className="bg-white flex-shrink-[36] px-2 w-full">
-			<div className="ml-2 mt-2 text-gray-400 flex item-center">
+			<div className="ml-2 mt-2 text-gray-400 flex item-center flex-wrap">
 				{props.children}
 				Posted by{" "}
 				<Link href={`/user/${props.username}`}>

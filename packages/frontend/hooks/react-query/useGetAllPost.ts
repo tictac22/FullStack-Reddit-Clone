@@ -6,9 +6,7 @@ export const UseGetAllPost = (isAuthenicated: boolean | null) => {
 
 	const { data, error, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery(
 		["allPosts", isAuthenicated],
-		async ({ pageParam = 0 }) => {
-			return QueryService.getAllPosts(isAuthenicated, pageParam)
-		},
+		async ({ pageParam = 0 }) => QueryService.getAllPosts(isAuthenicated, pageParam),
 		{
 			enabled: convertAuthenticated,
 			getNextPageParam: (lastPage) => {
