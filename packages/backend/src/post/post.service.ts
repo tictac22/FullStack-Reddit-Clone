@@ -1,7 +1,14 @@
 import { Injectable } from "@nestjs/common"
 
 import { PrismaService } from "../prisma/prisma.service"
-import { includeQueryPrisma } from "./prismaQuery"
+import {
+	communityPostQuery,
+	getAllPostsQuery,
+	getAllUserPostsQuery,
+	includeCommentQueryPrisma,
+	includeUserPost,
+	selectUserPostQuery
+} from "./prismaQuery"
 
 enum PostType {
 	USER = "USER",
@@ -14,25 +21,14 @@ export class PostService {
 		return await this.prismaService.post.findFirst({
 			where: { id: postId },
 			include: {
-				user: {
-					select: {
-						id: true,
-						username: true,
-						createdAt: true
-					}
-				},
+				user: includeUserPost,
 				subReddit: true,
 				comments: {
 					orderBy: {
 						createdAt: "desc"
 					},
 					include: {
-						user: {
-							select: {
-								id: true,
-								username: true
-							}
-						},
+						user: includeUserPost,
 						likes: true
 					}
 				},
@@ -49,34 +45,15 @@ export class PostService {
 		let result = null
 		if (cursor) {
 			result = await this.prismaService.post.findMany({
-				where: {
-					subReddit: {
-						title
-					}
-				},
+				...communityPostQuery,
 				cursor: {
 					id: cursor
 				},
-
-				skip: 1,
-				take: 20,
-				orderBy: {
-					createdAt: "desc"
-				},
-				include: includeQueryPrisma
+				skip: 1
 			})
 		} else {
 			result = await this.prismaService.post.findMany({
-				where: {
-					subReddit: {
-						title
-					}
-				},
-				take: 20,
-				orderBy: {
-					createdAt: "desc"
-				},
-				include: includeQueryPrisma
+				...communityPostQuery
 			})
 		}
 		const myCursor = result.length === 20 ? result[result.length - 1].id : null
@@ -90,33 +67,21 @@ export class PostService {
 		let result = null
 		if (cursor) {
 			result = await this.prismaService.post.findMany({
-				where: {
-					NOT: {
-						subRedditId: null
-					}
-				},
+				...getAllPostsQuery(null),
 				cursor: {
 					id: cursor
 				},
 				skip: 1,
-				take: 20,
 				orderBy: {
 					createdAt: "desc"
-				},
-				include: includeQueryPrisma
+				}
 			})
 		} else {
 			result = await this.prismaService.post.findMany({
-				where: {
-					NOT: {
-						subRedditId: null
-					}
-				},
-				take: 20,
+				...getAllPostsQuery(null),
 				orderBy: {
 					createdAt: "desc"
-				},
-				include: includeQueryPrisma
+				}
 			})
 		}
 		const myCursor = result.length === 20 ? result[result.length - 1].id : null
@@ -130,44 +95,18 @@ export class PostService {
 		let result = null
 		if (cursor) {
 			result = await this.prismaService.post.findMany({
-				where: {
-					NOT: {
-						subRedditId: null
-					},
-					subReddit: {
-						subscribedUsers: {
-							some: {
-								userId
-							}
-						}
-					}
-				},
+				...getAllUserPostsQuery(userId),
 				cursor: {
 					id: cursor
 				},
 				skip: 1,
-				take: 20,
-				include: includeQueryPrisma,
 				orderBy: {
 					createdAt: "desc"
 				}
 			})
 		} else {
 			result = await this.prismaService.post.findMany({
-				where: {
-					NOT: {
-						subRedditId: null
-					},
-					subReddit: {
-						subscribedUsers: {
-							some: {
-								userId
-							}
-						}
-					}
-				},
-				take: 20,
-				include: includeQueryPrisma,
+				...getAllUserPostsQuery(userId),
 				orderBy: {
 					createdAt: "desc"
 				}
@@ -251,20 +190,7 @@ export class PostService {
 					}
 				}
 			},
-			select: {
-				user: {
-					select: {
-						Vote: {
-							select: {
-								id: true,
-								value: true,
-								postId: true,
-								userId: true
-							}
-						}
-					}
-				}
-			}
+			select: selectUserPostQuery
 		})
 	}
 	async deleteToogleVote(postId: number, voteId: number) {
@@ -289,20 +215,7 @@ export class PostService {
 					}
 				}
 			},
-			select: {
-				user: {
-					select: {
-						Vote: {
-							select: {
-								id: true,
-								value: true,
-								postId: true,
-								userId: true
-							}
-						}
-					}
-				}
-			}
+			select: selectUserPostQuery
 		})
 	}
 
@@ -329,15 +242,7 @@ export class PostService {
 					}
 				}
 			},
-			include: {
-				likes: {
-					where: {
-						user: {
-							id: userId
-						}
-					}
-				}
-			}
+			include: includeCommentQueryPrisma(userId)
 		})
 	}
 	async deleteRateComment({ commentId, rateId, userId }: { commentId: number; rateId: number; userId: number }) {
@@ -353,15 +258,7 @@ export class PostService {
 					}
 				}
 			},
-			include: {
-				likes: {
-					where: {
-						user: {
-							id: userId
-						}
-					}
-				}
-			}
+			include: includeCommentQueryPrisma(userId)
 		})
 	}
 }

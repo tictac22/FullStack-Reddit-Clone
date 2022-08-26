@@ -6,10 +6,6 @@ import { CommunityService } from "./community.service"
 export class CommunityP {
 	constructor(private communityService: CommunityService) {}
 
-	@Get()
-	getCommunity(@Query("title") title, @Query("cursor") cursor: number) {
-		return this.communityService.getCommunity(title, cursor)
-	}
 	@Get("info")
 	getCommunityInfo(@Query("title") title) {
 		return this.communityService.getCommunityInfo(title)
