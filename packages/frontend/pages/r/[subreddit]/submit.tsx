@@ -5,19 +5,20 @@ import { useRouter } from "next/router"
 
 import { BiCake } from "react-icons/bi"
 
+import { SubRedditInfoLoader } from "@/components/skeletons/SubRedditInfo"
 import { Rules } from "@/components/submitpost/rules"
 import { WithAuth } from "@/components/withAuth"
-import { useCommunity } from "@/hooks/react-query"
+import { useCommunityInfo } from "@/hooks/react-query"
 import { convertDate } from "@/utils/functions"
 
-const DynamicPostForm = dynamic(() => import("@/components/submitpost/postForm").then((mod) => mod.PostForm), {
+const DynamicPostForm = dynamic(() => import("@/components/submitpost").then((mod) => mod.PostForm), {
 	ssr: false
 })
 const SubReddit = () => {
 	// request to get the community
 
 	const router = useRouter()
-	const { data } = useCommunity(router.query.subreddit as string)
+	const { data } = useCommunityInfo(router.query.subreddit as string)
 
 	return (
 		<div className="container">
@@ -29,7 +30,7 @@ const SubReddit = () => {
 					/>
 				)}
 				<div className="hidden lg:block mt-3 ml-3">
-					{data && (
+					{data ? (
 						<div className="bg-white rounded mb-3">
 							<div className="h-[34px] w-full bg-[#0079D3] rounded-t"></div>
 							<div className="p-3">
@@ -58,6 +59,8 @@ const SubReddit = () => {
 								</div>
 							</div>
 						</div>
+					) : (
+						<SubRedditInfoLoader height={237} />
 					)}
 					<Rules />
 				</div>

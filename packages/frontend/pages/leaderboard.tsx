@@ -1,6 +1,8 @@
 import { GetStaticProps } from "next"
+import Link from "next/link"
 
-import { LeaderBoardList } from "@/components/leaderboard/leaderboardList"
+import { ImageWrapper } from "@/components/imageWrapepr"
+import { SubscriptionButtons } from "@/components/subscription"
 import { API_URL } from "@/utils/axios"
 import { Community } from "@/utils/types"
 
@@ -24,7 +26,22 @@ const LeaderBoard = ({ subReddits }: Props) => {
 					<div className="bg-[#f6f7f8] text-black border-b-[thin] border-b-[#edeff1] p-2">
 						<h3>Today&apos;s Top Growing Communities</h3>
 					</div>
-					<LeaderBoardList subReddits={subReddits} />
+					{subReddits.map((item, index) => (
+						<Link key={item.id} href={`/r/${item.title}`}>
+							<a>
+								<div className="flex items-center border-b-[thin] border-b-[#edeff1] p-2 bg-white px-6">
+									<span className="font-medium text-black">{++index}</span>
+									<div className=" ml-10 h-[40px]">
+										<ImageWrapper width={40} heigth={40} image={item.image} title={item.title} />
+									</div>
+									<p className="text-[#1c1c1c] ml-2">r/{item.title}</p>
+									<div className="ml-auto max-w-[96px]">
+										<SubscriptionButtons id={item.id} />
+									</div>
+								</div>
+							</a>
+						</Link>
+					))}
 				</div>
 			</div>
 		</div>

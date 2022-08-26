@@ -10,6 +10,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const sendComment = async () => {
+		if (!comment) return
 		setIsSubmitting(true)
 		await $api("post/comment", {
 			method: "POST",
@@ -31,7 +32,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 			/>
 			<button
 				disabled={isSubmitting}
-				type="submit"
+				type="button"
 				className="my-3 btn-primary ml-auto w-3 flex justify-center items-end"
 				onClick={sendComment}
 			>

@@ -15,4 +15,9 @@ export class PostPController {
 	getAllPosts(@Query("cursor") cursor: number) {
 		return this.postService.getAllPosts(cursor)
 	}
+
+	@Get("community")
+	getCommunityPosts(@Query("title") title, @Query("cursor") cursor: number) {
+		return this.postService.getCommunityPosts(title, cursor)
+	}
 }

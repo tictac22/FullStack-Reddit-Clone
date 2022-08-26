@@ -1,4 +1,5 @@
 export * from "./useCommunity"
+export * from "./useCommunityPosts"
 export * from "./useGetAllPost"
 export * from "./usePopularCommunities"
 export * from "./usePost"

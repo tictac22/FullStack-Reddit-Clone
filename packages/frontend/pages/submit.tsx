@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 import { Rules } from "@/components/submitpost/rules"
 import { WithAuth } from "@/components/withAuth"
 
-const DynamicPostForm = dynamic(() => import("@/components/submitpost/postForm").then((mod) => mod.PostForm), {
+const DynamicPostForm = dynamic(() => import("@/components/submitpost").then((mod) => mod.PostForm), {
 	ssr: false
 })
 

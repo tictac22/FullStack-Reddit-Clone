@@ -44,6 +44,48 @@ export class PostService {
 			}
 		})
 	}
+
+	async getCommunityPosts(title: string, cursor: number) {
+		let result = null
+		if (cursor) {
+			result = await this.prismaService.post.findMany({
+				where: {
+					subReddit: {
+						title
+					}
+				},
+				cursor: {
+					id: cursor
+				},
+
+				skip: 1,
+				take: 20,
+				orderBy: {
+					createdAt: "desc"
+				},
+				include: includeQueryPrisma
+			})
+		} else {
+			result = await this.prismaService.post.findMany({
+				where: {
+					subReddit: {
+						title
+					}
+				},
+				take: 20,
+				orderBy: {
+					createdAt: "desc"
+				},
+				include: includeQueryPrisma
+			})
+		}
+		const myCursor = result.length === 20 ? result[result.length - 1].id : null
+
+		return {
+			posts: result,
+			cursor: myCursor
+		}
+	}
 	async getAllPosts(cursor: number) {
 		let result = null
 		if (cursor) {

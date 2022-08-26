@@ -14,6 +14,11 @@ export class CommunityService {
 				select: {
 					comments: true
 				}
+			},
+			subReddit: {
+				select: {
+					title: true
+				}
 			}
 		}
 		try {
@@ -71,6 +76,15 @@ export class CommunityService {
 			throw new BadRequestException("Community not found")
 		}
 	}
+	async getCommunityInfo(title: string) {
+		const data = await this.prismaService.subReddit.findUnique({
+			where: {
+				title
+			}
+		})
+		if (!data) throw new BadRequestException("Community not found")
+		return data
+	}
 	async getPopularCommunities() {
 		return this.prismaService.subReddit.findMany({
 			orderBy: {
@@ -101,16 +115,6 @@ export class CommunityService {
 		})
 	}
 
-	async getUserCommunity(userId: number) {
-		return this.prismaService.subscribedSubReddits.findMany({
-			where: {
-				userId
-			},
-			include: {
-				subReddit: true
-			}
-		})
-	}
 	async createCommunity(title: string, userId: number) {
 		try {
 			const communityData = await this.prismaService.subReddit.create({

@@ -10,7 +10,10 @@ export class CommunityP {
 	getCommunity(@Query("title") title, @Query("cursor") cursor: number) {
 		return this.communityService.getCommunity(title, cursor)
 	}
-
+	@Get("info")
+	getCommunityInfo(@Query("title") title) {
+		return this.communityService.getCommunityInfo(title)
+	}
 	@Get("popular-all")
 	getPopularCommunitiesAll() {
 		return this.communityService.getPopularCommunitiesAll()

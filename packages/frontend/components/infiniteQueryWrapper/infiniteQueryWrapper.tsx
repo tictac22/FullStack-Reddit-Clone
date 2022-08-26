@@ -6,8 +6,8 @@ import { useInView } from "react-intersection-observer"
 import { Post as PostT } from "@/utils/types"
 import { useZustandStore } from "@/utils/zustand"
 
-import { Post } from "./post"
-import { PostLoader } from "./skeletons/post"
+import { Post } from "../post"
+import { PostLoader } from "../skeletons/post"
 
 type Page = {
 	posts: PostT[]

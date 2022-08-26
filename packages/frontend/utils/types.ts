@@ -65,6 +65,7 @@ export interface Community {
 	}
 	subscribers: number
 	posts: Post[]
+	ownerId: number
 }
 
 export interface UsersCommunities {

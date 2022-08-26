@@ -3,15 +3,24 @@ import { $api } from "@/utils/axios"
 import { Community, Post } from "./types"
 
 export class QueryService {
-	static async getCommunity(title: string, cursor: number | null): Promise<{ subReddit: Community; cursor: number }> {
-		const response = await $api(`communityP?title=${title}&cursor=${cursor}`, {
+	static async getCommunity(title: string): Promise<Community> {
+		const response = await $api(`communityP/info?title=${title}`, {
 			method: "GET"
 		})
 		if (!(response.status === 200)) {
 			throw new Error("Community not found")
 		}
+		return response.data
+	}
+	static async getPostsCommunity(title: string, cursor = "null"): Promise<{ posts: Post[]; cursor: number | null }> {
+		const response = await $api(`postP/community?title=${title}&cursor=${cursor}`, {
+			method: "GET"
+		})
+		if (!(response.status === 200)) {
+			throw new Error("No Communities found")
+		}
 		return {
-			subReddit: response.data.subReddit,
+			posts: response.data.posts,
 			cursor: response.data.cursor
 		}
 	}

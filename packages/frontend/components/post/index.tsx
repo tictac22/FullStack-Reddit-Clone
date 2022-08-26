@@ -29,7 +29,6 @@ export const Post: React.FC<IProps> = memo(
 			}),
 			shallow
 		)
-
 		const [isVoting, setIsVoting] = useState(false)
 		const router = useRouter()
 		const toggleVote = (voteToogle: boolean) => async (e) => {
