@@ -1,6 +1,9 @@
 import { useState } from "react"
 
 import { $api } from "@/utils/axios"
+import { useQueryClient } from "@tanstack/react-query"
+
+import { WithAuthMethods } from "../authentication/withAuthMethods"
 
 interface Props {
 	postId: number
@@ -8,19 +11,27 @@ interface Props {
 export const CommentForm: React.FC<Props> = ({ postId }) => {
 	const [comment, setComment] = useState("")
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const queryClient = useQueryClient()
+	const sendComment = async (cb: () => void) => {
+		const isAuth = await cb()
+		if (isAuth === null) return
 
-	const sendComment = async () => {
 		if (!comment) return
 		setIsSubmitting(true)
-		await $api("post/comment", {
+		const response = await $api("post/comment", {
 			method: "POST",
 			data: {
 				postId,
 				comment
 			}
 		})
-		location.reload()
+		queryClient.setQueryData(["post", postId], (prev) => ({
+			...prev,
+			comments: [response.data, ...prev.comments]
+		}))
+		setIsSubmitting(false)
 	}
+
 	return (
 		<form>
 			<textarea
@@ -30,14 +41,18 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 				value={comment}
 				onChange={(e) => setComment(e.target.value)}
 			/>
-			<button
-				disabled={isSubmitting}
-				type="button"
-				className="my-3 btn-primary ml-auto w-3 flex justify-center items-end"
-				onClick={sendComment}
-			>
-				Comment
-			</button>
+			<WithAuthMethods>
+				{({ isAuth }) => (
+					<button
+						disabled={isSubmitting}
+						type="button"
+						className="my-3 btn-primary ml-auto w-3 flex justify-center items-end"
+						onClick={() => sendComment(isAuth)}
+					>
+						Comment
+					</button>
+				)}
+			</WithAuthMethods>
 		</form>
 	)
 }

@@ -7,8 +7,8 @@ import { $api } from "@/utils/axios"
 import { objectsEqual } from "@/utils/functions"
 import type { Post as PostT } from "@/utils/types"
 import { useZustandStore } from "@/utils/zustand"
-import shallow from "zustand/shallow"
 
+import { WithAuthMethods } from "../authentication/withAuthMethods"
 import { PostContent } from "./postContent"
 import { SubRedditInfo } from "./subRedditInfo"
 
@@ -22,18 +22,15 @@ type IProps = PostT & {
 export const Post: React.FC<IProps> = memo(
 	(props) => {
 		const { vote } = props
-		const { setVote: setVoteState, isAuthenticated } = useZustandStore(
-			(state) => ({
-				setVote: state.setVote,
-				isAuthenticated: state.isAuthenticated
-			}),
-			shallow
-		)
+		const setVoteState = useZustandStore((state) => state.setVote)
 		const [isVoting, setIsVoting] = useState(false)
 		const router = useRouter()
-		const toggleVote = (voteToogle: boolean) => async (e) => {
+		const toggleVote = (cb: () => void, voteToogle: boolean) => async (e) => {
 			e.preventDefault()
-			if (!isAuthenticated) return router.replace("/account/login")
+
+			const isAuth = await cb()
+			if (isAuth === null) return
+
 			if (isVoting) return
 			setIsVoting(true)
 
@@ -99,30 +96,36 @@ export const Post: React.FC<IProps> = memo(
 							router.query.postId ? "bg-white" : "bg-[#f8f9fb]"
 						} flex  flex-col items-center`}
 					>
-						<TbArrowBigTop
-							className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] ${
-								props.vote?.value ? "text-[#FF4500] fill-[#ff4500]" : ""
-							}`}
-							onClick={isVoting ? () => null : toggleVote(true)}
-						/>
-						<p
-							className={`${
-								props.vote?.value
-									? "text-[#FF4500] fill-[#ff4500]"
-									: props.vote?.value === false
-									? "text-[#7292ff] fill-[#7292ff]"
-									: ""
-							}`}
-							ref={countRef}
-						>
-							{props.totalVotes}
-						</p>
-						<TbArrowBigDown
-							className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] ${
-								props.vote?.value === false ? "text-[#7292ff] fill-[#7292ff]" : ""
-							}`}
-							onClick={isVoting ? () => null : toggleVote(false)}
-						/>
+						<WithAuthMethods>
+							{({ isAuth }) => (
+								<div className="flex items-center flex-col mt-1">
+									<TbArrowBigTop
+										className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] ${
+											props.vote?.value ? "text-[#FF4500] fill-[#ff4500]" : ""
+										}`}
+										onClick={isVoting ? () => null : toggleVote(isAuth, true)}
+									/>
+									<p
+										className={`${
+											props.vote?.value
+												? "text-[#FF4500] fill-[#ff4500]"
+												: props.vote?.value === false
+												? "text-[#7292ff] fill-[#7292ff]"
+												: ""
+										}`}
+										ref={countRef}
+									>
+										{props.totalVotes}
+									</p>
+									<TbArrowBigDown
+										className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] ${
+											props.vote?.value === false ? "text-[#7292ff] fill-[#7292ff]" : ""
+										}`}
+										onClick={isVoting ? () => null : toggleVote(isAuth, false)}
+									/>
+								</div>
+							)}
+						</WithAuthMethods>
 					</div>
 					{MemoizedPostContent}
 				</div>

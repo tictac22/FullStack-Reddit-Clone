@@ -11,15 +11,14 @@ export class AuthService {
 	constructor(private prismaService: PrismaService, private tokenService: TokenService) {}
 
 	async signup(dto: AuthSignUpDto) {
-		const captchaVerifed = await fetch(
-			`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${dto.captcha}`,
-			{
-				method: "POST"
-			}
-		)
-		const captchaVerifedJson = await captchaVerifed.json()
-		if (!captchaVerifedJson.success) throw new BadRequestException("captcha is incorrect")
-
+		// const captchaVerifed = await fetch(
+		// 	`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.CAPTCHA_SECRET}&response=${dto.captcha}`,
+		// 	{
+		// 		method: "POST"
+		// 	}
+		// )
+		// const captchaVerifedJson = await captchaVerifed.json()
+		// if (!captchaVerifedJson.success) throw new BadRequestException("captcha is incorrect")
 		const hashedPassword = await bcrypt.hash(dto.password, 10)
 		try {
 			const user = await this.prismaService.user.create({

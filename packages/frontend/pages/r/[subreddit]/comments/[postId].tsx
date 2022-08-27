@@ -7,10 +7,10 @@ import { RiCakeLine } from "react-icons/ri"
 
 import { Comment } from "@/components/comments/comment"
 import { CommentForm } from "@/components/comments/commentForm"
+import { SubscriptionButtons } from "@/components/helpersComponents/subscribe/subscription"
 import { PostWrapper } from "@/components/post/postWrapper"
 import { PostLoader } from "@/components/skeletons/post"
 import { PostInfoLoader } from "@/components/skeletons/postInfo"
-import { SubscriptionButtons } from "@/components/subscription"
 import { usePost } from "@/hooks/react-query/"
 import { convertDate } from "@/utils/functions"
 

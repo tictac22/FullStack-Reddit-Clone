@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next"
 import Link from "next/link"
 
+import { SubscriptionButtons } from "@/components/helpersComponents/subscribe/subscription"
 import { ImageWrapper } from "@/components/imageWrapepr"
-import { SubscriptionButtons } from "@/components/subscription"
 import { API_URL } from "@/utils/axios"
 import { Community } from "@/utils/types"
 

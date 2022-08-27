@@ -5,9 +5,9 @@ import { useRouter } from "next/router"
 
 import { BiCake } from "react-icons/bi"
 
+import { WithAuth } from "@/components/authentication/withAuth"
 import { SubRedditInfoLoader } from "@/components/skeletons/SubRedditInfo"
 import { Rules } from "@/components/submitpost/rules"
-import { WithAuth } from "@/components/withAuth"
 import { useCommunityInfo } from "@/hooks/react-query"
 import { convertDate } from "@/utils/functions"
 

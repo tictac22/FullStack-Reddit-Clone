@@ -1,8 +1,8 @@
 import { NextPage } from "next"
 import dynamic from "next/dynamic"
 
+import { WithAuth } from "@/components/authentication/withAuth"
 import { Rules } from "@/components/submitpost/rules"
-import { WithAuth } from "@/components/withAuth"
 
 const DynamicPostForm = dynamic(() => import("@/components/submitpost").then((mod) => mod.PostForm), {
 	ssr: false

@@ -14,8 +14,12 @@ interface Props {
 	routerPostid: string | undefined
 	children?: React.ReactNode
 }
+// set mask if in index page and doesn't have image
 export const PostContent: React.FC<Props> = (props) => {
-	const isImage = (JSON.parse(props.text) as string).includes("img") || !!props.routerPostid
+	const isBigText =
+		!(JSON.parse(props.text) as string).includes("img") &&
+		!props.routerPostid &&
+		(JSON.parse(props.text) as string).length > 800
 	return (
 		<div className="bg-white flex-shrink-[36] px-2 w-full">
 			<div className="ml-2 mt-2 text-gray-400 flex item-center flex-wrap">
@@ -28,10 +32,10 @@ export const PostContent: React.FC<Props> = (props) => {
 			</div>
 			<h3 className="ml-2 font-bold">{props.title}</h3>
 			<div
-				className={` ${!isImage && "max-h-[250px] overflow-hidden"} textColorBlack `}
+				className={` ${isBigText && "max-h-[250px] overflow-hidden"} textColorBlack `}
 				style={{
-					WebkitMaskImage: `${!isImage && "linear-gradient(180deg,#000 60%,transparent)"}`,
-					maskImage: `${!isImage && "linear-gradient(180deg,#000 60%,transparent)"}`
+					WebkitMaskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`,
+					maskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`
 				}}
 			>
 				{parse(JSON.parse(props.text))}

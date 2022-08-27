@@ -1,8 +1,8 @@
-import { useRouter } from "next/router"
-
 import { $api } from "@/utils/axios"
 import { useZustandStore } from "@/utils/zustand"
 import { useQueryClient } from "@tanstack/react-query"
+
+import { WithAuthMethods } from "../../authentication/withAuthMethods"
 
 interface Props {
 	subredditId: number
@@ -40,18 +40,16 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 }
 export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed }) => {
 	const queryClient = useQueryClient()
-	const router = useRouter()
-	const { user, setUser, isAuthenticated } = useZustandStore((state) => ({
+	const { user, setUser } = useZustandStore((state) => ({
 		setUser: state.setUser,
-		user: state.user,
-		isAuthenticated: state.isAuthenticated
+		user: state.user
 	}))
-	const subscribe = async (e) => {
+	const subscribe = async (e, cb: () => void) => {
 		e.preventDefault()
-		if (!isAuthenticated) {
-			router.push("/account/login")
-			return
-		}
+
+		const isAuth = await cb()
+		if (isAuth === null) return
+
 		const response = await $api("community/subscribe", {
 			method: "PATCH",
 			data: {
@@ -68,8 +66,12 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed 
 		queryClient.invalidateQueries(["allPosts"])
 	}
 	return (
-		<button className="btn-secondary w-full self-start px-8 py-0" onClick={(e) => subscribe(e)}>
-			Join
-		</button>
+		<WithAuthMethods>
+			{({ isAuth }) => (
+				<button className="btn-secondary w-full self-start px-8 py-0" onClick={(e) => subscribe(e, isAuth)}>
+					Join
+				</button>
+			)}
+		</WithAuthMethods>
 	)
 }

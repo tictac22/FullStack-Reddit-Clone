@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { AiOutlineLoading } from "react-icons/ai"
 
 import { $api } from "@/utils/axios"
+import { useZustandStore } from "@/utils/zustand"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import { FormInput } from "./formInput"
@@ -23,6 +24,7 @@ const passwordErrorsText = [
 let captcha
 
 export const RegistrationForm: React.FC = () => {
+	const { setUser, logIn } = useZustandStore((state) => ({ setUser: state.setUser, logIn: state.logIn }))
 	const methods = useForm<HookRegistrationFormValues>({
 		resolver: yupResolver(schemaRegistration),
 		criteriaMode: "all",
@@ -39,12 +41,14 @@ export const RegistrationForm: React.FC = () => {
 	const [isPasswordTyped, setIsPasswordTyped] = useState(false)
 	const onSubmit = async (data) => {
 		try {
-			await $api("auth/signup", {
+			const response = await $api("auth/signup", {
 				method: "POST",
 				data: {
 					...data
 				}
 			})
+			setUser(response.data)
+			logIn(true)
 			router.push("/")
 		} catch (error) {
 			const errors = error.response.data.errors

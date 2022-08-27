@@ -225,6 +225,16 @@ export class PostService {
 				text: comment,
 				user: { connect: { id: userId } },
 				post: { connect: { id: postId } }
+			},
+			include: {
+				user: {
+					select: {
+						id: true,
+						username: true,
+						createdAt: true
+					}
+				},
+				likes: true
 			}
 		})
 	}

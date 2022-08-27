@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import React from "react"
 
-import { SubscribeButton, UnSubscribeButton } from "@/components/toggleSubscription"
+import { SubscribeButton, UnSubscribeButton } from "@/components/helpersComponents/subscribe/toggleSubscription"
 import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
 import { useZustandStore } from "@/utils/zustand"
 import shallow from "zustand/shallow"
