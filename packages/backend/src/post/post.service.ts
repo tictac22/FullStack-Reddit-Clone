@@ -45,15 +45,21 @@ export class PostService {
 		let result = null
 		if (cursor) {
 			result = await this.prismaService.post.findMany({
-				...communityPostQuery,
+				...communityPostQuery(title),
 				cursor: {
 					id: cursor
 				},
-				skip: 1
+				skip: 1,
+				orderBy: {
+					createdAt: "desc"
+				}
 			})
 		} else {
 			result = await this.prismaService.post.findMany({
-				...communityPostQuery
+				...communityPostQuery(title),
+				orderBy: {
+					createdAt: "desc"
+				}
 			})
 		}
 		const myCursor = result.length === 20 ? result[result.length - 1].id : null

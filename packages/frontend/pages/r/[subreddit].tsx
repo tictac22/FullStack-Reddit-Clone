@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { BiCake } from "react-icons/bi"
 
 import { FormPost } from "@/components/FormPost"
-import { SubRedditError } from "@/components/helpersComponents/subscribe/subRedditError"
+import { SubRedditError } from "@/components/helpersComponents/subRedditError"
 import { SubscriptionButtons } from "@/components/helpersComponents/subscribe/subscription"
 import { ImageWrapper } from "@/components/imageWrapepr"
 import { SubRedditQuery } from "@/components/infiniteQueryWrapper/subRedditQuery"
@@ -19,7 +19,6 @@ const SubReddit = () => {
 	const router = useRouter()
 	const { error, data } = useCommunityInfo(router.query.subreddit as string)
 	const userId = useZustandStore((state) => state.user?.id)
-
 	if (error) return <SubRedditError />
 	return (
 		<>

@@ -10,7 +10,7 @@ export const WithAuthMethods = ({ children }: Props) => {
 	const router = useRouter()
 	const isAuth = () => {
 		if (!isLogin) {
-			router.replace("/account/login")
+			router.push("/account/login")
 		}
 		return null
 	}

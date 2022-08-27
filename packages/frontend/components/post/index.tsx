@@ -82,7 +82,6 @@ export const Post: React.FC<IProps> = memo(
 					)}
 				</PostContent>
 			)
-			//eslint-disable-next-line
 		}, [])
 		return (
 			<div

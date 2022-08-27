@@ -11,6 +11,40 @@ module.exports = {
 					100: "#f6fafd",
 					200: "#70819b"
 				}
+			},
+			animation: {
+				progress1: "progress1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite",
+				progress2: "progress2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite"
+			},
+			keyframes: {
+				progress1: {
+					"0%": {
+						left: "-35%",
+						right: "100%"
+					},
+					"60%": {
+						left: "100%",
+						right: "-90%"
+					},
+					"100%": {
+						left: "100%",
+						right: "-90%"
+					}
+				},
+				progress2: {
+					"0%": {
+						left: "-200%",
+						right: " 100%"
+					},
+					"60%": {
+						left: "107%",
+						right: "-8%"
+					},
+					"100%": {
+						left: " 107%",
+						right: "-8%"
+					}
+				}
 			}
 		}
 	}

@@ -49,7 +49,7 @@ export const includeUserPost = {
 	}
 }
 
-export const communityPostQuery = (title) => {
+export const communityPostQuery = (title: string) => {
 	return {
 		where: {
 			subReddit: {
@@ -57,9 +57,6 @@ export const communityPostQuery = (title) => {
 			}
 		},
 		take: 20,
-		orderBy: {
-			createdAt: "desc"
-		},
 		include: includeQueryPrisma
 	}
 }

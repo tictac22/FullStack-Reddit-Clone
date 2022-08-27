@@ -18,7 +18,10 @@ interface Props {
 }
 export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity, disabled }) => {
 	const [query, setQuery] = useState("")
-	const { SubscribedSubReddits = [], username } = useZustandStore((state) => state.user)
+	const { SubscribedSubReddits, username } = useZustandStore((state) => ({
+		SubscribedSubReddits: state.user?.SubscribedSubReddits,
+		username: state.user?.username
+	}))
 	const filteredCommunity =
 		SubscribedSubReddits?.length > 0
 			? query === ""

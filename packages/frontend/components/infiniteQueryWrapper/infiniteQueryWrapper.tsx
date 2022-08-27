@@ -27,7 +27,6 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 		if (inView && hasNextPage) {
 			fetchNextPage()
 		}
-		//eslint-disable-next-line
 	}, [inView])
 	const Vote = useZustandStore((state) => state.user?.Vote)
 
