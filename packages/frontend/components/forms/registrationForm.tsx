@@ -76,7 +76,7 @@ export const RegistrationForm: React.FC = () => {
 					))}
 				</div>
 				<FormInput name="passwordConfirm" type="password" />
-				<div className="mt-3 relative">
+				<div className="relative mt-3">
 					<ReCAPTCHA
 						sitekey={process.env.NX_CAPTCHA_SITE}
 						onChange={handleCaptcha}
@@ -90,7 +90,7 @@ export const RegistrationForm: React.FC = () => {
 
 				<button
 					type="submit"
-					className="px-[10px] py-[5px] bg-[#0079d3] text-white rounded mt-3 hover:bg-[#2279bc] transition-colors text-center"
+					className="mt-3 rounded bg-[#0079d3] px-[10px] py-[5px] text-center text-white transition-colors hover:bg-[#2279bc]"
 					disabled={isSubmitting}
 				>
 					<p className="flex justify-center">

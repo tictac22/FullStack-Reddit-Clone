@@ -9,10 +9,10 @@ export const Buttons = () => {
 			{!isAuthenticated && (
 				<>
 					<Link href={"/account/login"}>
-						<button className="hidden lg:block  btn-primary">Log In</button>
+						<button className="btn-primary hidden  lg:block">Log In</button>
 					</Link>
 					<Link href={"/account/register"}>
-						<button className="hidden lg:block btn-secondary ml-4">Sign Up</button>
+						<button className="btn-secondary ml-4 hidden lg:block">Sign Up</button>
 					</Link>
 				</>
 			)}

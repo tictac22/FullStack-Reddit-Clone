@@ -56,15 +56,15 @@ export const Comment: React.FC<CommentT> = ({ user, text, createdAt, like, id })
 	return (
 		<div className="my-3">
 			<div className="flex items-center">
-				<Image src={UserSvg} alt="user" width={36} height={36} className=" bg-[#EDEFF1] rounded-full" />
+				<Image src={UserSvg} alt="user" width={36} height={36} className=" rounded-full bg-[#EDEFF1]" />
 				<Link href={`/user/${user.username}`}>
-					<a className="hover:underline ml-2">{user.username}</a>
+					<a className="ml-2 hover:underline">{user.username}</a>
 				</Link>
 				<div className="ml-2">{timeAgo(createdAt)}</div>
 			</div>
 			<div className="ml-[45px]">
 				<p>{text}</p>
-				<div className="flex items-center mt-2">
+				<div className="mt-2 flex items-center">
 					<p className="mr-2" ref={ref}>
 						{like}
 					</p>

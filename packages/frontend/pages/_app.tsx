@@ -28,20 +28,20 @@ const CustomApp = ({ Component, pageProps, ...appProps }: AppProps) => {
 
 	if (noLayout.includes(appProps.router.pathname)) {
 		return (
-			<div className="flex flex-col w-full min-h-full relative">
+			<div className="relative flex min-h-full w-full flex-col">
 				<Component {...pageProps} {...appProps} />
 			</div>
 		)
 	}
 
 	return (
-		<div className="flex flex-col w-full min-h-full relative">
+		<div className="relative flex min-h-full w-full flex-col">
 			<QueryClientProvider client={queryClient}>
 				<Head>
 					<title>Reddit</title>
 				</Head>
 				<Header />
-				<main className="bg-[#dbe0e6] flex-auto">
+				<main className="flex-auto bg-[#dbe0e6]">
 					<Component {...pageProps} {...appProps} />
 				</main>
 				<ReactQueryDevtools initialIsOpen={false} />

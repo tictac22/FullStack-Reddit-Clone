@@ -31,7 +31,7 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 	}
 	return (
 		<button
-			className="btn-primary w-full self-start px-8 py-0 flex items-center justify-center"
+			className="btn-primary flex w-full items-center justify-center self-start px-8 py-0"
 			onClick={(e) => unsubscribe(e)}
 		>
 			Joined

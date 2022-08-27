@@ -59,10 +59,10 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 	}
 	return (
 		<div className="flex-[40%]">
-			<h1 className=" text-lg mb-4 pb-1 pl-2 border-b border-solid border-b-[#EDEFF1]">Create Post</h1>
+			<h1 className=" mb-4 border-b border-solid border-b-[#EDEFF1] pb-1 pl-2 text-lg">Create Post</h1>
 			<SelectComminity community={community} setCommunity={setCommunity} disabled={disabled} />
 			<textarea
-				className="w-full max-h-[140px] h-[37px] min-h-[37px] overflow-y-hidden leading-[2] px-3 pb-3  mb-2 focus:outline-none     rounded-lg"
+				className="mb-2 h-[37px] max-h-[140px] min-h-[37px] w-full overflow-y-hidden rounded-lg px-3  pb-3 leading-[2]     focus:outline-none"
 				placeholder="Title"
 				value={title}
 				maxLength={300}
@@ -71,8 +71,8 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 			<EditorDraft editorState={editorState} onEditorStateChange={onEditorStateChange} />
 			<button
 				className={`ml-auto mt-2 ${
-					allowed ? "text-white bg-cyan-400 cursor-pointer" : "text-[#bebebe] bg-[#848484] cursor-not-allowed"
-				} py-1 px-4 rounded-full  block`}
+					allowed ? "cursor-pointer bg-cyan-400 text-white" : "cursor-not-allowed bg-[#848484] text-[#bebebe]"
+				} block rounded-full py-1  px-4`}
 				onClick={sendPost}
 				disabled={isSending}
 			>

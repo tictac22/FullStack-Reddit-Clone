@@ -26,12 +26,12 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 
 	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, subRedditId)
 	return (
-		<div className="flex items-center bg-white p-3 border-b border-solid border-[#CBD5E0]  last:border-b-0">
+		<div className="flex items-center border-b border-solid border-[#CBD5E0] bg-white p-3  last:border-b-0">
 			<p className="mr-5">{index}.</p>
 			{image ? (
 				<Image className="rounded-full" width={28} height={28} src={image} alt="test" />
 			) : (
-				<div className="rounded-full w-[28px] h-[28px] bg-cyan-400 flex items-center justify-center"> /r </div>
+				<div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-cyan-400"> /r </div>
 			)}
 			<Link href={`/r/${title}`}>
 				<a className="">
@@ -39,11 +39,11 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 				</a>
 			</Link>
 			{isSubscribed ? (
-				<div className="max-w-[96px] ml-auto">
+				<div className="ml-auto max-w-[96px]">
 					<UnSubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
 				</div>
 			) : (
-				<div className="max-w-[96px] ml-auto">
+				<div className="ml-auto max-w-[96px]">
 					<SubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
 				</div>
 			)}

@@ -2,7 +2,7 @@ import ContentLoader from "react-content-loader"
 
 export const PostInfoLoader = (props) => {
 	return (
-		<div className="w-[320px] h-[241px] bg-white">
+		<div className="h-[241px] w-[320px] bg-white">
 			<ContentLoader
 				speed={2}
 				width={312}

@@ -6,7 +6,7 @@ import { TbArrowBigDown, TbArrowBigTop } from "react-icons/tb"
 export const PostLoader = (props) => {
 	const router = useRouter()
 	return (
-		<div className="bg-white my-2">
+		<div className="my-2 bg-white">
 			<div className="flex">
 				<div
 					className={`w-[40px] max-w-full ${
@@ -14,11 +14,11 @@ export const PostLoader = (props) => {
 					} flex  flex-col items-center`}
 				>
 					<TbArrowBigTop
-						className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] `}
+						className={`mt-2 h-[24px] w-[24px] cursor-pointer text-[#878A8C] hover:bg-slate-300 hover:text-[#FF4500] `}
 					/>
-					<p className="w-4 h-4 bg-gray-400 animate-pulse my-2"></p>
+					<p className="my-2 h-4 w-4 animate-pulse bg-gray-400"></p>
 					<TbArrowBigDown
-						className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] `}
+						className={`h-[24px] w-[24px] cursor-pointer text-[#878A8C] hover:bg-slate-300 hover:text-[#7193FF] `}
 					/>
 				</div>
 				<ContentLoader

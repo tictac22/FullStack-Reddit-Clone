@@ -6,8 +6,8 @@ export const Logo: React.FC = () => {
 	return (
 		<Link href={"/"}>
 			<a>
-				<div className="flex items-center cursor-pointer">
-					<svg xmlns="http://www.w3.org/2000/svg" className="mr-2 w-8 h-8" viewBox="0 0 20 20">
+				<div className="flex cursor-pointer items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-8 w-8" viewBox="0 0 20 20">
 						<g>
 							<circle fill="#FF4500" cx="10" cy="10" r="10"></circle>
 							<path

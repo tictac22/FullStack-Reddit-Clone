@@ -35,7 +35,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 	return (
 		<form>
 			<textarea
-				className="w-full max-h-56 p-3 focus:border-black border border-solid border-[#f6f8f7]"
+				className="max-h-56 w-full border border-solid border-[#f6f8f7] p-3 focus:border-black"
 				placeholder="What are your thoughts?"
 				maxLength={200}
 				value={comment}
@@ -46,7 +46,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 					<button
 						disabled={isSubmitting}
 						type="button"
-						className="my-3 btn-primary ml-auto w-3 flex justify-center items-end"
+						className="btn-primary my-3 ml-auto flex w-3 items-end justify-center"
 						onClick={() => sendComment(isAuth)}
 					>
 						Comment

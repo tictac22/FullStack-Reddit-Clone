@@ -85,8 +85,8 @@ export const Post: React.FC<IProps> = memo(
 		}, [])
 		return (
 			<div
-				className={` md:min-w-[633px] border border-solid border-[#ccc] ${
-					!router.query.postId && "hover:border-[#898989] my-2"
+				className={` border border-solid border-[#ccc] md:min-w-[633px] ${
+					!router.query.postId && "my-2 hover:border-[#898989]"
 				} ${router.query.postId && "border-b-0"}`}
 			>
 				<div className="flex ">
@@ -97,19 +97,19 @@ export const Post: React.FC<IProps> = memo(
 					>
 						<WithAuthMethods>
 							{({ isAuth }) => (
-								<div className="flex items-center flex-col mt-1">
+								<div className="mt-1 flex flex-col items-center">
 									<TbArrowBigTop
-										className={`h-[24px] w-[24px] mt-2 text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#FF4500] ${
-											props.vote?.value ? "text-[#FF4500] fill-[#ff4500]" : ""
+										className={`mt-2 h-[24px] w-[24px] cursor-pointer text-[#878A8C] hover:bg-slate-300 hover:text-[#FF4500] ${
+											props.vote?.value ? "fill-[#ff4500] text-[#FF4500]" : ""
 										}`}
 										onClick={isVoting ? () => null : toggleVote(isAuth, true)}
 									/>
 									<p
 										className={`${
 											props.vote?.value
-												? "text-[#FF4500] fill-[#ff4500]"
+												? "fill-[#ff4500] text-[#FF4500]"
 												: props.vote?.value === false
-												? "text-[#7292ff] fill-[#7292ff]"
+												? "fill-[#7292ff] text-[#7292ff]"
 												: ""
 										}`}
 										ref={countRef}
@@ -117,8 +117,8 @@ export const Post: React.FC<IProps> = memo(
 										{props.totalVotes}
 									</p>
 									<TbArrowBigDown
-										className={`h-[24px] w-[24px] text-[#878A8C] cursor-pointer hover:bg-slate-300 hover:text-[#7193FF] ${
-											props.vote?.value === false ? "text-[#7292ff] fill-[#7292ff]" : ""
+										className={`h-[24px] w-[24px] cursor-pointer text-[#878A8C] hover:bg-slate-300 hover:text-[#7193FF] ${
+											props.vote?.value === false ? "fill-[#7292ff] text-[#7292ff]" : ""
 										}`}
 										onClick={isVoting ? () => null : toggleVote(isAuth, false)}
 									/>

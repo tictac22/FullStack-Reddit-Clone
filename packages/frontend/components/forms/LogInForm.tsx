@@ -50,7 +50,7 @@ export const LogInForm = () => {
 				<FormInput name="password" type="password" />
 				<button
 					type="submit"
-					className="px-[10px] py-[5px] bg-[#0079d3] text-white rounded mt-3 hover:bg-[#2279bc] transition-colors"
+					className="mt-3 rounded bg-[#0079d3] px-[10px] py-[5px] text-white transition-colors hover:bg-[#2279bc]"
 				>
 					<p className="flex justify-center">
 						{isSubmitting ? <AiOutlineLoading className="animate-spin" /> : "SIGN UP"}

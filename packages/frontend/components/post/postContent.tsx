@@ -21,12 +21,12 @@ export const PostContent: React.FC<Props> = (props) => {
 		!props.routerPostid &&
 		(JSON.parse(props.text) as string).length > 800
 	return (
-		<div className="bg-white flex-shrink-[36] px-2 w-full">
-			<div className="ml-2 mt-2 text-gray-400 flex item-center flex-wrap">
+		<div className="w-full flex-shrink-[36] bg-white px-2">
+			<div className="item-center ml-2 mt-2 flex flex-wrap text-gray-400">
 				{props.children}
 				Posted by{" "}
 				<Link href={`/user/${props.username}`}>
-					<span className="hover:underline cursor-pointer mx-1">u/{props.username}</span>
+					<span className="mx-1 cursor-pointer hover:underline">u/{props.username}</span>
 				</Link>
 				{timeAgo(props.createdAt)}
 			</div>
@@ -40,13 +40,13 @@ export const PostContent: React.FC<Props> = (props) => {
 			>
 				{parse(JSON.parse(props.text))}
 			</div>
-			<div className="p-3 border-t border-gray-400 mt-3">
+			<div className="mt-3 border-t border-gray-400 p-3">
 				<div
 					className={`inline-flex items-center ${
-						!props.routerPostid && "hover:bg-slate-300 cursor-pointer"
-					} p-2 rounded-lg`}
+						!props.routerPostid && "cursor-pointer hover:bg-slate-300"
+					} rounded-lg p-2`}
 				>
-					<MdOutlineComment className="w-[20px] h-[20px]" />
+					<MdOutlineComment className="h-[20px] w-[20px]" />
 					<p className="ml-2">{props.countComments} Comments</p>
 				</div>
 			</div>

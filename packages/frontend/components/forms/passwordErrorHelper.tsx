@@ -14,9 +14,9 @@ export const PasswordErrorHelper: React.FC<IPasswordErrorHelper> = ({ isPassword
 			!(text === EPasswordErrorTexts.Min
 				? errors.password?.types.min === text
 				: errors.password?.types?.matches?.includes(text) || errors.password?.types.matches === text) ? (
-				<AiOutlineCheck className=" fill-lime-400 mr-2" />
+				<AiOutlineCheck className=" mr-2 fill-lime-400" />
 			) : (
-				<GoStop className=" fill-red-400 mr-2" />
+				<GoStop className=" mr-2 fill-red-400" />
 			)}
 			<p>{text}</p>
 		</div>

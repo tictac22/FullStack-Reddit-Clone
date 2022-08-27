@@ -17,8 +17,9 @@
 		"^@fontsource/(.*)$",
 		"^[./]"
 	],
-	"plugins": ["@trivago/prettier-plugin-sort-imports"],
+	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true,
+	"tailwindConfig": "./packages/frontend/tailwind.config.js",
 	"importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"]
 }

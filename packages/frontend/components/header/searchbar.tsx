@@ -36,12 +36,12 @@ export const SearchBar: React.FC = () => {
 		router.push(path)
 	}
 	return (
-		<div className="max-w-3xl flex-auto mx-3">
+		<div className="mx-3 max-w-3xl flex-auto">
 			<Combobox value={selected} onChange={setSelected}>
 				<div className="relative">
 					<div className="relative w-full cursor-default rounded-lg  text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
 						<Combobox.Input
-							className="w-full border-solid border-2 rounded-lg border-slate-400 py-2 px-10 text-sm leading-5 text-custom-200 bg-custom-100 focus:ring-0 focus:outline-sky-400"
+							className="w-full rounded-lg border-2 border-solid border-slate-400 bg-custom-100 py-2 px-10 text-sm leading-5 text-custom-200 focus:outline-sky-400 focus:ring-0"
 							onChange={(event) => getCommunities(event)}
 							displayValue={(person: { title: string }) => person && person.title}
 							placeholder={"Search Reddit"}
@@ -67,7 +67,7 @@ export const SearchBar: React.FC = () => {
 										key={community.id}
 										className={({ active }) =>
 											`relative cursor-default select-none py-2 pl-3 pr-4 ${
-												active ? "text-white bg-teal-600" : "text-gray-900"
+												active ? "bg-teal-600 text-white" : "text-gray-900"
 											}`
 										}
 										value={community}
@@ -90,14 +90,14 @@ export const SearchBar: React.FC = () => {
 																	className="rounded-full"
 																/>
 															) : (
-																<div className="w-[24px] h-[24px] bg-cyan-500 rounded-full" />
+																<div className="h-[24px] w-[24px] rounded-full bg-cyan-500" />
 															)}
 															<div className="ml-2">
 																<p className="">{community.title}</p>
-																<div className="text-gray-400 flex items-center text-xs">
+																<div className="flex items-center text-xs text-gray-400">
 																	Community{" "}
 																	<svg
-																		className="fill-[#878A8C] w-1 mx-1"
+																		className="mx-1 w-1 fill-[#878A8C]"
 																		xmlns="http://www.w3.org/2000/svg"
 																		viewBox="0 0 8 8"
 																	>

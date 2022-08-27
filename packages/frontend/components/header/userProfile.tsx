@@ -20,7 +20,7 @@ export const UserProfile: React.FC = () => {
 	return (
 		<div className="text-right lg:ml-10 ">
 			<Menu as="div" className="relative inline-block text-left">
-				<Menu.Button className=" p-2 flex items-center cursor-pointer border-2 border-solid border-white hover:border-custom-100">
+				<Menu.Button className=" flex cursor-pointer items-center border-2 border-solid border-white p-2 hover:border-custom-100">
 					<BsPersonCircle className="h-6 w-6 text-[#E2E8F0]" />
 					<HiOutlineChevronDown className="ml-2 -mr-1 h-5 w-5  text-[#E2E8F0] " aria-hidden="true" />
 				</Menu.Button>
@@ -40,9 +40,9 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
+										} group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm`}
 									>
-										<div className="flex items-center justify-between flex-1">
+										<div className="flex flex-1 items-center justify-between">
 											<p>Profile</p>
 										</div>
 									</div>
@@ -53,9 +53,9 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
+										} group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm`}
 									>
-										<div className="flex items-center justify-between flex-1">
+										<div className="flex flex-1 items-center justify-between">
 											<p>Dark Mode:</p>
 											<Toggle />
 										</div>
@@ -68,16 +68,16 @@ export const UserProfile: React.FC = () => {
 									<div
 										className={`${
 											active ? "bg-slate-400 text-white" : "text-gray-900"
-										} group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer`}
+										} group flex w-full cursor-pointer items-center rounded-md px-2 py-2 text-sm`}
 									>
 										{isAuthenticated ? (
-											<div className="flex items-center flex-1" onClick={logout}>
+											<div className="flex flex-1 items-center" onClick={logout}>
 												<FiLogOut />
 												<p className="ml-3">Logout</p>
 											</div>
 										) : (
 											<Link href={"/account/login"}>
-												<div className="flex items-center flex-1">
+												<div className="flex flex-1 items-center">
 													<BsBoxArrowRight />
 													<p className="ml-3">Sign up or Log in</p>
 												</div>

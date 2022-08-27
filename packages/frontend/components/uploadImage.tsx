@@ -35,9 +35,9 @@ export const UploadImage: React.FC<Props> = ({ subreddit }) => {
 					onChange={(e) => setFile(e.target.files[0])}
 				/>
 				{file && (
-					<div className="flex items-center justify-between mt-3 flex-wrap">
+					<div className="mt-3 flex flex-wrap items-center justify-between">
 						<div className="text-cyan-400 underline">{file.name}</div>
-						<button className="btn-primary w-[124px] mt-3" onClick={(e) => loadImage(e)}>
+						<button className="btn-primary mt-3 w-[124px]" onClick={(e) => loadImage(e)}>
 							send
 						</button>
 					</div>

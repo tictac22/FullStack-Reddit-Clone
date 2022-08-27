@@ -39,12 +39,12 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 				{({ open }) => (
 					<div className="relative z-30 mt-1 mb-2">
 						<div className="relative z-30 max-w-[300px] cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-							<div className="flex items-center ml-2">
+							<div className="ml-2 flex items-center">
 								{community === username ? (
 									<>
 										<Image
 											src={UserSvg}
-											className="w-[30px] h-[30px] bg-[#EDEFF1] rounded-full"
+											className="h-[30px] w-[30px] rounded-full bg-[#EDEFF1]"
 											alt="user"
 											width={30}
 											height={30}
@@ -87,19 +87,19 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 												alt={community.subRedditTitle}
 											/>
 										) : (
-											<div className="w-[22px] h-[22px] border-dashed border border-[#878A8C] rounded-full"></div>
+											<div className="h-[22px] w-[22px] rounded-full border border-dashed border-[#878A8C]"></div>
 										)}
 										<div className="py-2 pl-3 pr-2">{community.subRedditTitle}</div>
 									</>
 								) : (
 									<>
-										<div className="w-[22px] h-[22px] border-dashed border border-[#878A8C] rounded-full"></div>
+										<div className="h-[22px] w-[22px] rounded-full border border-dashed border-[#878A8C]"></div>
 										<div className="py-2 pl-3 pr-2">Select a community</div>
 									</>
 								)}
 							</div>
-							<Combobox.Button className="absolute w-full inset-y-0 right-0  items-center pr-2 flex justify-end cursor-default">
-								<BsSearch className="h-5 w-5 text-gray-400 cursor-pointer" aria-hidden="true" />
+							<Combobox.Button className="absolute inset-y-0 right-0 flex  w-full cursor-default items-center justify-end pr-2">
+								<BsSearch className="h-5 w-5 cursor-pointer text-gray-400" aria-hidden="true" />
 							</Combobox.Button>
 						</div>
 						<Transition
@@ -112,7 +112,7 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 						>
 							<Combobox.Options
 								static
-								className="absolute mt-1 max-h-60 max-w-[300px] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+								className="absolute mt-1 max-h-60 w-full max-w-[300px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
 							>
 								{filteredCommunity?.length === 0 && query !== "" ? (
 									<div className="relative cursor-default select-none py-2 px-4 text-gray-700">
@@ -122,7 +122,7 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 									<div>
 										<Combobox.Option
 											className={({ active }) =>
-												`relative cursor-default select-none py-2 pl-3 pr-4 p-3 border-b border-solid border-gray-400 ${
+												`relative cursor-default select-none border-b border-solid border-gray-400 p-3 py-2 pl-3 pr-4 ${
 													active ? "bg-teal-600 text-white" : "text-gray-900"
 												}`
 											}
@@ -132,7 +132,7 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 											<div className="mt-2 flex items-center">
 												<Image
 													src={UserSvg}
-													className="w-[33px] h-[33px] bg-[#EDEFF1] rounded"
+													className="h-[33px] w-[33px] rounded bg-[#EDEFF1]"
 													alt="user"
 													width={33}
 													height={33}

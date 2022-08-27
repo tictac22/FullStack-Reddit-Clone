@@ -30,15 +30,15 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 			defaultValue=""
 			render={({ field }) => (
 				<>
-					<div className="relative group transition-all my-3" ref={ref}>
+					<div className="group relative my-3 transition-all" ref={ref}>
 						<input
 							{...field}
 							{...register(name)}
 							id={name}
 							type={type}
-							className={`input peer transition-all w-full bg-[#fcfcfb] border border-solid ${
+							className={`input peer w-full border border-solid bg-[#fcfcfb] transition-all ${
 								errors[name] ? "border-red-500" : "border-[#000000]/5"
-							} rounded pt-[22px] px-[12px] pb-[10px] focus:outline-none  focus:border-cyan-400`}
+							} rounded px-[12px] pt-[22px] pb-[10px] focus:border-cyan-400  focus:outline-none`}
 							onChange={(e) => {
 								field.onChange(e)
 								setIsPasswordTyped && setIsPasswordTyped(true)
@@ -46,7 +46,7 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 						/>
 						<label
 							htmlFor={name}
-							className={`label absolute transition-all left-3 bottom-[16px] text-[10px] ${
+							className={`label absolute left-3 bottom-[16px] text-[10px] transition-all ${
 								errors[name] ? "text-red-500" : "text-[#a5a4a4]"
 							} uppercase tracking-wider group-hover:bottom-9 peer-focus:bottom-9`}
 						>

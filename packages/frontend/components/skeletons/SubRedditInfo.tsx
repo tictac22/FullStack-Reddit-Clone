@@ -5,7 +5,7 @@ type Props = {
 }
 export const SubRedditInfoLoader = ({ height }: Props) => {
 	return (
-		<div className={`w-[320px] "h-[121px]" bg-white`} style={{ height: `${height ? height + "px" : "inherit"}` }}>
+		<div className={`"h-[121px]" w-[320px] bg-white`} style={{ height: `${height ? height + "px" : "inherit"}` }}>
 			<ContentLoader
 				speed={2}
 				width={320}

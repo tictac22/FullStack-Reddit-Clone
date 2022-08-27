@@ -9,7 +9,7 @@ const Success = () => {
 		}, 1000)
 	}, [])
 	return (
-		<div className="flex-auto flex items-center justify-center">
+		<div className="flex flex-auto items-center justify-center">
 			<div className={styles.spinner}>
 				<div></div>
 				<div></div>

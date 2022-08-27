@@ -18,11 +18,11 @@ export const HomeInfo: React.FC = memo(() => {
 	}
 
 	return (
-		<div className="mt-4 bg-white rounded-t">
+		<div className="mt-4 rounded-t bg-white">
 			<div className="relative h-[34px]">
-				<Image src={homeBanner} alt="home banner" layout="fill" className="w-full h-full rounded-t" />
+				<Image src={homeBanner} alt="home banner" layout="fill" className="h-full w-full rounded-t" />
 			</div>
-			<div className="p-3 mt-[-23px]">
+			<div className="mt-[-23px] p-3">
 				<div className="flex items-end">
 					<Image src={reddit} alt="reddit" width={40} height={68} />
 					<div className="ml-2 mb-3">Home</div>
@@ -31,9 +31,9 @@ export const HomeInfo: React.FC = memo(() => {
 					Your personal Reddit frontpage. Come here to check in with your favorite communities.
 				</p>
 				<Link href={"/submit"}>
-					<button className="btn-primary w-full mt-1">Create Post</button>
+					<button className="btn-primary mt-1 w-full">Create Post</button>
 				</Link>
-				<button onClick={handleModal} className="btn-secondary w-full mt-2">
+				<button onClick={handleModal} className="btn-secondary mt-2 w-full">
 					Create Community
 				</button>
 				{isOpen && (

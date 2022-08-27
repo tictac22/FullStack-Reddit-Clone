@@ -29,27 +29,27 @@ export const FormLayout = ({ children }) => {
 		}
 	}
 	return (
-		<main className="flex-auto  flex justify-center sm:justify-start">
-			<div className="min-h-[430px] w-[154px] relative hidden sm:block">
+		<main className="flex  flex-auto justify-center sm:justify-start">
+			<div className="relative hidden min-h-[430px] w-[154px] sm:block">
 				<Image src={authSrc} layout="fill" priority alt="register" />
 			</div>
 			<div className="flex flex-col justify-center p-2 sm:p-6">
 				{router.pathname === "/account/register" ? <RegisterDescription /> : <LoginDescription />}
 				<div
 					onClick={authModal("google")}
-					className=" justify-center sm:justify-start my-3 flex items-center border border-solid border-[#0079d3] rounded text-[#0079d3] uppercase pl-1 py-2 cursor-pointer group hover:bg-[#3394dc] hover:text-white transition-all"
+					className=" group my-3 flex cursor-pointer items-center justify-center rounded border border-solid border-[#0079d3] py-2 pl-1 uppercase text-[#0079d3] transition-all hover:bg-[#3394dc] hover:text-white sm:justify-start"
 				>
-					<div className="h-[24px] w-[24px] sm:h-[46px] sm:w-[46px]  flex justify-center rounded-md  group-hover:bg-white">
+					<div className="flex h-[24px] w-[24px] justify-center  rounded-md group-hover:bg-white sm:h-[46px]  sm:w-[46px]">
 						<Image src={google.src} alt="google" width={20} height={20} />
 					</div>
 					<p className="ml-2">Continue with google</p>
 				</div>
 				<div
 					onClick={authModal("twitter")}
-					className="justify-center sm:justify-start my-3 flex items-center  border border-solid border-[#0079d3] rounded text-[#0079d3] uppercase pl-1 py-2 cursor-pointer group hover:bg-[#3394dc] hover:text-white transition-all"
+					className="group my-3 flex cursor-pointer items-center  justify-center rounded border border-solid border-[#0079d3] py-2 pl-1 uppercase text-[#0079d3] transition-all hover:bg-[#3394dc] hover:text-white sm:justify-start"
 				>
-					<div className="h-[24px] w-[24px] sm:h-[46px] sm:w-[46px]  flex items-center justify-center rounded-md  group-hover:bg-white">
-						<AiOutlineTwitter className="w-6 h-6 fill-[#50abf1]" />
+					<div className="flex h-[24px] w-[24px] items-center  justify-center rounded-md group-hover:bg-white sm:h-[46px]  sm:w-[46px]">
+						<AiOutlineTwitter className="h-6 w-6 fill-[#50abf1]" />
 					</div>
 					<p className="ml-2">Continue with twitter</p>
 				</div>

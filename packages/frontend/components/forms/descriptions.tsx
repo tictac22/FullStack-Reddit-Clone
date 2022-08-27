@@ -2,7 +2,7 @@ export const RegisterDescription = () => {
 	return (
 		<>
 			<h1 className="font-bold">Sign up</h1>
-			<p className="max-w-[280px] mt-3 text-xs sm:text-base">
+			<p className="mt-3 max-w-[280px] text-xs sm:text-base">
 				By continuing, you are setting up a Reddit account and agree to our{" "}
 				<a
 					className="text-cyan-300"
@@ -32,7 +32,7 @@ export const LoginDescription = () => {
 	return (
 		<>
 			<h1 className="font-bold">Log in</h1>
-			<p className="max-w-[280px] mt-3 text-xs sm:text-base">
+			<p className="mt-3 max-w-[280px] text-xs sm:text-base">
 				By continuing, you agree to our{" "}
 				<a
 					className="text-cyan-300"

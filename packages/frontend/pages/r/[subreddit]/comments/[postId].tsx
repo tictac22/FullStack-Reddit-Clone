@@ -28,7 +28,7 @@ const PostPage = () => {
 				) : (
 					<div className="flex-[67%]">
 						<PostWrapper {...data} />
-						<div className="pl-[48px] pr-2   bg-white border-l border-r border-b border-solid border-[#ccc]">
+						<div className="border-l border-r border-b border-solid border-[#ccc] bg-white pl-[48px] pr-2">
 							<CommentForm postId={data.id} />
 							<div className="my-5">
 								{data.comments.map((item) => (
@@ -39,24 +39,24 @@ const PostPage = () => {
 					</div>
 				)}
 				{data && router.asPath.includes("user") ? (
-					<div className="ml-3 max-w-full hidden lg:block w-[312px] border-solid  border-t border-b rounded-t relative h-auto">
-						<div className="h-[94px] bg-cyan-800 rounded-t absolute top-0 left-0 w-full "></div>
-						<div className="p-3 mt-2 bg-white ">
+					<div className="relative ml-3 hidden h-auto w-[312px] max-w-full  rounded-t border-t border-b border-solid lg:block">
+						<div className="absolute top-0 left-0 h-[94px] w-full rounded-t bg-cyan-800 "></div>
+						<div className="mt-2 bg-white p-3 ">
 							<Image src={UserSvg} alt="user" width={80} height={80} className=" bg-[#EDEFF1]" />
 							<Link href={`/user/${data.user.username}`} target="_blank">
-								<a className="hover:underline block">u/{data.user.username}</a>
+								<a className="block hover:underline">u/{data.user.username}</a>
 							</Link>
-							<div className="flex items-center mt-2">
+							<div className="mt-2 flex items-center">
 								<BiCake />
 								<p className="ml-2">Cake Day {convertDate(data.user.createdAt)}</p>
 							</div>
 						</div>
 					</div>
 				) : data?.subReddit ? (
-					<div className="ml-3 max-w-full hidden lg:block w-[312px] ">
+					<div className="ml-3 hidden w-[312px] max-w-full lg:block ">
 						<Link href={`/r/${router.query.subreddit}`}>
-							<div className="border border-solid border-gray-400 rounded cursor-pointer">
-								<div className="bg-cyan-500 text-white p-3 ">About Community</div>
+							<div className="cursor-pointer rounded border border-solid border-gray-400">
+								<div className="bg-cyan-500 p-3 text-white ">About Community</div>
 								<div className="bg-white p-3">
 									<div className="flex items-center">
 										{data.subReddit.image ? (
@@ -68,14 +68,14 @@ const PostPage = () => {
 												className="rounded-full"
 											/>
 										) : (
-											<div className="border-dashed border border-[#878A8C] rounded-full w-[54px] h-[54px]"></div>
+											<div className="h-[54px] w-[54px] rounded-full border border-dashed border-[#878A8C]"></div>
 										)}
 										<p className="ml-3">r/{data.subReddit.title}</p>
 									</div>
 									<div className="mt-2 border-b border-solid border-gray-500 pb-2">
 										{data.subReddit?.subscribers} Members
 									</div>
-									<div className="flex items-center mt-2">
+									<div className="mt-2 flex items-center">
 										<RiCakeLine />
 										<p className="ml-3">Created {convertDate(data.subReddit.createdAt)}</p>
 									</div>

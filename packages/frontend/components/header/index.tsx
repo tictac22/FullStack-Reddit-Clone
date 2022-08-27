@@ -8,7 +8,7 @@ import { UserProfile } from "./userProfile"
 
 export const Header: React.FC = () => {
 	return (
-		<header className="bg-white flex items-center px-3 justify-between relative z-50 h-[80px]">
+		<header className="relative z-50 flex h-[80px] items-center justify-between bg-white px-3">
 			<ProgressBar />
 			<Logo />
 			<SearchBar />

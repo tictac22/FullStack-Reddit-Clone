@@ -29,10 +29,10 @@ const SubReddit = () => {
 						data={{ subRedditId: data.id, subRedditTitle: data.title, image: data.image }}
 					/>
 				)}
-				<div className="hidden lg:block mt-3 ml-3">
+				<div className="mt-3 ml-3 hidden lg:block">
 					{data ? (
-						<div className="bg-white rounded mb-3">
-							<div className="h-[34px] w-full bg-[#0079D3] rounded-t"></div>
+						<div className="mb-3 rounded bg-white">
+							<div className="h-[34px] w-full rounded-t bg-[#0079D3]"></div>
 							<div className="p-3">
 								<div className="mt-2 flex items-center">
 									{data.image ? (
@@ -44,7 +44,7 @@ const SubReddit = () => {
 											className="rounded-full"
 										/>
 									) : (
-										<div className="w-[54px] h-[54px] border-dashed border border-[#878A8C] rounded-full"></div>
+										<div className="h-[54px] w-[54px] rounded-full border border-dashed border-[#878A8C]"></div>
 									)}
 									<Link href={`/r/${data.title}`}>
 										<a className="ml-2 cursor-pointer hover:underline">{data.title}</a>
@@ -53,8 +53,8 @@ const SubReddit = () => {
 								<div className="mt-2">Welcome to {data.title}</div>
 								<p className="my-2">{data.subscribers} Members</p>
 								<hr />
-								<div className="flex items-center mt-2">
-									<BiCake className="w-5 h-5" />
+								<div className="mt-2 flex items-center">
+									<BiCake className="h-5 w-5" />
 									<p className="ml-2">Created {convertDate(data.createdAt)}</p>
 								</div>
 							</div>

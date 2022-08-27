@@ -23,8 +23,8 @@ export const SubRedditQuery = () => {
 					hasNextPage={hasNextPage}
 				/>
 			) : (
-				<div className="lg:max-w-[640px] lg:w-[640px] w-full mt-5">
-					<p className="bg-white p-3 text-center rounded-md">
+				<div className="mt-5 w-full lg:w-[640px] lg:max-w-[640px]">
+					<p className="rounded-md bg-white p-3 text-center">
 						<Link href={router.asPath + `/submit`}>
 							<a>
 								Currently there are not posts :( go to{" "}

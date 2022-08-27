@@ -61,7 +61,7 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 							<Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded bg-white p-4 text-left align-middle shadow-xl transition-all">
 								<Dialog.Title
 									as="h3"
-									className=" flex pb-4 mb-4 border-b border-solid border-[#EDEFF1] text-lg font-medium leading-6 text-gray-900"
+									className=" mb-4 flex border-b border-solid border-[#EDEFF1] pb-4 text-lg font-medium leading-6 text-gray-900"
 								>
 									Create a community
 									<AiOutlineClose onClick={handleModal} className="ml-auto cursor-pointer" />
@@ -82,14 +82,14 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 											setInput(e.target.value.length > 21 ? inputValue : e.target.value)
 										}
 										name="name"
-										className=" border border-solid border-[#EDEFF1] w-full py-2 px-4 pl-8 rounded "
+										className=" w-full rounded border border-solid border-[#EDEFF1] py-2 px-4 pl-8 "
 									/>
 								</div>
 								<p className="text-base text-[#7c7c7c]">
 									{21 - +inputValue.length} Characters remaining
 								</p>
-								{error && <p className="text-red-500 text-base">{error}</p>}
-								<div className="bg-[#EDEFF1] p-4 mt-4 -ml-4 -mr-4 -mb-4 flex items-center justify-end">
+								{error && <p className="text-base text-red-500">{error}</p>}
+								<div className="mt-4 -ml-4 -mr-4 -mb-4 flex items-center justify-end bg-[#EDEFF1] p-4">
 									<button onClick={handleModal} className="btn-primary px-4 py-1">
 										Cancel
 									</button>

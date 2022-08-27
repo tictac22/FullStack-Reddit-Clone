@@ -6,10 +6,10 @@ import { FormLayout } from "@/components/forms/formLayout"
 const LogIn = () => {
 	return (
 		<FormLayout>
-			<div className="text-xs flex justify-end">
+			<div className="flex justify-end text-xs">
 				New to Reddit?{" "}
 				<Link href={"/account/register"}>
-					<button className="text-cyan-400 ml-1">SIGN UP</button>
+					<button className="ml-1 text-cyan-400">SIGN UP</button>
 				</Link>
 			</div>
 			<LogInForm />

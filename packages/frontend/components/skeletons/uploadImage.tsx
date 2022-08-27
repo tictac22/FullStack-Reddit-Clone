@@ -1,7 +1,7 @@
 import ContentLoader from "react-content-loader"
 
 export const UploadImageLoader = (props) => (
-	<div className="w-[320px] h-[108px] bg-white">
+	<div className="h-[108px] w-[320px] bg-white">
 		<ContentLoader
 			speed={2}
 			width={320}

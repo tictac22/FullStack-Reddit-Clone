@@ -21,8 +21,8 @@ export const HomeQuery = () => {
 					hasNextPage={hasNextPage}
 				/>
 			) : (
-				<div className="lg:max-w-[640px] lg:w-[640px] w-full mt-5">
-					<p className="bg-white p-3 text-center rounded-md">
+				<div className="mt-5 w-full lg:w-[640px] lg:max-w-[640px]">
+					<p className="rounded-md bg-white p-3 text-center">
 						<Link href={"/leaderboard"}>
 							<a>
 								Currently you don&apos;t subscribe on any subReddit go to check all{" "}

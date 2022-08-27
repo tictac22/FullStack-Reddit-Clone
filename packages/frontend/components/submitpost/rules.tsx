@@ -13,18 +13,18 @@ const rules = [
 export const Rules = () => {
 	return (
 		<>
-			<div className=" p-3 bg-white rounded">
-				<div className="flex items-center font-medium border-b border-solid border-[#eeeff1] pb-2">
+			<div className=" rounded bg-white p-3">
+				<div className="flex items-center border-b border-solid border-[#eeeff1] pb-2 font-medium">
 					<Image src={postingImage} alt="posting" height={40} width={40} />
 					<p className="ml-2">Posting to Reddit</p>
 				</div>
 				{rules.map((item, index) => (
-					<div key={item} className="font-medium border-b border-solid border-[#eeeff1] py-2 px-1">
+					<div key={item} className="border-b border-solid border-[#eeeff1] py-2 px-1 font-medium">
 						{index + 1}. {item}
 					</div>
 				))}
 			</div>
-			<div className="my-2 max-w-xs text-xs text-[#7c7c7c] leading-4	">
+			<div className="my-2 max-w-xs text-xs leading-4 text-[#7c7c7c]	">
 				Please be mindful of reddit&apos;s&ensp;
 				<a
 					target={"_blank"}

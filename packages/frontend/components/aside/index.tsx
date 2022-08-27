@@ -15,7 +15,7 @@ export const Aside: React.FC = () => {
 	const { data, isLoading } = usePopularCommunities()
 	return (
 		<aside className="hidden lg:block">
-			<div className="h-[80px] relative flex items-end before:content before:w-full before:h-full before:absolute before:z-[3] before:bg-[#00000042] before:top-0 before:left-0 before:rounded-t">
+			<div className="before:content relative flex h-[80px] items-end before:absolute before:top-0 before:left-0 before:z-[3] before:h-full before:w-full before:rounded-t before:bg-[#00000042]">
 				<Image
 					className="rounded-t"
 					layout="fill"
@@ -24,7 +24,7 @@ export const Aside: React.FC = () => {
 					alt="Top community"
 					objectFit="cover"
 				/>
-				<h3 className="relative pb-2 pl-2 text-white font-semibold z-[4]">Top Communities</h3>
+				<h3 className="relative z-[4] pb-2 pl-2 font-semibold text-white">Top Communities</h3>
 			</div>
 			<div className="">
 				{isLoading ? (
@@ -41,7 +41,7 @@ export const Aside: React.FC = () => {
 					))
 				)}
 			</div>
-			<div className="bg-white flex items-center justify-center py-3 px-6 rounded-b">
+			<div className="flex items-center justify-center rounded-b bg-white py-3 px-6">
 				<Link href={"/leaderboard"}>
 					<div className="btn-secondary w-full text-center">View All</div>
 				</Link>

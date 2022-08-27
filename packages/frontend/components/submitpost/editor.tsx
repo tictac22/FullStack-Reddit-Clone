@@ -19,7 +19,7 @@ const editorLabels = {
 	"components.controls.blocktype.blockquote": (
 		<div
 			title="blockquote"
-			className="relative group  hover:bg-[#F1F1F1] flex items-center justify-center w-[25px] h-[20px]"
+			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1]"
 		>
 			<BsBlockquoteLeft />
 		</div>
@@ -27,7 +27,7 @@ const editorLabels = {
 	"components.controls.blocktype.code": (
 		<div
 			title="Inline code"
-			className="relative group  hover:bg-[#F1F1F1] flex items-center justify-center w-[25px] h-[20px]"
+			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1]"
 		>
 			<BsCodeSlash />
 		</div>

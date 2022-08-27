@@ -28,14 +28,14 @@ const SubReddit = () => {
 			<div className="h-[146px]">
 				<div className="h-1/2 bg-cyan-600"></div>
 				<div className="flex items-center justify-center bg-white">
-					<div className="container flex -mt-[14px] py-0">
-						<div className="rounded-full relative w-[66px] h-[66px]">
+					<div className="container -mt-[14px] flex py-0">
+						<div className="relative h-[66px] w-[66px] rounded-full">
 							<ImageWrapper image={data?.image} width={66} heigth={66} title={data?.title} />
 						</div>
-						<div className="flex py-[10px] px-[16px] mt-3">
+						<div className="mt-3 flex py-[10px] px-[16px]">
 							<div className="mr-2 flex-auto">
 								<p className="bold text-xl">{capitalizeFirstLetter(data?.title)}</p>
-								<p className="text-gray-400 text-[12px]">r/{data?.title}</p>
+								<p className="text-[12px] text-gray-400">r/{data?.title}</p>
 							</div>
 							<SubscriptionButtons id={data?.id} />
 						</div>
@@ -49,18 +49,18 @@ const SubReddit = () => {
 						<SubRedditQuery />
 					</div>
 					<div>
-						<div className="w-80 bg-white rounded-t hidden lg:block">
-							<div className="bg-cyan-600 rounded-t p-3">
+						<div className="hidden w-80 rounded-t bg-white lg:block">
+							<div className="rounded-t bg-cyan-600 p-3">
 								<h1 className="text-white">About Community</h1>
 							</div>
 							{data ? (
 								<div className="p-3">
-									<div className="flex my-3">
+									<div className="my-3 flex">
 										<p>{data.subscribers} Members</p>
 									</div>
 									<hr />
-									<div className="flex items-center my-3">
-										<BiCake className="w-4 h-4 mr-3" />
+									<div className="my-3 flex items-center">
+										<BiCake className="mr-3 h-4 w-4" />
 										<p>Created {convertDate(data.createdAt)}</p>
 									</div>
 								</div>
@@ -70,8 +70,8 @@ const SubReddit = () => {
 						</div>
 						{data ? (
 							data.ownerId === userId && (
-								<div className="w-80 bg-white rounded-t hidden lg:block mt-3">
-									<div className="bg-cyan-600 rounded-t p-3">
+								<div className="mt-3 hidden w-80 rounded-t bg-white lg:block">
+									<div className="rounded-t bg-cyan-600 p-3">
 										<h1 className="text-white">Moderators</h1>
 									</div>
 									<UploadImage subreddit={data.id} />
