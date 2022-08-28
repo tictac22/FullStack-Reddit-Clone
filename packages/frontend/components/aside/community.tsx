@@ -3,10 +3,7 @@ import Link from "next/link"
 
 import React from "react"
 
-import { SubscribeButton, UnSubscribeButton } from "@/components/helpersComponents/subscribe/toggleSubscription"
-import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
-import { useZustandStore } from "@/utils/zustand"
-import shallow from "zustand/shallow"
+import { SubscriptionButtons } from "../helpersComponents/subscribe/subscription"
 
 interface Props {
 	title: string
@@ -16,15 +13,6 @@ interface Props {
 }
 
 export const Community: React.FC<Props> = ({ title, image, index, subRedditId }) => {
-	const { SubscribedSubReddits } = useZustandStore(
-		(state) => ({
-			SubscribedSubReddits: state.user?.SubscribedSubReddits,
-			isAuthenticated: state.isAuthenticated
-		}),
-		shallow
-	)
-
-	const [isSubscribed, setIsSubscribed] = useSibscribeSubReddit(SubscribedSubReddits, subRedditId)
 	return (
 		<div className="flex items-center border-b border-solid border-[#CBD5E0] bg-white p-3  last:border-b-0">
 			<p className="mr-5">{index}.</p>
@@ -38,15 +26,9 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 					<div className="ml-2  cursor-pointer hover:underline">r/{title}</div>
 				</a>
 			</Link>
-			{isSubscribed ? (
-				<div className="ml-auto max-w-[96px]">
-					<UnSubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
-				</div>
-			) : (
-				<div className="ml-auto max-w-[96px]">
-					<SubscribeButton subredditId={subRedditId} setIsSubscribed={setIsSubscribed} />
-				</div>
-			)}
+			<div className="ml-auto max-w-[96px]">
+				<SubscriptionButtons id={subRedditId} />
+			</div>
 		</div>
 	)
 }

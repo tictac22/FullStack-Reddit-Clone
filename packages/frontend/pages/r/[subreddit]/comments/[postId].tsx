@@ -5,7 +5,6 @@ import { useRouter } from "next/router"
 import { BiCake } from "react-icons/bi"
 import { RiCakeLine } from "react-icons/ri"
 
-import { Comment } from "@/components/comments/comment"
 import { CommentForm } from "@/components/comments/commentForm"
 import { SubscriptionButtons } from "@/components/helpersComponents/subscribe/subscription"
 import { PostWrapper } from "@/components/post/postWrapper"
@@ -14,6 +13,7 @@ import { PostInfoLoader } from "@/components/skeletons/postInfo"
 import { usePost } from "@/hooks/react-query/"
 import { convertDate } from "@/utils/functions"
 
+import { CommentList } from "@/components/comments/commentList"
 import UserSvg from "@/public/userImage.svg"
 
 const PostPage = () => {
@@ -30,11 +30,7 @@ const PostPage = () => {
 						<PostWrapper {...data} />
 						<div className="border-l border-r border-b border-solid border-[#ccc] bg-white pl-[48px] pr-2">
 							<CommentForm postId={data.id} />
-							<div className="my-5">
-								{data.comments.map((item) => (
-									<Comment key={item.id} {...item} />
-								))}
-							</div>
+							<div className="my-5">{<CommentList data={data.comments} />}</div>
 						</div>
 					</div>
 				)}

@@ -11,8 +11,9 @@ export const WithAuthMethods = ({ children }: Props) => {
 	const isAuth = () => {
 		if (!isLogin) {
 			router.push("/account/login")
+			return null
 		}
-		return null
+		return true
 	}
 	return <div>{children({ isAuth })}</div>
 }

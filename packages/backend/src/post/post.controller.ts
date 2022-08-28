@@ -20,8 +20,8 @@ import { multerStorage } from "../utils/multer"
 import { PostDto } from "./dto/post.dto"
 import { PostService } from "./post.service"
 
-@Controller("post")
 @UseGuards(JwtAuthGuard)
+@Controller("post")
 export class PostController {
 	constructor(private postService: PostService) {}
 

@@ -246,7 +246,7 @@ export class PostService {
 	}
 
 	async rateComment({ userId, commentId }: { userId: number; commentId: number }) {
-		return this.prismaService.comment.update({
+		await this.prismaService.comment.update({
 			where: { id: commentId },
 			data: {
 				like: {
@@ -257,12 +257,14 @@ export class PostService {
 						user: { connect: { id: userId } }
 					}
 				}
-			},
-			include: includeCommentQueryPrisma(userId)
+			}
+		})
+		return this.prismaService.user.findUnique({
+			...includeCommentQueryPrisma(userId)
 		})
 	}
 	async deleteRateComment({ commentId, rateId, userId }: { commentId: number; rateId: number; userId: number }) {
-		return this.prismaService.comment.update({
+		await this.prismaService.comment.update({
 			where: { id: commentId },
 			data: {
 				like: {
@@ -273,8 +275,10 @@ export class PostService {
 						id: rateId
 					}
 				}
-			},
-			include: includeCommentQueryPrisma(userId)
+			}
+		})
+		return this.prismaService.user.findUnique({
+			...includeCommentQueryPrisma(userId)
 		})
 	}
 }

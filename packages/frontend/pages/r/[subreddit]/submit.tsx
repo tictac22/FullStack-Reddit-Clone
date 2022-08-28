@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/router"
 
 import { BiCake } from "react-icons/bi"
 
@@ -17,8 +16,7 @@ const DynamicPostForm = dynamic(() => import("@/components/submitpost").then((mo
 const SubReddit = () => {
 	// request to get the community
 
-	const router = useRouter()
-	const { data } = useCommunityInfo(router.query.subreddit as string)
+	const { data } = useCommunityInfo()
 
 	return (
 		<div className="container">

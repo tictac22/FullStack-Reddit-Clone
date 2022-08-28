@@ -16,12 +16,11 @@ export const includeQueryPrisma = {
 
 export const includeCommentQueryPrisma = (id) => {
 	return {
-		likes: {
-			where: {
-				user: {
-					id
-				}
-			}
+		where: {
+			id
+		},
+		select: {
+			Likes: true
 		}
 	}
 }

@@ -47,7 +47,7 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed 
 	const subscribe = async (e, cb: () => void) => {
 		e.preventDefault()
 
-		const isAuth = await cb()
+		const isAuth = cb()
 		if (isAuth === null) return
 
 		const response = await $api("community/subscribe", {

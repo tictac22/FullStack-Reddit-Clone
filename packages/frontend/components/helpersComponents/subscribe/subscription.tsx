@@ -1,4 +1,3 @@
-import { useSibscribeSubReddit } from "@/hooks/useSibscribe"
 import { useZustandStore } from "@/utils/zustand"
 
 import { SubscribeButton, UnSubscribeButton } from "./toggleSubscription"
@@ -8,7 +7,7 @@ export const SubscriptionButtons = ({ id = 0 }) => {
 		userSubscription: state.user?.SubscribedSubReddits,
 		isAuthenticated: state.isAuthenticated
 	}))
-	const [isSubscribed] = useSibscribeSubReddit(userSubscription, id)
+	const isSubscribed = !!(userSubscription && userSubscription?.some((item) => item.subRedditId === id))
 	return (
 		<div>
 			{isSubscribed ? (

@@ -1,5 +1,4 @@
 import Head from "next/head"
-import { useRouter } from "next/router"
 
 import { BiCake } from "react-icons/bi"
 
@@ -16,8 +15,7 @@ import { capitalizeFirstLetter, convertDate } from "@/utils/functions"
 import { useZustandStore } from "@/utils/zustand"
 
 const SubReddit = () => {
-	const router = useRouter()
-	const { error, data } = useCommunityInfo(router.query.subreddit as string)
+	const { error, data } = useCommunityInfo()
 	const userId = useZustandStore((state) => state.user?.id)
 	if (error) return <SubRedditError />
 	return (

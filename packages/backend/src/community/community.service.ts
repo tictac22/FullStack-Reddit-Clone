@@ -57,6 +57,12 @@ export class CommunityService {
 					}
 				}
 			})
+
+			const revalidatePage = await fetch(
+				`${process.env.FRONTEND_BASE_URL}/api/revalidate?secret=${process.env.REVALIDATE_PAGE}`
+			)
+			await revalidatePage.json()
+
 			const subscription = await this.subscribe(communityData.id, userId)
 			return { communityData, subscription }
 		} catch (error) {

@@ -28,7 +28,7 @@ export const Post: React.FC<IProps> = memo(
 		const toggleVote = (cb: () => void, voteToogle: boolean) => async (e) => {
 			e.preventDefault()
 
-			const isAuth = await cb()
+			const isAuth = cb()
 			if (isAuth === null) return
 
 			if (isVoting) return

@@ -78,7 +78,7 @@ export const RegistrationForm: React.FC = () => {
 				<FormInput name="passwordConfirm" type="password" />
 				<div className="relative mt-3">
 					<ReCAPTCHA
-						sitekey={process.env.NX_CAPTCHA_SITE}
+						sitekey="6LcHT-wgAAAAAHfE6SW0gw5OL5e0NYSSmHMjZEOE"
 						onChange={handleCaptcha}
 						className="scale-75 sm:scale-100"
 						ref={(el) => {

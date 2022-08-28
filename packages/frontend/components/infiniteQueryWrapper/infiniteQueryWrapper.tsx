@@ -35,14 +35,10 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 			{data.pages.map((page) => (
 				<React.Fragment key={page.cursor}>
 					{page.posts.map((post) => (
-						<Link
-							href={`/r/${post.subReddit.title}/comments/${post.id}`}
-							key={post.id}
-							className="cursor-pointer"
-						>
-							<a>
+						<Link href={`/r/${post.subReddit.title}/comments/${post.id}`} key={post.id}>
+							<div className="cursor-pointer">
 								<Post {...post} vote={Vote?.filter((item) => item.postId === post.id)[0]} />
-							</a>
+							</div>
 						</Link>
 					))}
 				</React.Fragment>

@@ -13,7 +13,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const queryClient = useQueryClient()
 	const sendComment = async (cb: () => void) => {
-		const isAuth = await cb()
+		const isAuth = cb()
 		if (isAuth === null) return
 
 		if (!comment) return

@@ -40,8 +40,10 @@ export const timeAgo = (input) => {
 }
 
 //eslint-disable-next-line
-export const objectsEqual = (o1: Object, o2: Object): boolean =>
-	typeof o1 === "object" && Object.keys(o1).length > 0
+export const objectsEqual = (o1: Object, o2: Object): boolean => {
+	if (o1 == null || o2 == null) return false
+	return typeof o1 === "object" && Object.keys(o1).length > 0
 		? Object.keys(o1).length === Object.keys(o2).length &&
-		  Object.keys(o1).every((p) => objectsEqual(o1[p as keyof typeof o1], o2[p as keyof typeof o2]))
+				Object.keys(o1).every((p) => objectsEqual(o1[p as keyof typeof o1], o2[p as keyof typeof o2]))
 		: o1 === o2
+}
