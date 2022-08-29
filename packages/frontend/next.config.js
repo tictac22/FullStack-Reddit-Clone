@@ -27,6 +27,9 @@ const nextConfig = {
 				destination: "/r/:id/comments/:commentId"
 			}
 		]
+	},
+	typescript: {
+		ignoreBuildErrors: true
 	}
 }
 
