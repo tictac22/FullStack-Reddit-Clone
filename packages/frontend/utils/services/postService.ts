@@ -25,7 +25,7 @@ export class PostService {
 		}
 	}
 	static async getPostsUser(username: string, cursor = "null"): Promise<{ posts: Post[]; cursor: number | null }> {
-		const response = await $api(`user/community?username=${username}&cursor=${cursor}`, {
+		const response = await $api(`user/posts?username=${username}&cursor=${cursor}`, {
 			method: "GET"
 		})
 		if (!(response.status === 200)) {

@@ -24,7 +24,7 @@ const passwordErrorsText = [
 let captcha
 
 export const RegistrationForm: React.FC = () => {
-	const { setUser, logIn } = useZustandStore((state) => ({ setUser: state.setUser, logIn: state.logIn }))
+	const { setUser, isLogin } = useZustandStore((state) => ({ setUser: state.setUser, logIn: state.isLogin }))
 	const methods = useForm<HookRegistrationFormValues>({
 		resolver: yupResolver(schemaRegistration),
 		criteriaMode: "all",
@@ -47,8 +47,8 @@ export const RegistrationForm: React.FC = () => {
 					...data
 				}
 			})
-			setUser(response.data)
-			logIn(true)
+			setUser(response.data.user)
+			isLogin(true)
 			router.push("/")
 		} catch (error) {
 			const errors = error.response.data.errors
@@ -101,4 +101,3 @@ export const RegistrationForm: React.FC = () => {
 		</FormProvider>
 	)
 }
-//SIGN UP

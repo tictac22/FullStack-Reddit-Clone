@@ -8,6 +8,7 @@ export const getUserPostsQuery = (username) => {
 		include: {
 			subReddit: true,
 			comments: true,
+			user: true,
 			_count: {
 				select: {
 					comments: true

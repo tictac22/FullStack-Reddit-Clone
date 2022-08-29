@@ -4,9 +4,8 @@ import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { Post as PostT } from "@/utils/types"
-import { useZustandStore } from "@/utils/zustand"
 
-import { Post } from "../post"
+import { PostWrapper } from "../post/postWrapper"
 import { PostLoader } from "../skeletons/post"
 
 type Page = {
@@ -28,16 +27,16 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 			fetchNextPage()
 		}
 	}, [inView])
-	const Vote = useZustandStore((state) => state.user?.Vote)
-
+	const isSubReddit = (title: string | null, id: number, username?: string) =>
+		`${title ? "/r/" + title : "/user/" + username}/comments/${id}`
 	return (
 		<>
 			{data.pages.map((page) => (
 				<React.Fragment key={page.cursor}>
 					{page.posts.map((post) => (
-						<Link href={`/r/${post.subReddit.title}/comments/${post.id}`} key={post.id}>
+						<Link href={`${isSubReddit(post.subReddit?.title, post.id, post.user.username)}`} key={post.id}>
 							<div className="cursor-pointer">
-								<Post {...post} vote={Vote?.filter((item) => item.postId === post.id)[0]} />
+								<PostWrapper {...post} />
 							</div>
 						</Link>
 					))}

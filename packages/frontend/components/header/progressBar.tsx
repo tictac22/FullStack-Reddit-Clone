@@ -19,9 +19,9 @@ export const ProgressBar = () => {
 	return (
 		<>
 			{isLoading && (
-				<div className="absolute top-0 left-0 h-2  w-full overflow-hidden bg-[#a7caed]">
-					<div className="absolute h-2 w-auto   origin-left animate-progress1 bg-[#1976d2] transition-transform"></div>
-					<div className="absolute h-2 w-auto   origin-left animate-progress2 bg-[#1976d2] transition-transform"></div>
+				<div className="absolute top-0 left-0 h-1  w-full overflow-hidden bg-[#a7caed]">
+					<div className="absolute h-1 w-auto   origin-left animate-progress1 bg-[#1976d2] transition-transform"></div>
+					<div className="absolute h-1 w-auto   origin-left animate-progress2 bg-[#1976d2] transition-transform"></div>
 				</div>
 			)}
 		</>

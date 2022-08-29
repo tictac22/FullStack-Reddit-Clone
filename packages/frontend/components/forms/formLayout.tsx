@@ -8,11 +8,12 @@ import { $api, API_URL } from "@/utils/axios"
 import authSrc from "@/public/auth.png"
 import google from "@/public/brands/google.svg"
 
+import { useZustandStore } from "@/utils/zustand"
 import { LoginDescription, RegisterDescription } from "./descriptions"
 
 export const FormLayout = ({ children }) => {
 	const router = useRouter()
-
+	const { setUser, isLogin } = useZustandStore((state) => ({ setUser: state.setUser, isLogin: state.isLogin }))
 	const authModal = (social: string) => {
 		return () => {
 			let timer = null
@@ -22,6 +23,8 @@ export const FormLayout = ({ children }) => {
 					const response = await $api("auth/refresh")
 					if (response.data) {
 						clearInterval(timer)
+						setUser(response.data.user)
+						isLogin(true)
 						router.push("/")
 					}
 				}
