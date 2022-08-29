@@ -5,6 +5,7 @@ import { AiOutlineClose } from "react-icons/ai"
 
 import { $api } from "@/utils/axios"
 import { Dialog, Transition } from "@headlessui/react"
+import { Loading } from "./submitpost/isLoading"
 
 interface Props {
 	isOpen: boolean
@@ -13,23 +14,26 @@ interface Props {
 export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 	const [inputValue, setInput] = useState("")
 	const [error, setError] = useState("")
+	const [loading, setLoading] = useState(false)
 	const router = useRouter()
 	const createCommunity = async () => {
 		if (inputValue.length === 0) {
 			setError("A community name is required")
 			return
 		}
+		setLoading(true)
 		try {
 			await $api("community/create", {
 				method: "POST",
 				data: {
-					title: inputValue
+					title: inputValue.toLowerCase()
 				}
 			})
 			router.push(`/r/${inputValue}`)
 		} catch (error) {
 			setError(`Community r/${inputValue} is already taken`)
 			setInput("")
+			setLoading(false)
 		}
 	}
 	return (
@@ -47,7 +51,7 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 					<div className="fixed inset-0 bg-black bg-opacity-25" />
 				</Transition.Child>
 
-				<div className="fixed inset-0 overflow-y-auto">
+				<div className="fixed inset-0 overflow-y-auto ">
 					<div className="flex min-h-full items-center justify-center p-4 text-center">
 						<Transition.Child
 							as={Fragment}
@@ -58,10 +62,10 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded bg-white p-4 text-left align-middle shadow-xl transition-all">
+							<Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded bg-white p-4 text-left align-middle shadow-xl transition-all dark:bg-dark-100 dark:text-white">
 								<Dialog.Title
 									as="h3"
-									className=" mb-4 flex border-b border-solid border-[#EDEFF1] pb-4 text-lg font-medium leading-6 text-gray-900"
+									className=" mb-4 flex border-b border-solid border-[#EDEFF1] pb-4 text-lg font-medium leading-6 text-gray-900 dark:text-white"
 								>
 									Create a community
 									<AiOutlineClose onClick={handleModal} className="ml-auto cursor-pointer" />
@@ -82,14 +86,14 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 											setInput(e.target.value.length > 21 ? inputValue : e.target.value)
 										}
 										name="name"
-										className=" w-full rounded border border-solid border-[#EDEFF1] py-2 px-4 pl-8 "
+										className=" w-full rounded border border-solid border-[#EDEFF1] py-2 px-4 pl-8  dark:text-dark-100 "
 									/>
 								</div>
 								<p className="text-base text-[#7c7c7c]">
 									{21 - +inputValue.length} Characters remaining
 								</p>
 								{error && <p className="text-base text-red-500">{error}</p>}
-								<div className="mt-4 -ml-4 -mr-4 -mb-4 flex items-center justify-end bg-[#EDEFF1] p-4">
+								<div className="mt-4 -ml-4 -mr-4 -mb-4 flex items-center justify-end bg-[#EDEFF1] p-4 dark:bg-dark-100">
 									<button onClick={handleModal} className="btn-primary px-4 py-1">
 										Cancel
 									</button>
@@ -100,7 +104,7 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 										}`}
 										disabled={inputValue.length >= 21}
 									>
-										Create Community
+										{loading ? <Loading /> : "Create Community"}
 									</button>
 								</div>
 							</Dialog.Panel>

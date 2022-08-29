@@ -7,14 +7,14 @@ export const ComboxOption = ({ community }) => {
 		<Combobox.Option
 			className={({ active }) =>
 				`relative cursor-default select-none py-2 pl-3 pr-4 ${
-					active ? "bg-teal-600 text-white" : "text-gray-900"
+					active ? "bg-teal-600 text-white dark:bg-dark-200" : "text-gray-900"
 				}`
 			}
 			value={community}
 		>
 			{({ selected, active }) => (
 				<>
-					<span className={`flex items-center truncate ${selected ? "font-medium" : "font-normal"}`}>
+					<span className={`flex items-center  truncate ${selected ? "font-medium" : "font-normal"}`}>
 						{community.subReddit.image ? (
 							<Image
 								src={community.subReddit.image}

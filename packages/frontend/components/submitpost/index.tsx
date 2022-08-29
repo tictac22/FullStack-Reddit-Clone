@@ -6,7 +6,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { SelectComminity } from "@/components/submitpost/selectCommunity"
 import { $api } from "@/utils/axios"
 import { capitalizeFirstLetter } from "@/utils/functions"
-import { EditorState, convertToRaw } from "draft-js"
+import { convertToRaw, EditorState } from "draft-js"
 
 import { EditorDraft } from "./editor"
 import { Loading } from "./isLoading"
@@ -59,10 +59,12 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 	}
 	return (
 		<div className="flex-[40%]">
-			<h1 className=" mb-4 border-b border-solid border-b-[#EDEFF1] pb-1 pl-2 text-lg">Create Post</h1>
+			<h1 className=" mb-4 border-b border-solid border-b-[#EDEFF1] pb-1 pl-2 text-lg dark:text-white">
+				Create Post
+			</h1>
 			<SelectComminity community={community} setCommunity={setCommunity} disabled={disabled} />
 			<textarea
-				className="mb-2 h-[37px] max-h-[140px] min-h-[37px] w-full overflow-y-hidden rounded-lg px-3  pb-3 leading-[2]     focus:outline-none"
+				className="mb-2 h-[37px] max-h-[140px] min-h-[37px] w-full overflow-y-hidden rounded-lg px-3 pb-3 leading-[2]  focus:outline-none dark:bg-dark-100     dark:text-white"
 				placeholder="Title"
 				value={title}
 				maxLength={300}

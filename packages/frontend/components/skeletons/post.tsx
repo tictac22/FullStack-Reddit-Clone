@@ -6,11 +6,11 @@ import { TbArrowBigDown, TbArrowBigTop } from "react-icons/tb"
 export const PostLoader = (props) => {
 	const router = useRouter()
 	return (
-		<div className="my-2 flex-auto bg-white  lg:w-[640px] lg:flex-initial">
+		<div className="my-2 flex-auto bg-white  dark:bg-dark-100 lg:w-[640px] lg:flex-initial">
 			<div className="flex">
 				<div
 					className={`w-[40px] max-w-full ${
-						router.query.postId ? "bg-white" : "bg-[#f8f9fb]"
+						router.query.postId ? "bg-white dark:bg-dark-100" : "bg-[#f8f9fb]   dark:bg-dark-100"
 					} flex  flex-col items-center`}
 				>
 					<TbArrowBigTop

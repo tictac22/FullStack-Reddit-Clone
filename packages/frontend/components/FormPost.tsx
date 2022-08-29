@@ -9,14 +9,14 @@ export const FormPost: React.FC = () => {
 	const router = useRouter()
 	const path = router.query.subreddit ? `/r/${router.query.subreddit}/submit` : "/submit"
 	return (
-		<div className="flex items-center rounded border border-solid border-[#CBD5E0] bg-white p-2">
+		<div className="flex items-center rounded border border-solid border-[#CBD5E0] bg-white p-2 dark:border-dark-200 dark:bg-dark-100">
 			<svg
 				stroke="currentColor"
 				fill="currentColor"
 				strokeWidth="0"
 				viewBox="0 0 512 512"
 				focusable="false"
-				className="inline-block h-8 w-8  cursor-pointer text-4xl leading-4 text-[#CBD5E0] "
+				className="inline-block h-8 w-8  cursor-pointer text-4xl leading-4 text-[#CBD5E0] dark:text-white"
 				height="1em"
 				width="1em"
 				xmlns="http://www.w3.org/2000/svg"
@@ -25,18 +25,18 @@ export const FormPost: React.FC = () => {
 			</svg>
 			<Link href={path}>
 				<input
-					className="ml-4 w-full flex-1 rounded border border-solid border-[#E2E8F0] bg-[#F7FAFC] px-4 py-2 focus:outline-sky-400"
+					className="ml-4 w-full flex-1 rounded border border-solid border-[#E2E8F0] bg-[#F7FAFC] px-4 py-2 focus:outline-sky-400 dark:border-dark-200 dark:bg-dark-100 dark:placeholder:text-white"
 					placeholder="Create Post"
 				/>
 			</Link>
 			<Link href={path}>
-				<div className="ml-4 hidden cursor-pointer rounded border border-solid border-white p-2 hover:bg-[#edeff1] sm:block">
-					<ImImage className="h-6 w-6 cursor-pointer text-[#CBD5E0]" />
+				<div className="ml-4 hidden cursor-pointer rounded border border-solid border-white p-2 hover:bg-[#edeff1] dark:border-dark-200 dark:bg-dark-100 dark:hover:bg-dark-200 sm:block">
+					<ImImage className="h-6 w-6 cursor-pointer text-[#CBD5E0] dark:text-[#595a5c]" />
 				</div>
 			</Link>
 			<Link href={path}>
-				<div className="ml-4 hidden cursor-pointer rounded border border-solid border-white p-2 hover:bg-[#edeff1] sm:block">
-					<BsLink45Deg className="h-6 w-6 text-[#CBD5E0]" />
+				<div className="ml-4 hidden cursor-pointer rounded border border-solid border-white p-2 hover:bg-[#edeff1] dark:border-dark-200 dark:bg-dark-100 dark:hover:bg-dark-200 sm:block">
+					<BsLink45Deg className="h-6 w-6 text-[#CBD5E0] dark:text-[#595a5c]" />
 				</div>
 			</Link>
 		</div>

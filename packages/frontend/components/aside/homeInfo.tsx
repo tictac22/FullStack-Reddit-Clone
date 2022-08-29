@@ -24,16 +24,16 @@ export const HomeInfo: React.FC = memo(() => {
 		setIsOpen(!isOpen)
 	}
 	return (
-		<div className="mt-4 rounded-t bg-white">
+		<div className="mt-4 rounded-t bg-white dark:bg-dark-100">
 			<div className="relative h-[34px]">
 				<Image src={homeBanner} alt="home banner" layout="fill" className="h-full w-full rounded-t" />
 			</div>
 			<div className="mt-[-23px] p-3">
 				<div className="flex items-end">
 					<Image src={reddit} alt="reddit" width={40} height={68} />
-					<div className="ml-2 mb-3">Home</div>
+					<div className="ml-2 mb-3 dark:text-white">Home</div>
 				</div>
-				<p className="mt-2">
+				<p className="mt-2 dark:text-white">
 					Your personal Reddit frontpage. Come here to check in with your favorite communities.
 				</p>
 				<Link href={"/submit"}>

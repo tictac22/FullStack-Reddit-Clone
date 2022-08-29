@@ -12,9 +12,9 @@ type Props = {
 const LeaderBoard = ({ subReddits }: Props) => {
 	return (
 		<div>
-			<div className="border-t border-t-[#e4e7ec] bg-white">
+			<div className="border-t border-t-[#e4e7ec] bg-white dark:border-dark-200 dark:bg-dark-100">
 				<div className="container ">
-					<h1 className=" text-2xl text-black">Today&apos;s Top Growing Communities</h1>
+					<h1 className=" text-2xl text-black dark:text-white">Today&apos;s Top Growing Communities</h1>
 					<h2 className=" mt-1 text-xs text-[#7c7c7c]">
 						Browse Reddit&apos;s top growing communities. Find the top communities in your favorite
 						category.
@@ -29,12 +29,12 @@ const LeaderBoard = ({ subReddits }: Props) => {
 					{subReddits.map((item, index) => (
 						<Link key={item.id} href={`/r/${item.title}`}>
 							<a>
-								<div className="flex items-center border-b-[thin] border-b-[#edeff1] bg-white p-2 px-6">
-									<span className="font-medium text-black">{++index}</span>
+								<div className="flex items-center border-b-[thin] border-b-[#edeff1] bg-white p-2 px-6 dark:bg-dark-100">
+									<span className="font-medium text-black dark:text-white">{++index}</span>
 									<div className=" ml-10 h-[40px]">
 										<ImageWrapper width={40} heigth={40} image={item.image} title={item.title} />
 									</div>
-									<p className="ml-2 text-[#1c1c1c]">r/{item.title}</p>
+									<p className="ml-2 text-[#1c1c1c] dark:text-white">r/{item.title}</p>
 									<div className="ml-auto max-w-[96px]">
 										<SubscriptionButtons id={item.id} />
 									</div>

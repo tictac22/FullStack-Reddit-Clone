@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
@@ -14,6 +13,7 @@ import { convertDate } from "@/utils/functions"
 
 import { CommentList } from "@/components/comments/commentList"
 import { UserInfo } from "@/components/helpersComponents/userInfo"
+import { ImageWrapper } from "@/components/imageWrapepr"
 
 const PostPage = () => {
 	const router = useRouter()
@@ -27,7 +27,7 @@ const PostPage = () => {
 				) : (
 					<div className="flex-[67%]">
 						<PostWrapper {...data} />
-						<div className="border-l border-r border-b border-solid border-[#ccc] bg-white pl-[48px] pr-2">
+						<div className="border-l border-r border-b border-solid border-[#ccc] bg-white pl-[48px] pr-2 dark:border-dark-200 dark:bg-dark-100">
 							<CommentForm postId={data.id} />
 							<div className="my-5">{<CommentList data={data.comments} />}</div>
 						</div>
@@ -38,29 +38,26 @@ const PostPage = () => {
 				) : data?.subReddit ? (
 					<div className="ml-3 hidden w-[312px] max-w-full lg:block ">
 						<Link href={`/r/${router.query.subreddit}`}>
-							<div className="cursor-pointer rounded border border-solid border-gray-400">
-								<div className="bg-cyan-500 p-3 text-white ">About Community</div>
-								<div className="bg-white p-3">
+							<div className="cursor-pointer rounded border border-solid border-gray-400 dark:border-dark-200">
+								<div className="rounded-t bg-cyan-500 p-3  text-white">About Community</div>
+								<div className="bg-white p-3 dark:bg-dark-100">
 									<div className="flex items-center">
-										{data.subReddit.image ? (
-											<Image
-												src={data.subReddit.image}
-												alt={data.subReddit.title}
-												width={54}
-												height={54}
-												className="rounded-full"
-											/>
-										) : (
-											<div className="h-[54px] w-[54px] rounded-full border border-dashed border-[#878A8C]"></div>
-										)}
-										<p className="ml-3">r/{data.subReddit.title}</p>
+										<ImageWrapper
+											width={54}
+											heigth={54}
+											title={data.subReddit.title}
+											image={data.subReddit.image}
+										/>
+										<p className="ml-3 dark:text-white">r/{data.subReddit.title}</p>
 									</div>
-									<div className="mt-2 border-b border-solid border-gray-500 pb-2">
-										{data.subReddit?.subscribers} Members
+									<div className="mt-2 border-b border-solid border-gray-500 pb-2 dark:border-b-white dark:text-white">
+										{data.subReddit.subscribers} Members
 									</div>
 									<div className="mt-2 flex items-center">
-										<RiCakeLine />
-										<p className="ml-3">Created {convertDate(data.subReddit.createdAt)}</p>
+										<RiCakeLine className="dark:text-white" />
+										<p className="ml-3 dark:text-white">
+											Created {convertDate(data.subReddit.createdAt)}
+										</p>
 									</div>
 									<div className="mt-3">
 										<SubscriptionButtons id={data.subRedditId} />

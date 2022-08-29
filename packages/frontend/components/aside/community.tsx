@@ -14,8 +14,8 @@ interface Props {
 
 export const Community: React.FC<Props> = ({ title, image, index, subRedditId }) => {
 	return (
-		<div className="flex items-center border-b border-solid border-[#CBD5E0] bg-white p-3  last:border-b-0">
-			<p className="mr-5">{index}.</p>
+		<div className="flex items-center border-b border-solid border-[#CBD5E0] bg-white p-3 last:border-b-0 dark:border-dark-200 dark:bg-dark-100">
+			<p className="mr-5 dark:text-white">{index}.</p>
 			{image ? (
 				<Image className="rounded-full" width={28} height={28} src={image} alt="test" />
 			) : (
@@ -23,7 +23,7 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 			)}
 			<Link href={`/r/${title}`}>
 				<a className="">
-					<div className="ml-2  cursor-pointer hover:underline">r/{title}</div>
+					<div className="ml-2  cursor-pointer hover:underline dark:text-white">r/{title}</div>
 				</a>
 			</Link>
 			<div className="ml-auto max-w-[96px]">

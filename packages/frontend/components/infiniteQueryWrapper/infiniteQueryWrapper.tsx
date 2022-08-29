@@ -29,14 +29,22 @@ export const InfiniteQueryWrapper: React.FC<Props> = ({ data, fetchNextPage, isF
 	}, [inView])
 	const isSubReddit = (title: string | null, id: number, username?: string) =>
 		`${title ? "/r/" + title : "/user/" + username}/comments/${id}`
+
 	return (
 		<>
 			{data.pages.map((page) => (
 				<React.Fragment key={page.cursor}>
 					{page.posts.map((post) => (
-						<Link href={`${isSubReddit(post.subReddit?.title, post.id, post.user.username)}`} key={post.id}>
+						<Link
+							href={`${isSubReddit(post.subReddit?.title, post.id, post.user.username)}`}
+							target="_blank"
+							key={post.id}
+						>
 							<div className="cursor-pointer">
-								<PostWrapper {...post} />
+								<PostWrapper
+									{...post}
+									path={isSubReddit(post.subReddit?.title, post.id, post.user.username)}
+								/>
 							</div>
 						</Link>
 					))}

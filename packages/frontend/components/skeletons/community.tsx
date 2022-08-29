@@ -4,7 +4,10 @@ export const CommunityLoader = (props) => {
 	return (
 		<div className="">
 			{["1", "2", "3", "4"].map((item) => (
-				<div key={item} className="flex h-[53px]  w-[337px] items-center justify-center bg-white">
+				<div
+					key={item}
+					className="flex h-[53px]  w-[337px] items-center justify-center bg-white dark:bg-dark-100"
+				>
 					<ContentLoader
 						speed={2}
 						width={320}

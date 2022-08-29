@@ -170,7 +170,7 @@ export class PostService {
 				id: voteId
 			}
 		})
-		return await this.prismaService.post.update({
+		await this.prismaService.post.update({
 			where: { id: postId },
 			data: {
 				totalVotes:
@@ -198,8 +198,16 @@ export class PostService {
 			},
 			select: selectUserPostQuery
 		})
+		return this.prismaService.user.findUnique({
+			where: {
+				id: userId
+			},
+			select: {
+				Vote: true
+			}
+		})
 	}
-	async deleteToogleVote(postId: number, voteId: number) {
+	async deleteToogleVote(postId: number, voteId: number, userId: number) {
 		const upVote = {
 			increment: 1
 		}
@@ -211,7 +219,7 @@ export class PostService {
 				id: voteId
 			}
 		})
-		return await this.prismaService.post.update({
+		await this.prismaService.post.update({
 			where: { id: postId },
 			data: {
 				totalVotes: result.value ? downVote : upVote,
@@ -222,6 +230,14 @@ export class PostService {
 				}
 			},
 			select: selectUserPostQuery
+		})
+		return this.prismaService.user.findUnique({
+			where: {
+				id: userId
+			},
+			select: {
+				Vote: true
+			}
 		})
 	}
 

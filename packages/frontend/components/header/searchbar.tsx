@@ -39,15 +39,15 @@ export const SearchBar: React.FC = () => {
 		<div className="mx-3 max-w-3xl flex-auto">
 			<Combobox value={selected} onChange={setSelected}>
 				<div className="relative">
-					<div className="relative w-full cursor-default rounded-lg  text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+					<div className="relative w-full cursor-default rounded-lg text-left  focus:outline-none  focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300  sm:text-sm">
 						<Combobox.Input
-							className="w-full rounded-lg border-2 border-solid border-slate-400 bg-custom-100 py-2 px-10 text-sm leading-5 text-custom-200 focus:outline-sky-400 focus:ring-0"
+							className="w-full rounded-lg border-2 border-solid border-slate-400 bg-custom-100 py-2 px-10 text-sm leading-5 text-custom-200 focus:outline-sky-400 focus:ring-0 dark:border-[#343536] dark:bg-[#272729] dark:text-white dark:placeholder:text-white  dark:focus:outline-white"
 							onChange={(event) => getCommunities(event)}
 							displayValue={(person: { title: string }) => person && person.title}
 							placeholder={"Search Reddit"}
 						/>
 						<Combobox.Button className="absolute inset-y-0 left-2 flex items-center">
-							<BsSearch className="h-5 w-5 text-[#70819b]" aria-hidden="true" />
+							<BsSearch className="h-5 w-5 text-[#818384]  " aria-hidden="true" />
 						</Combobox.Button>
 					</div>
 					<Transition
@@ -56,9 +56,9 @@ export const SearchBar: React.FC = () => {
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0"
 					>
-						<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+						<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-[#272729] sm:text-sm">
 							{communities.length === 0 ? (
-								<div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+								<div className="relative cursor-default select-none py-2 px-4 text-gray-700 dark:text-white">
 									Nothing found.
 								</div>
 							) : (
@@ -67,7 +67,7 @@ export const SearchBar: React.FC = () => {
 										key={community.id}
 										className={({ active }) =>
 											`relative cursor-default select-none py-2 pl-3 pr-4 ${
-												active ? "bg-teal-600 text-white" : "text-gray-900"
+												active ? "bg-teal-600 text-white dark:bg-[#343536]" : "text-gray-900"
 											}`
 										}
 										value={community}
@@ -93,7 +93,7 @@ export const SearchBar: React.FC = () => {
 																<div className="h-[24px] w-[24px] rounded-full bg-cyan-500" />
 															)}
 															<div className="ml-2">
-																<p className="">{community.title}</p>
+																<p className="dark:text-white">{community.title}</p>
 																<div className="flex items-center text-xs text-gray-400">
 																	Community{" "}
 																	<svg

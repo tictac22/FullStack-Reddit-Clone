@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 export const usePostsCommunity = () => {
 	const { subreddit } = useRouter().query as { subreddit: string }
 	const { data, error, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery(
-		["allPosts", subreddit],
+		["posts", subreddit],
 		async ({ pageParam = null }) => PostService.getPostsCommunity(subreddit, pageParam),
 		{
 			enabled: !!subreddit,

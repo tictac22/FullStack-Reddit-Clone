@@ -41,7 +41,7 @@ const CustomApp = ({ Component, pageProps, ...appProps }: AppProps) => {
 					<title>Reddit</title>
 				</Head>
 				<Header />
-				<main className="flex-auto bg-[#dbe0e6]">
+				<main className="flex-auto bg-[#dbe0e6] dark:bg-[#030303]">
 					<Component {...pageProps} {...appProps} />
 				</main>
 				<ReactQueryDevtools initialIsOpen={false} />

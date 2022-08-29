@@ -3,13 +3,18 @@ const { join } = require("path")
 
 module.exports = {
 	content: [join(__dirname, "pages/**/*.tsx"), join(__dirname, "components/**/*.tsx")],
-
+	darkMode: ["class", '[data-theme="dark"]'],
 	theme: {
 		extend: {
 			colors: {
 				custom: {
 					100: "#f6fafd",
 					200: "#70819b"
+				},
+				dark: {
+					100: "#1a1a1a",
+					200: "#343536",
+					300: "#161616"
 				}
 			},
 			animation: {

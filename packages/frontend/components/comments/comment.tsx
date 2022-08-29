@@ -47,14 +47,14 @@ export const Comment: React.FC<Props> = memo(
 				<div className="flex items-center">
 					<Image src={UserSvg} alt="user" width={36} height={36} className=" rounded-full bg-[#EDEFF1]" />
 					<Link href={`/user/${user.username}`}>
-						<a className="ml-2 hover:underline">{user.username}</a>
+						<a className="ml-2 hover:underline dark:text-white">{user.username}</a>
 					</Link>
-					<div className="ml-2">{timeAgo(createdAt)}</div>
+					<div className="ml-2 dark:text-white">{timeAgo(createdAt)}</div>
 				</div>
 				<div className="ml-[45px]">
-					<p>{text}</p>
+					<p className="dark:text-white">{text}</p>
 					<div className="mt-2 flex items-center">
-						<p className="mr-2" ref={ref}>
+						<p className="mr-2 dark:text-white" ref={ref}>
 							{likeNumber}
 						</p>
 						<WithAuthMethods>
@@ -62,7 +62,7 @@ export const Comment: React.FC<Props> = memo(
 								<AiFillLike
 									className={`${
 										likeData && "fill-[red] hover:fill-[#c90909]"
-									} cursor-pointer hover:fill-[#2d2b2b]`}
+									} cursor-pointer hover:fill-[#2d2b2b] dark:text-white dark:hover:text-[#d4d2d2]`}
 									onClick={() => handleSubscribe(isAuth)}
 								/>
 							)}

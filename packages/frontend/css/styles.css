@@ -4,16 +4,16 @@
 
 @layer components {
 	.btn-primary {
-		@apply cursor-pointer whitespace-nowrap rounded-xl border-2 border-solid border-cyan-500 bg-white px-10 py-1 text-cyan-500 duration-200 hover:bg-custom-100 hover:ease-out  lg:block;
+		@apply cursor-pointer  whitespace-nowrap rounded-xl border-2 border-solid border-cyan-500 bg-white px-10 py-1 text-cyan-500 duration-200 hover:bg-custom-100 hover:ease-out dark:border-[black] dark:bg-[#d6dadd]  dark:text-black lg:block;
 	}
 	.btn-secondary {
-		@apply cursor-pointer whitespace-nowrap rounded-xl border-2 border-solid border-cyan-500 bg-cyan-500 px-10 py-1 text-white duration-200 hover:border-cyan-600 hover:bg-cyan-600  hover:ease-out lg:block;
+		@apply cursor-pointer whitespace-nowrap rounded-xl border-2 border-solid border-cyan-500 bg-cyan-500 px-10 py-1 text-white duration-200 hover:border-cyan-600 hover:bg-cyan-600 hover:ease-out dark:border-[#797a7c]  dark:bg-dark-200 dark:hover:border-[#8f9194] lg:block;
 	}
 	.container {
 		@apply m-auto max-w-screen-lg px-3 py-4;
 	}
 	.textColorBlack {
-		@apply [&>p>span]:font-["Arial","sans-serif"] [&>p>span]:text-[medium] [&>p>span]:text-black !important;
+		@apply [&>p>span]:font-["Arial","sans-serif"] [&>p>span]:text-[medium] [&>p>span]:text-black dark:[&>p>span]:bg-dark-100 dark:[&>p>span]:text-white dark:[&>p]:text-white  !important;
 	}
 }
 * {
@@ -79,4 +79,33 @@ body {
 
 .rdw-editor-main {
 	padding: 5px 10px !important;
+}
+
+html[data-theme="dark"] .demo-editor {
+	background-color: #1a1a1a;
+	border: none;
+	color: white;
+}
+
+html[data-theme="dark"] .rdw-editor-toolbar {
+	background-color: #1a1a1a;
+	border: none;
+}
+html[data-theme="dark"] .rdw-option-wrapper {
+	background-color: #1a1a1a !important;
+}
+html[data-theme="dark"] .rdw-option-wrapper:hover {
+	background-color: #323030 !important;
+}
+html[data-theme="dark"] .rdw-image-modal {
+	background-color: #323030 !important;
+	border: none;
+	box-shadow: none;
+}
+html[data-theme="dark"] .rdw-image-modal div {
+	background-color: #323030 !important;
+
+	border: none;
+	color: white;
+	box-shadow: none;
 }

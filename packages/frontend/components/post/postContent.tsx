@@ -13,16 +13,17 @@ interface Props {
 	countComments: number
 	routerPostid: string | undefined
 	children?: React.ReactNode
+	path?: string
 }
-// set mask if in index page and doesn't have image
+// <span className="mx-1 cursor-pointer hover:underline">u/{props.username}</span>
 export const PostContent: React.FC<Props> = (props) => {
 	const isBigText =
 		!(JSON.parse(props.text) as string).includes("img") &&
 		!props.routerPostid &&
 		(JSON.parse(props.text) as string).length > 800
 	return (
-		<div className="w-full flex-shrink-[36] bg-white px-2">
-			<div className="item-center ml-2 mt-2 flex flex-wrap text-gray-400">
+		<div className="w-full flex-shrink-[36] bg-white px-2 dark:bg-dark-100">
+			<div className="item-center ml-2 mt-2 flex flex-wrap text-gray-400 dark:text-white">
 				{props.children}
 				Posted by{" "}
 				<Link href={`/user/${props.username}`}>
@@ -32,30 +33,41 @@ export const PostContent: React.FC<Props> = (props) => {
 				</Link>
 				{timeAgo(props.createdAt)}
 			</div>
-			<div className="ml-2 font-bold">
-				<Link href={`/r/${props.title}`}>
-					<a>{props.title}</a>
+			<h4 className="ml-2 font-bold dark:text-white">{props.title}</h4>
+			{props.routerPostid ? (
+				<PostText isBigText={isBigText} text={props.text} />
+			) : (
+				<Link href={props.path} target="_blank">
+					<a>
+						<div>
+							<PostText isBigText={isBigText} text={props.text} />
+						</div>
+					</a>
 				</Link>
-			</div>
-			<div
-				className={` ${isBigText && "max-h-[250px] overflow-hidden"} textColorBlack `}
-				style={{
-					WebkitMaskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`,
-					maskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`
-				}}
-			>
-				{parse(JSON.parse(props.text))}
-			</div>
-			<div className="mt-3 border-t border-gray-400 p-3">
+			)}
+
+			<div className="mt-3 border-t border-gray-400 p-3 dark:border-dark-200">
 				<div
 					className={`inline-flex items-center ${
 						!props.routerPostid && "cursor-pointer hover:bg-slate-300"
 					} rounded-lg p-2`}
 				>
-					<MdOutlineComment className="h-[20px] w-[20px]" />
-					<p className="ml-2">{props.countComments} Comments</p>
+					<MdOutlineComment className="h-[20px] w-[20px] dark:text-white" />
+					<p className="ml-2 dark:text-white">{props.countComments} Comments</p>
 				</div>
 			</div>
 		</div>
 	)
 }
+
+const PostText = ({ isBigText, text }: { isBigText: boolean; text: string }) => (
+	<div
+		className={` ${isBigText && "max-h-[250px] overflow-hidden"} textColorBlack pl-2`}
+		style={{
+			WebkitMaskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`,
+			maskImage: `${isBigText && "linear-gradient(180deg,#000 60%,transparent)"}`
+		}}
+	>
+		{parse(JSON.parse(text))}
+	</div>
+)

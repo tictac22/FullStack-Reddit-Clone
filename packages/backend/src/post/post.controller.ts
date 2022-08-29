@@ -53,7 +53,7 @@ export class PostController {
 		if (typeof body.vote === "boolean") {
 			return this.postService.tooglePost(body.postId, req.user.id, body.vote, body.voteId)
 		} else {
-			return this.postService.deleteToogleVote(body.postId, body.voteId)
+			return this.postService.deleteToogleVote(body.postId, body.voteId, req.user.id)
 		}
 	}
 

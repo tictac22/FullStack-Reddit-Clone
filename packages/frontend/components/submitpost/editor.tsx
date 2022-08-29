@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo, useEffect, useRef } from "react"
 import { Editor } from "react-draft-wysiwyg"
 import { BsBlockquoteLeft, BsCodeSlash } from "react-icons/bs"
 
@@ -19,7 +19,7 @@ const editorLabels = {
 	"components.controls.blocktype.blockquote": (
 		<div
 			title="blockquote"
-			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1]"
+			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1] dark:bg-dark-100 dark:hover:bg-[#323030]"
 		>
 			<BsBlockquoteLeft />
 		</div>
@@ -27,7 +27,7 @@ const editorLabels = {
 	"components.controls.blocktype.code": (
 		<div
 			title="Inline code"
-			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1]"
+			className="group relative  flex h-[20px] w-[25px] items-center justify-center hover:bg-[#F1F1F1] dark:bg-dark-100 dark:hover:bg-[#323030]"
 		>
 			<BsCodeSlash />
 		</div>
@@ -51,18 +51,22 @@ export const EditorDraft = memo(({ editorState, onEditorStateChange }: Props) =>
 			resolve({ data: { link: response.data } })
 		})
 	}
+	const ref = useRef()
+	useEffect(() => {
+		//const theme =
+	}, [])
 	return (
 		<Editor
+			ref={ref}
+			className="dark:bg-dark-100"
 			localization={{ locale: "en", translations: editorLabels }}
 			editorState={editorState}
 			wrapperClassName="demo-wrapper"
 			editorClassName="demo-editor"
 			onEditorStateChange={onEditorStateChange}
 			editorStyle={{
-				border: "1px solid #f1f1f1",
 				borderRadius: "2px",
 				minHeight: "200px",
-				backgroundColor: "#fff",
 				padding: "0px 10px"
 			}}
 			embedded={true}

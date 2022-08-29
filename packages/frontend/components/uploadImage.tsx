@@ -19,10 +19,10 @@ export const UploadImage: React.FC<Props> = ({ subreddit }) => {
 		location.reload()
 	}
 	return (
-		<div className="p-3">
+		<div className="p-3 dark:bg-dark-100">
 			<form>
 				<div className="flex items-center justify-between">
-					<p>Select image:</p>
+					<p className="dark:text-white">Select image:</p>
 					<label htmlFor="inputTag" className="">
 						<div className="btn-primary">select</div>
 					</label>

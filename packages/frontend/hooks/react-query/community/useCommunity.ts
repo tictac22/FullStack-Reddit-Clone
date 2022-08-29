@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
 export const useCommunityInfo = () => {
-	const { title } = useRouter().query as { title: string }
+	const { subreddit } = useRouter().query as { subreddit: string }
 
-	const { data, error } = useQuery(["community", title], () => CommunityService.getCommunity(title), {
+	const { data, error } = useQuery(["community", subreddit], () => CommunityService.getCommunity(subreddit), {
 		retry: false,
-		enabled: !!title
+		enabled: !!subreddit
 	})
 	return {
 		data,

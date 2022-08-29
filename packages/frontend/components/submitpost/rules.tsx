@@ -13,7 +13,7 @@ const rules = [
 export const Rules = () => {
 	return (
 		<>
-			<div className=" rounded bg-white p-3">
+			<div className=" rounded bg-white p-3 dark:bg-dark-100 dark:text-white">
 				<div className="flex items-center border-b border-solid border-[#eeeff1] pb-2 font-medium">
 					<Image src={postingImage} alt="posting" height={40} width={40} />
 					<p className="ml-2">Posting to Reddit</p>
@@ -24,7 +24,7 @@ export const Rules = () => {
 					</div>
 				))}
 			</div>
-			<div className="my-2 max-w-xs text-xs leading-4 text-[#7c7c7c]	">
+			<div className="my-2 max-w-xs text-xs leading-4 text-[#7c7c7c] dark:text-white	">
 				Please be mindful of reddit&apos;s&ensp;
 				<a
 					target={"_blank"}

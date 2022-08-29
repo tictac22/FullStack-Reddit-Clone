@@ -17,6 +17,7 @@ type IProps = PostT & {
 		value: boolean
 		id: number
 	}
+	path?: string
 }
 
 export const Post: React.FC<IProps> = memo(
@@ -58,8 +59,7 @@ export const Post: React.FC<IProps> = memo(
 					voteId: vote?.id || 0
 				}
 			})
-
-			setVoteState(response.data.user.Vote)
+			setVoteState(response.data.Vote)
 
 			setIsVoting(false)
 		}
@@ -74,8 +74,9 @@ export const Post: React.FC<IProps> = memo(
 					countComments={props._count.comments}
 					text={props.text}
 					routerPostid={router.query.postId as string}
+					path={props.path}
 				>
-					{router.route === "/" ? (
+					{router.route === "/" || (router.route.includes("user") && props.subReddit?.title) ? (
 						<SubRedditInfo title={props.subReddit.title} image={props.subReddit.image} />
 					) : (
 						<></>
@@ -85,14 +86,14 @@ export const Post: React.FC<IProps> = memo(
 		}, [])
 		return (
 			<div
-				className={` border border-solid border-[#ccc] md:min-w-[633px] ${
-					!router.query.postId && "my-2 hover:border-[#898989]"
-				} ${router.query.postId && "border-b-0"}`}
+				className={` border border-solid border-[#ccc]  dark:border-dark-200 md:min-w-[633px] ${
+					!router.query.postId && "my-2 hover:border-[#898989] dark:hover:border-[#585a5c]"
+				} ${router.query.postId && "border-b-0 dark:border-b-0"}`}
 			>
 				<div className="flex ">
 					<div
 						className={`w-[40px] max-w-full ${
-							router.query.postId ? "bg-white" : "bg-[#f8f9fb]"
+							router.query.postId ? "bg-white dark:bg-dark-100" : "bg-[#f8f9fb] dark:bg-dark-300"
 						} flex  flex-col items-center`}
 					>
 						<WithAuthMethods>
@@ -110,7 +111,7 @@ export const Post: React.FC<IProps> = memo(
 												? "fill-[#ff4500] text-[#FF4500]"
 												: props.vote?.value === false
 												? "fill-[#7292ff] text-[#7292ff]"
-												: ""
+												: "dark:text-white"
 										}`}
 										ref={countRef}
 									>
