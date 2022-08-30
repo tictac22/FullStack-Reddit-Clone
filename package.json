@@ -15,6 +15,18 @@
 	"workspaces": [
 		"packages/**"
 	],
+	"builds": [
+		{
+			"src": "./dist/packages/backend",
+			"use": "@vercel/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "/main.js"
+		}
+	],
 	"private": true,
 	"devDependencies": {
 		"@nestjs/schematics": "^8.0.0",

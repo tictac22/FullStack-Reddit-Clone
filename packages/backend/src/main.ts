@@ -11,7 +11,7 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.enableCors({
 		credentials: true,
-		origin: "http://localhost:3000"
+		origin: ["http://localhost:3000", "https://full-stack-reddit-clone-omcbkm24i-tictac22.vercel.app"]
 	})
 	app.use(
 		session({
