@@ -7,7 +7,9 @@
 		"dev:back": "nx run backend:serve",
 		"lint:front": "nx run frontend:lint --fix --max-warnings=0",
 		"lint:back": "nx run backend:lint --fix --max-warnings=0",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"build:back": "nx build backend --configuration production --with-deps --generatePackageJson --progress",
+		"start:back": "nx serve backend --configuration production --with-deps"
 	},
 	"engines": {
 		"node": "<17.0.0"
