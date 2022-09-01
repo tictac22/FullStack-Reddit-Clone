@@ -36,7 +36,7 @@ export const FormInput: React.FC<IFormInput> = ({ name, type, setIsPasswordTyped
 							{...register(name)}
 							id={name}
 							type={type}
-							className={`input peer w-full border border-solid bg-[#fcfcfb] transition-all ${
+							className={`input peer w-full border border-solid bg-[#fcfcfb] transition-all dark:bg-dark-200 ${
 								errors[name] ? "border-red-500" : "border-[#000000]/5"
 							} rounded px-[12px] pt-[22px] pb-[10px] focus:border-cyan-400  focus:outline-none`}
 							onChange={(e) => {

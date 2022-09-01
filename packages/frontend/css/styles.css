@@ -13,7 +13,7 @@
 		@apply m-auto max-w-screen-lg px-3 py-4;
 	}
 	.textColorBlack {
-		@apply [&>p>span]:font-["Arial","sans-serif"] [&>p>span]:text-[medium] [&>p>span]:text-black dark:[&>p>span]:bg-dark-100 dark:[&>p>span]:text-white dark:[&>p]:text-white  !important;
+		@apply [&>p>span]:font-["Arial","sans-serif"] [&>p>span]:text-[medium] [&>p>span]:text-black dark:[&>p>span]:bg-dark-100 dark:[&>p>span]:text-white [&>p>a]:hover:underline dark:[&>p]:text-white  !important;
 	}
 }
 * {
@@ -108,4 +108,7 @@ html[data-theme="dark"] .rdw-image-modal div {
 	border: none;
 	color: white;
 	box-shadow: none;
+}
+html[data-theme="dark"] .rdw-image-modal-url-input {
+	color: black;
 }

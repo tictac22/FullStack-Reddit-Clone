@@ -9,7 +9,7 @@ export const PasswordErrorHelper: React.FC<IPasswordErrorHelper> = ({ isPassword
 		formState: { errors }
 	} = useFormContext()
 	return (
-		<div className="flex items-center">
+		<div className="flex items-center dark:text-white">
 			{isPasswordTyped &&
 			!(text === EPasswordErrorTexts.Min
 				? errors.password?.types.min === text

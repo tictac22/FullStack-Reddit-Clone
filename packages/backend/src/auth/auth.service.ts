@@ -34,18 +34,14 @@ export class AuthService {
 		} catch (e) {
 			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === "P2002") {
-					const field = e.meta.target[0]
 					throw new BadRequestException({
 						status: HttpStatus.BAD_REQUEST,
 						errors: {
-							[field]: {
-								message: ` ${field} is already exists`
-							}
+							e
 						}
 					})
 				}
 			}
-			throw e
 		}
 	}
 	async signin(dto: AuthSignInDto) {

@@ -20,7 +20,6 @@ export const UnSubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribe
 				subRedditId: subredditId
 			}
 		})
-		setIsSubscribed && setIsSubscribed(false)
 
 		const newSubscribedArray = user.SubscribedSubReddits.filter((sub) => sub.subRedditId !== data.community.id)
 		const newUser = {
@@ -62,7 +61,6 @@ export const SubscribeButton: React.FC<Props> = ({ subredditId, setIsSubscribed 
 			SubscribedSubReddits: [...user.SubscribedSubReddits, response.data.subscribedUsers]
 		}
 		setUser(newUser)
-		setIsSubscribed && setIsSubscribed(true)
 		queryClient.invalidateQueries(["allPosts"])
 	}
 	return (

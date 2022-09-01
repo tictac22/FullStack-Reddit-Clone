@@ -1,8 +1,8 @@
 export const RegisterDescription = () => {
 	return (
 		<>
-			<h1 className="font-bold">Sign up</h1>
-			<p className="mt-3 max-w-[280px] text-xs sm:text-base">
+			<h1 className="font-bold dark:text-white">Sign up</h1>
+			<p className="mt-3 max-w-[280px] text-xs dark:text-white sm:text-base">
 				By continuing, you are setting up a Reddit account and agree to our{" "}
 				<a
 					className="text-cyan-300"
@@ -31,8 +31,8 @@ export const RegisterDescription = () => {
 export const LoginDescription = () => {
 	return (
 		<>
-			<h1 className="font-bold">Log in</h1>
-			<p className="mt-3 max-w-[280px] text-xs sm:text-base">
+			<h1 className="font-bold dark:text-white">Log in</h1>
+			<p className="mt-3 max-w-[280px] text-xs dark:text-white sm:text-base">
 				By continuing, you agree to our{" "}
 				<a
 					className="text-cyan-300"

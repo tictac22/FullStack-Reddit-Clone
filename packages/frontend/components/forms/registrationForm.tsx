@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 
-import React, { useState } from "react"
+import { useState } from "react"
 import ReCAPTCHA from "react-google-recaptcha"
 import { FormProvider, useForm } from "react-hook-form"
 import { AiOutlineLoading } from "react-icons/ai"
@@ -23,8 +23,8 @@ const passwordErrorsText = [
 
 let captcha
 
-export const RegistrationForm: React.FC = () => {
-	const { setUser, isLogin } = useZustandStore((state) => ({ setUser: state.setUser, logIn: state.isLogin }))
+export const RegistrationForm = () => {
+	const { setUser, logIn } = useZustandStore((state) => ({ setUser: state.setUser, logIn: state.isLogin }))
 	const methods = useForm<HookRegistrationFormValues>({
 		resolver: yupResolver(schemaRegistration),
 		criteriaMode: "all",
@@ -39,6 +39,10 @@ export const RegistrationForm: React.FC = () => {
 	} = methods
 
 	const [isPasswordTyped, setIsPasswordTyped] = useState(false)
+	const onError = (errors, e) => {
+		//eslint-disable-next-line
+		console.log(errors, e)
+	}
 	const onSubmit = async (data) => {
 		try {
 			const response = await $api("auth/signup", {
@@ -48,24 +52,24 @@ export const RegistrationForm: React.FC = () => {
 				}
 			})
 			setUser(response.data.user)
-			isLogin(true)
+			logIn(true)
 			router.push("/")
 		} catch (error) {
-			const errors = error.response.data.errors
-			for (const key in errors) {
-				setError(key, { message: errors[key].message })
-			}
+			setError("email", { message: "email or username is already taken" })
+			setError("username", { message: "email or username is already taken" })
+		} finally {
 			captcha.reset()
 			setValue("captcha", "")
 		}
 	}
+
 	const handleCaptcha = (value) => {
 		setValue("captcha", value)
 	}
 
 	return (
 		<FormProvider {...methods}>
-			<form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+			<form className="flex flex-col" onSubmit={handleSubmit(onSubmit, onError)}>
 				<FormInput name="email" type="text" />
 				<FormInput name="username" type="text" />
 				<FormInput setIsPasswordTyped={setIsPasswordTyped} name="password" type="password" />

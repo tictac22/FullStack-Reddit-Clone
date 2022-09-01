@@ -35,8 +35,7 @@ export class CommunityService {
 		return this.prismaService.subReddit.findMany({
 			where: {
 				title: {
-					contains: title,
-					mode: "insensitive"
+					contains: title
 				}
 			},
 			include: {

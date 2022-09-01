@@ -35,7 +35,7 @@ export const CommentForm: React.FC<Props> = ({ postId }) => {
 	return (
 		<form>
 			<textarea
-				className="max-h-56 w-full border border-solid border-[#f6f8f7] p-3 focus:border-black dark:border-dark-200 dark:bg-dark-100"
+				className="max-h-56 w-full border border-solid border-[#f6f8f7] p-3 focus:border-black dark:border-dark-200 dark:bg-dark-100 dark:text-white"
 				placeholder="What are your thoughts?"
 				maxLength={200}
 				value={comment}

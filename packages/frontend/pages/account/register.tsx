@@ -7,10 +7,10 @@ import { RegistrationForm } from "@/components/forms/registrationForm"
 const Register: NextPage = () => {
 	return (
 		<FormLayout>
-			<div className="flex justify-end text-xs">
+			<div className="flex justify-end text-xs dark:text-white">
 				Already a redditor?{" "}
 				<Link href={"/account/login"}>
-					<button className="ml-1 text-cyan-400">LOG IN</button>
+					<button className="ml-1 text-cyan-400 ">LOG IN</button>
 				</Link>
 			</div>
 			<RegistrationForm />

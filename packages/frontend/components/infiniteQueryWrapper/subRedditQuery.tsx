@@ -22,9 +22,9 @@ export const SubRedditQuery = () => {
 				/>
 			) : (
 				<div className="mt-5 w-full">
-					<p className="rounded-md bg-white p-3 text-center">
+					<p className="rounded-md bg-white p-3 text-center dark:bg-dark-200">
 						<Link href={router.asPath + `/submit`}>
-							<a className="">
+							<a className="dark:text-white">
 								Currently there are not posts :( go to{" "}
 								<span className="text-cyan-400">create post</span> to create the first post!
 							</a>

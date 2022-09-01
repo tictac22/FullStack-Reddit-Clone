@@ -89,7 +89,7 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 										) : (
 											<div className="h-[22px] w-[22px] rounded-full border border-dashed border-[#878A8C]"></div>
 										)}
-										<div className="py-2 pl-3 pr-2">{community.subRedditTitle}</div>
+										<div className="py-2 pl-3 pr-2 dark:text-white">{community.subRedditTitle}</div>
 									</>
 								) : (
 									<>

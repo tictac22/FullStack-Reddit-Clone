@@ -22,9 +22,9 @@ export const HomeQuery = () => {
 				/>
 			) : (
 				<div className="mt-5 w-full lg:w-[640px] lg:max-w-[640px]">
-					<p className="rounded-md bg-white p-3 text-center">
+					<p className="rounded-md bg-white p-3 text-center dark:bg-dark-200">
 						<Link href={"/leaderboard"}>
-							<a>
+							<a className="dark:text-white">
 								Currently you don&apos;t subscribe on any subReddit go to check all{" "}
 								<span className="text-cyan-400">communities</span>{" "}
 							</a>

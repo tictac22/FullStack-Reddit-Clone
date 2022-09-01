@@ -37,7 +37,6 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 		setIsSending(true)
 
 		const draftToHtml = (await import("draftjs-to-html")).default
-
 		try {
 			const response = await $api("/post/create", {
 				method: "POST",
