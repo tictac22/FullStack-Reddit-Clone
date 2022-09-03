@@ -5,7 +5,7 @@ import * as session from "express-session"
 
 import { AppModule } from "./app.module"
 
-const port = process.env.BACKEND_PORT || 3333
+const port = process.env.PORT || 3333
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
