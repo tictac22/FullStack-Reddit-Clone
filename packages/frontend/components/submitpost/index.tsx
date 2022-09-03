@@ -52,6 +52,8 @@ export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 			} else {
 				router.push(`/r/${community.subRedditTitle ?? community.subReddit?.title}/comments/${response.data.id}`)
 			}
+		} catch (e) {
+			//console.log(e)
 		} finally {
 			setIsSending(false)
 		}

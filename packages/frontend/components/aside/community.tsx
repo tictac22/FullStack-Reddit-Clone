@@ -23,7 +23,9 @@ export const Community: React.FC<Props> = ({ title, image, index, subRedditId })
 			)}
 			<Link href={`/r/${title}`}>
 				<a className="">
-					<div className="ml-2  cursor-pointer hover:underline dark:text-white">r/{title}</div>
+					<p className="ml-2  max-w-[125px] cursor-pointer overflow-hidden text-ellipsis hover:underline dark:text-white">
+						r/{title}
+					</p>
 				</a>
 			</Link>
 			<div className="ml-auto max-w-[96px]">

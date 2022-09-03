@@ -29,7 +29,7 @@ export const CommunityPopup: React.FC<Props> = ({ isOpen, handleModal }) => {
 					title: inputValue.toLowerCase()
 				}
 			})
-			router.push(`/r/${inputValue}`)
+			router.push(`/r/${inputValue.toLowerCase()}`)
 		} catch (error) {
 			setError(`Community r/${inputValue} is already taken`)
 			setInput("")

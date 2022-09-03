@@ -3,8 +3,8 @@ import Link from "next/link"
 
 import { SubscriptionButtons } from "@/components/helpersComponents/subscribe/subscription"
 import { ImageWrapper } from "@/components/imageWrapepr"
-import { API_URL } from "@/utils/axios"
 import { Community } from "@/utils/types"
+import { PrismaClient } from "@prisma/client"
 
 type Props = {
 	subReddits: Community[]
@@ -48,13 +48,17 @@ const LeaderBoard = ({ subReddits }: Props) => {
 	)
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-	const request = await fetch(API_URL + "/communityP/popular-all")
-	const response = await request.json()
-
+export const getStaticProps: GetStaticProps = async (req) => {
+	const prisma = new PrismaClient()
+	const response = await prisma.subReddit.findMany({
+		orderBy: {
+			subscribers: "desc"
+		},
+		take: 5
+	})
 	return {
 		props: {
-			subReddits: response
+			subReddits: JSON.parse(JSON.stringify(response))
 		},
 		revalidate: 60 * 60 * 24
 	}

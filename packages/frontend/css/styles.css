@@ -80,7 +80,10 @@ body {
 .rdw-editor-main {
 	padding: 5px 10px !important;
 }
-
+.demo-editor {
+	background-color: white;
+	word-break: break-word;
+}
 html[data-theme="dark"] .demo-editor {
 	background-color: #1a1a1a;
 	border: none;
