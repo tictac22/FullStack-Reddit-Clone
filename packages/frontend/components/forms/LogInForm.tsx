@@ -32,6 +32,7 @@ export const LogInForm = () => {
 					...data
 				}
 			})
+			window.localStorage.setItem("token", response.data.accessToken)
 			setUser(response.data.user)
 			isLogin(true)
 

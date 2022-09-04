@@ -13,14 +13,14 @@ export class AuthController {
 	@Post("signup")
 	async signup(@Body() body: AuthSignUpDto, @Res({ passthrough: true }) res: Response) {
 		const userData = await this.authService.signup(body)
-		res.cookie("refreshToken", userData.refreshToken)
+		res.cookie("refreshToken", userData.refreshToken, cookieOptions)
 		return userData
 	}
 
 	@Post("signin")
 	async signin(@Body() body: AuthSignInDto, @Res({ passthrough: true }) res: Response) {
 		const userData = await this.authService.signin(body)
-		res.cookie("refreshToken", userData.refreshToken)
+		res.cookie("refreshToken", userData.refreshToken, cookieOptions)
 		return userData
 	}
 
@@ -34,7 +34,7 @@ export class AuthController {
 	@UseGuards(AuthGuard("google"))
 	async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
 		const data = await this.authService.socialLogin(req)
-		res.cookie("refreshToken", data.refreshToken)
+		res.cookie("refreshToken", data.refreshToken, cookieOptions)
 		return res.redirect(`${process.env.FRONTEND_BASE_URL}/account/success`)
 	}
 
@@ -48,7 +48,7 @@ export class AuthController {
 	@UseGuards(AuthGuard("twitter"))
 	async twitterAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
 		const data = await this.authService.socialLogin(req)
-		res.cookie("refreshToken", data.refreshToken)
+		res.cookie("refreshToken", data.refreshToken, cookieOptions)
 		return res.redirect(`${process.env.FRONTEND_BASE_URL}/account/success`)
 	}
 
@@ -56,7 +56,7 @@ export class AuthController {
 	@Get("refresh")
 	async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 		const userData = await this.authService.refresh(req)
-		res.cookie("refreshToken", userData.refreshToken)
+		res.cookie("refreshToken", userData.refreshToken, cookieOptions)
 		return { ...userData }
 	}
 
@@ -68,3 +68,4 @@ export class AuthController {
 		}
 	}
 }
+const cookieOptions = { httpOnly: true, secure: true, maxAge: 30 * 24 * 60 * 60 * 1000 }

@@ -51,6 +51,7 @@ export const RegistrationForm = () => {
 					...data
 				}
 			})
+			window.localStorage.setItem("token", response.data.accessToken)
 			setUser(response.data.user)
 			logIn(true)
 			router.push("/")
