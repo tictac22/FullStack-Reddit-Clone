@@ -1,5 +1,5 @@
 import axios from "axios"
-//http://localhost:3333
+//http://localhost:3000
 //fullstack-reddit-clone-production.up.railway.app
 export const API_URL = "fullstack-reddit-clone-production.up.railway.app"
 
