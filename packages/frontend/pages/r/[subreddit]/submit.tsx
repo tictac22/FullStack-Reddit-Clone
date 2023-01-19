@@ -14,18 +14,11 @@ const DynamicPostForm = dynamic(() => import("@/components/submitpost").then((mo
 	ssr: false
 })
 const SubReddit = () => {
-	// request to get the community
-
 	const { data } = useCommunityInfo()
 	return (
 		<div className="container">
 			<div className="flex justify-end">
-				{data && (
-					<DynamicPostForm
-						disabled={true}
-						data={{ subRedditId: data.id, subRedditTitle: data.title, image: data.image }}
-					/>
-				)}
+				{data && <DynamicPostForm disabled={true} data={{ subReddit: data }} />}
 				<div className="mt-3 ml-3 hidden lg:block">
 					{data ? (
 						<div className="mb-3 rounded bg-white">

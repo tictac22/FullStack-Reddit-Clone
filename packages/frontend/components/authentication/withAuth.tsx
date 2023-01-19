@@ -1,9 +1,8 @@
+import { useZustandStore } from "@/utils/zustand"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
 
 import { useEffect, useState } from "react"
-
-import { useZustandStore } from "@/utils/zustand"
 
 export const WithAuth = (Component: NextPage) => {
 	const AuthenticatedComponent = () => {

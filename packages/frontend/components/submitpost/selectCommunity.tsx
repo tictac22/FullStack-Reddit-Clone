@@ -12,21 +12,22 @@ import { UsersCommunities } from "@/utils/types"
 import { ComboxOption } from "./selectOption"
 
 interface Props {
-	community: UsersCommunities[]
-	setCommunity: React.Dispatch<React.SetStateAction<UsersCommunities[]>>
+	selectedCommuity: UsersCommunities
+	communities: UsersCommunities[]
+	setCommunity: React.Dispatch<React.SetStateAction<UsersCommunities>>
 	disabled?: boolean
 }
-export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity, disabled }) => {
+export const SelectComminity: React.FC<Props> = memo(({ selectedCommuity, communities, setCommunity, disabled }) => {
+	const { subReddit } = selectedCommuity
 	const [query, setQuery] = useState("")
-	const { SubscribedSubReddits, username } = useZustandStore((state) => ({
-		SubscribedSubReddits: state.user?.SubscribedSubReddits,
+	const { username } = useZustandStore((state) => ({
 		username: state.user?.username
 	}))
 	const filteredCommunity =
-		SubscribedSubReddits?.length > 0
+		communities?.length > 0
 			? query === ""
-				? SubscribedSubReddits
-				: SubscribedSubReddits?.filter((item) =>
+				? communities
+				: communities?.filter((item) =>
 						item.subReddit.title
 							.toLowerCase()
 							.replace(/\s+/g, "")
@@ -35,12 +36,12 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 			: []
 	return (
 		<div className="">
-			<Combobox value={community} onChange={setCommunity} disabled={disabled}>
+			<Combobox value={selectedCommuity} onChange={setCommunity} disabled={disabled}>
 				{({ open }) => (
 					<div className="relative z-30 mt-1 mb-2">
 						<div className="relative z-30 max-w-[300px] cursor-default overflow-hidden rounded-lg  bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 dark:bg-dark-100 sm:text-sm">
 							<div className="ml-2 flex items-center dark:bg-dark-100">
-								{community === username ? (
+								{selectedCommuity?.username ? (
 									<>
 										<Image
 											src={UserSvg}
@@ -51,22 +52,26 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 										/>
 										<Combobox.Input
 											className="w-full border-none py-2 pl-3 pr-2 text-sm leading-5 text-gray-900 focus:outline-none focus:ring-0 dark:bg-dark-100 dark:text-white"
-											displayValue={(person) => `u/${person}`}
+											displayValue={(person) => `u/${person.username}`}
 											onChange={(event) => setQuery(event.target.value)}
 											onBlur={(event) => {
 												if (!event.target.value) setCommunity("")
 											}}
 										/>
 									</>
-								) : community?.subReddit ? (
+								) : subReddit ? (
 									<>
-										<Image
-											src={community?.subReddit.image}
-											height={30}
-											width={30}
-											className="rounded-full object-cover"
-											alt={community?.subReddit.title}
-										/>
+										{subReddit.image ? (
+											<Image
+												src={subReddit?.image}
+												height={30}
+												width={30}
+												className="rounded-full object-cover"
+												alt={subReddit?.title}
+											/>
+										) : (
+											<div className="h-[30px] w-[35px] rounded-full bg-cyan-400"></div>
+										)}
 										<Combobox.Input
 											className="w-full border-none py-2 pl-3 pr-2 text-sm leading-5 text-gray-900 focus:outline-none focus:ring-0 dark:bg-dark-100 dark:text-white"
 											displayValue={(person) => `r/${person.subReddit?.title}`}
@@ -78,18 +83,18 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 									</>
 								) : disabled ? (
 									<>
-										{community.image ? (
+										{subReddit?.image ? (
 											<Image
-												src={community.image}
+												src={subReddit.image}
 												height={30}
 												width={30}
 												className="rounded-full object-cover"
-												alt={community.subRedditTitle}
+												alt={subReddit.title}
 											/>
 										) : (
 											<div className="h-[22px] w-[22px] rounded-full border border-dashed border-[#878A8C]"></div>
 										)}
-										<div className="py-2 pl-3 pr-2 dark:text-white">{community.subRedditTitle}</div>
+										<div className="py-2 pl-3 pr-2 dark:text-white">{subReddit.title}</div>
 									</>
 								) : (
 									<>
@@ -126,7 +131,7 @@ export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity,
 													active ? "bg-teal-600 text-white dark:bg-dark-300" : "text-gray-900"
 												}`
 											}
-											value={username}
+											value={{ username }}
 										>
 											<p className="tracking-wider">Your Profile</p>
 											<div className="mt-2 flex items-center">

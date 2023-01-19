@@ -14,7 +14,7 @@ const Sumbit: NextPage = () => {
 	return (
 		<div className="container">
 			<div className="flex justify-end">
-				<DynamicPostForm data={data} />
+				{data && <DynamicPostForm data={data} />}
 				<div className="mt-3 ml-3 hidden w-[320px] lg:block">
 					<Rules />
 				</div>

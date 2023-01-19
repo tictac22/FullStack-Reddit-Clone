@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 
 import { AuthService } from "./auth.service"
 import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
-import { JwtRtGuard } from "./guards"
+import { JwtAuthGuard } from "./guards"
 
 @Controller("auth")
 export class AuthController {
@@ -52,8 +52,8 @@ export class AuthController {
 		return res.redirect(`${process.env.FRONTEND_BASE_URL}/account/success`)
 	}
 
-	@UseGuards(JwtRtGuard)
 	@Get("refresh")
+	@UseGuards(JwtAuthGuard)
 	async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 		const userData = await this.authService.refresh(req)
 		res.cookie("refreshToken", userData.refreshToken, cookieOptions)
