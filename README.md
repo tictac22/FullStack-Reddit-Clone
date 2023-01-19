@@ -24,3 +24,5 @@ Backend:
 -   Nest.js (framework that extends Express.js)
 -   JWT, passport
 -   PostgreSQL: ORM Prisma
+
+Link to app https://full-stack-reddit-clone.vercel.app/
