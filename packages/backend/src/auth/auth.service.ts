@@ -103,10 +103,9 @@ export class AuthService {
 		}
 	}
 
-	async refresh(req) {
-		const { user } = req
-		const tokens = await this.tokenService.generateTokens({ id: user.id })
-		const userData = await this.tokenService.saveTokens({ userId: user.id, refreshToken: tokens.refreshToken })
+	async refresh(id: number) {
+		const tokens = await this.tokenService.generateTokens({ id: id })
+		const userData = await this.tokenService.saveTokens({ userId: id, refreshToken: tokens.refreshToken })
 		return { ...userData, accessToken: tokens.accessToken }
 	}
 

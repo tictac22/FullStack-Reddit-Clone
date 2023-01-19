@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common"
 import { AuthGuard } from "@nestjs/passport"
-import { Request, Response } from "express"
+import { Response } from "express"
+import { IRequest } from "../types"
 
 import { AuthService } from "./auth.service"
 import { AuthSignInDto, AuthSignUpDto } from "./dto/auth.dto"
@@ -54,8 +55,8 @@ export class AuthController {
 
 	@Get("refresh")
 	@UseGuards(JwtAuthGuard)
-	async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-		const userData = await this.authService.refresh(req)
+	async refresh(@Req() req: IRequest, @Res({ passthrough: true }) res: Response) {
+		const userData = await this.authService.refresh(req.user.id)
 		res.cookie("refreshToken", userData.refreshToken, cookieOptions)
 		return { ...userData }
 	}
