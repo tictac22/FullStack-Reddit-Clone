@@ -1,8 +1,10 @@
-import { Controller, Get, Query, Res } from "@nestjs/common"
+import { Controller, Get, Query, Req, Res, UseGuards } from "@nestjs/common"
 
 import { UserService } from "./user.service"
 
 import { Response } from "Express"
+import { JwtAuthGuard } from "../auth/guards"
+import { IRequest } from "../types"
 @Controller("user")
 export class UserController {
 	constructor(private userService: UserService) {}
@@ -19,5 +21,11 @@ export class UserController {
 	@Get("posts")
 	getUserPosts(@Query("username") username, @Query("cursor") cursor: number) {
 		return this.userService.getUserPosts(username, cursor)
+	}
+
+	@Get("users-reddits")
+	@UseGuards(JwtAuthGuard)
+	getUsersReddits(@Req() req: IRequest) {
+		return this.userService.getUsersReddits(req.user.id)
 	}
 }

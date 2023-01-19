@@ -17,7 +17,6 @@ const SubReddit = () => {
 	// request to get the community
 
 	const { data } = useCommunityInfo()
-
 	return (
 		<div className="container">
 			<div className="flex justify-end">

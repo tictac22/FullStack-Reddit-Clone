@@ -47,4 +47,19 @@ export class UserService {
 			cursor: myCursor
 		}
 	}
+
+	getUsersReddits(id: number) {
+		return this.prismaService.user.findFirst({
+			where: {
+				id
+			},
+			include: {
+				SubscribedSubReddits: {
+					include: {
+						subReddit: true
+					}
+				}
+			}
+		})
+	}
 }
