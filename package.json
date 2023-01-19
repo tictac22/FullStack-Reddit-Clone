@@ -2,7 +2,7 @@
 	"name": "backend",
 	"version": "0.0.1",
 	"scripts": {
-		"start": "node ./dist/packages/backend/main.js"
+		"start": "node ./dist/main.js"
 	},
 	"dependencies": {
 		"@nestjs/common": "^8.0.0",
