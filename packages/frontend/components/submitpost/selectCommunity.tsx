@@ -8,12 +8,12 @@ import { Combobox, Transition } from "@headlessui/react"
 
 import UserSvg from "@/public/userImage.svg"
 
+import { UsersCommunities } from "@/utils/types"
 import { ComboxOption } from "./selectOption"
-import { Community } from "./types"
 
 interface Props {
-	community: Community
-	setCommunity: React.Dispatch<React.SetStateAction<Community>>
+	community: UsersCommunities[]
+	setCommunity: React.Dispatch<React.SetStateAction<UsersCommunities[]>>
 	disabled?: boolean
 }
 export const SelectComminity: React.FC<Props> = memo(({ community, setCommunity, disabled }) => {

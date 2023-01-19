@@ -8,22 +8,18 @@ import { $api } from "@/utils/axios"
 import { capitalizeFirstLetter } from "@/utils/functions"
 import { convertToRaw, EditorState } from "draft-js"
 
+import { UsersCommunities } from "@/utils/types"
 import { EditorDraft } from "./editor"
 import { Loading } from "./isLoading"
-import { Community } from "./types"
 
 interface Props {
 	disabled?: boolean
-	data?: {
-		subRedditId: number
-		subRedditTitle: string
-		image?: string
-	}
+	data: UsersCommunities[]
 }
 export const PostForm: React.FC<Props> = ({ disabled, data }) => {
 	const router = useRouter()
 	const [title, setTitle] = useState("")
-	const [community, setCommunity] = useState<Community>(data)
+	const [community, setCommunity] = useState<UsersCommunities[] | UsersCommunities>(data)
 	const [editorState, setEditorState] = useState(EditorState.createEmpty())
 	const [isSending, setIsSending] = useState(false)
 

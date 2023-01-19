@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev:front": "nx run frontend:serve --port=3000",
-		"dev:back": "nx run backend:serve",
+		"dev:back": "nx run backend:serve --port=5000",
 		"lint:front": "nx run frontend:lint --fix --max-warnings=0",
 		"lint:back": "nx run backend:lint --fix --max-warnings=0",
 		"prepare": "husky install",

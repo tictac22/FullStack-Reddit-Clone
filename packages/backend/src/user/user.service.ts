@@ -48,12 +48,12 @@ export class UserService {
 		}
 	}
 
-	getUsersReddits(id: number) {
-		return this.prismaService.user.findFirst({
+	async getUsersReddits(id: number) {
+		const subReddits = await this.prismaService.user.findFirst({
 			where: {
 				id
 			},
-			include: {
+			select: {
 				SubscribedSubReddits: {
 					include: {
 						subReddit: true
@@ -61,5 +61,6 @@ export class UserService {
 				}
 			}
 		})
+		return subReddits.SubscribedSubReddits
 	}
 }
