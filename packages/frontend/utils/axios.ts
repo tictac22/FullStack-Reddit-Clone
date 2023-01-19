@@ -1,7 +1,7 @@
 import axios from "axios"
 //http://localhost:3000
-//fullstack-reddit-clone-production.up.railway.app
-export const API_URL = "fullstack-reddit-clone-production.up.railway.app"
+//https://fullstack-reddit-clone-production.up.railway.app/
+export const API_URL = "https://fullstack-reddit-clone-production.up.railway.app/"
 //eslint-disable-next-line
 console.log(API_URL)
 export const $api = axios.create({
